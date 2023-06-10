@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Lalezar&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+
+* {
+  font-family: 'Cairo', sans-serif;
+}
+
+.heroButton {
+  /* margin: 12px; */
+  margin-top: 25px;
+  height: 50px;
+  width: 120px;
+  border-radius: 10px;
+  background: #e8e7e7;
+  justify-content: center;
+  align-items: center;
+  box-shadow: -5px -5px 15px #ebe4e4, 5px 5px 15px #ddd4d4, inset 5px 5px 10px #e4e4e4, inset -5px -5px 10px #272626;
+  font-family: 'Damion', cursive;
+  border: none;
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+  transition: 500ms;
+}
+
+.heroButton:hover {
+  box-shadow: -5px -5px 15px #ffffff, 5px 5px 15px #ffffff, inset 5px 5px 10px #e9e9e9, inset -5px -5px 10px #444;
+  color: #000000;
+  transition: 500ms;
+}
