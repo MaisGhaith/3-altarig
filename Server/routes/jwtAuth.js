@@ -64,6 +64,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const secretKey = 'a24f41837ef05ad9e52a3794dab8c0055cc7baf383db5d19534454768751a344';
 
+const app = require('../index');
+
 
 router.post("/register", async (req, res) => {
     try {
@@ -116,6 +118,59 @@ router.post("/register", async (req, res) => {
         res.status(500).send("Server error");
     }
 });
+
+
+// app.post('/login', async (req, res) => {
+//     const { user_email, user_password } = req.body; // Assuming the email and password are provided in the request body
+
+//     const sql = 'SELECT * FROM users WHERE user_email = $1';
+
+//     pool.query(
+//         sql, [user_email],
+//         async (error, results) => {
+//             if (error) {
+//                 return res.status(400).json(error);
+//             }
+
+//             const user = results.rows[0];
+
+//             if (!user || !(await bcrypt.compare(user_password, user.user_password))) {
+
+//                 return res.status(401).send("incorrect email or password");
+//             }
+//             else {
+//                 const token = jwt.sign({ user_id: user.user_id, user_name: user.user_name, email: user.email }, secretKey);
+//                 res.json({ token: token, message: 'User Login successfully' });
+//             }
+//         }
+//     );
+
+// });
+
+router.post('/login', (req, res) => {
+    const { email, password } = req.body; // Assuming the email and password are provided in the request body
+
+    const sql = 'SELECT * FROM users WHERE user_email = $1';
+
+    pool.query(
+        sql, [email],
+        async (error, results) => {
+            if (error) {
+                return res.status(400).json(error);
+            }
+
+            const user = results.rows[0];
+
+            if (!user || !(await bcrypt.compare(password, user.user_password))) {
+                return res.status(401).send("Incorrect email or password");
+            } else {
+                const token = jwt.sign({ user_id: user.user_id, user_name: user.user_name, user_email: user.user_email }, secretKey);
+                res.json({ token: token, message: 'User login successful' });
+            }
+        }
+    );
+});
+
 
 module.exports = router;
 
