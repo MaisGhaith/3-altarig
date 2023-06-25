@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 const router = express.Router();
 
-// import jwtAuthRoutes from './routes/jwtAuth'
 const app = express();
 const PORT = 5151;
 

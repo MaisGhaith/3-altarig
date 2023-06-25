@@ -5,7 +5,7 @@ const Services = () => {
     return (
         <div>
 
-            <h1 className='flex justify-center text-3xl text-black bold'>الخدمات</h1>
+            <h1 className='flex justify-center text-3xl text-black font-bold'>الخدمات</h1>
             <hr style={{ width: "10%", margin: "0 auto", borderWidth: "1px", color: "black", borderColor: "black" }}
             />
             <div className="py-12 flex flex-wrap justify-center">
