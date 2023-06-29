@@ -182,16 +182,107 @@
 // export default Confirm
 
 
-
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { GoogleMap, useLoadScript, Autocomplete, Marker } from "@react-google-maps/api";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
+import jwt_decode from 'jwt-decode';
 
 import Swal from 'sweetalert2'
 
 const Confirm = () => {
+    const navigate = useNavigate();
+
+    const [id, setId] = useState("");
+    useEffect(() => {
+        const getUserNameFromToken = () => {
+            const token = localStorage.getItem("token");
+            if (token) {
+                const decodedToken = jwt_decode(token);
+                const id1 = decodedToken.user_id;
+                setId(id1);
+                console.log(id1);
+            }
+        };
+
+        getUserNameFromToken();
+    }, []);
+
+    // const [isOpen, setIsOpen] = useState("");
+    const handleOpenModal = () => {
+        if (id) {
+            // setIsOpen(true);
+            navigate("/ContactUs");
+        }
+        else {
+            // Redirect to signup page if not logged in
+            navigate("/RegisterForm");
+        }
+    };
+
     const [isSetAppointment, setIsSetAppointment] = useState(false);
 
+    /////////////////////////////////////////
+    const [map, setMap] = useState(null);
+    const [autocomplete, setAutocomplete] = useState(null);
+    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [longitude, setLongitude] = useState(35.930359);
+    const [latitude, setLatitude] = useState(31.963158);
+    const [markerPosition, setMarkerPosition] = useState({ lat: 31.963158, lng: 35.930359 });
+    const [markerKey, setMarkerKey] = useState(0); // Added markerKey state
+    const libraries = ["places"];
+    const { isLoaded, loadError } = useLoadScript({
+        googleMapsApiKey: "AIzaSyBj3pEgJixrXWNe0ejDSOagl-HaHUzkWMA",
+        libraries,
+    });
 
+
+
+
+    useEffect(() => {
+        if (latitude && longitude) {
+            setMarkerPosition({ lat: latitude, lng: longitude });
+            setMarkerKey((prevKey) => prevKey + 1); // Update markerKey to trigger re-rendering of Marker
+        }
+    }, [latitude, longitude]);
+
+    const handleMapLoad = (map) => {
+        setMap(map);
+    };
+
+    const handleAutocompleteLoad = (autocomplete) => {
+        setAutocomplete(autocomplete);
+    };
+
+    const handlePlaceSelect = () => {
+        if (autocomplete !== null) {
+            const addressObject = autocomplete.getPlace();
+            const address = addressObject.formatted_address;
+            setSelectedLocation(address);
+
+            const { lat, lng } = addressObject.geometry.location;
+            setLatitude(lat);
+            setLongitude(lng);
+            setMarkerPosition({ lat, lng });
+        }
+    };
+
+    const handleMapClick = (event) => {
+        const lat = event.latLng.lat();
+        const lng = event.latLng.lng();
+        setLatitude(lat);
+        setLongitude(lng);
+        setMarkerPosition({ lat, lng });
+    };
+
+    if (loadError) {
+        return <div>Error loading Google Maps API</div>;
+    }
+
+    if (!isLoaded) {
+        return <div>Loading...</div>;
+    }
+
+    //////////////////////////////////////////
     const submitButton = () => {
         Swal.fire({
             title: 'هل تريد تأكيد الطلب؟',
@@ -421,7 +512,7 @@ const Confirm = () => {
                                                 <span class="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-purple-700 group-hover:bg-purple-500 group-hover:-skew-x-12"></span>
                                                 <span class="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-purple-600 -rotate-12"></span>
                                                 <span class="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-purple-400 -rotate-12"></span>
-                                                <span class="relative" onClick={submitButton}>تأكيد الطلب </span>
+                                                <span class="relative" onClick={handleOpenModal}>تأكيد الطلب </span>
                                             </a>
                                         </div>
                                     </div>
@@ -430,6 +521,26 @@ const Confirm = () => {
                         </div>
                     </div>
                 </section>
+            </div>
+            <div>
+                <Autocomplete
+                    onLoad={handleAutocompleteLoad}
+                    onPlaceChanged={handlePlaceSelect}
+                >
+                    <input type="text" placeholder="Enter your location" />
+                </Autocomplete>
+                <GoogleMap
+                    onLoad={handleMapLoad}
+                    mapContainerStyle={{ width: "100%", height: "400px" }}
+                    center={{ lat: latitude, lng: longitude }}
+                    zoom={17}
+                    onClick={handleMapClick}
+                >
+                    {latitude && longitude && (
+                        <Marker key={markerKey} position={markerPosition} />
+                    )}
+                </GoogleMap>
+                <div>Selected Location: {`${selectedLocation} ,${latitude},${longitude}`}</div>
             </div>
         </>
     );

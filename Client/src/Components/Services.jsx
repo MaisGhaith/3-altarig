@@ -3,7 +3,7 @@ import services from './servicesCard.json';
 
 const Services = () => {
     return (
-        <div>
+        <div id='Services'>
 
             <h1 className='flex justify-center text-3xl text-black font-bold'>الخدمات</h1>
             <hr style={{ width: "10%", margin: "0 auto", borderWidth: "1px", color: "black", borderColor: "black" }}

@@ -1,40 +1,12 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React from 'react'
+
+import registerFunctions from './RegistrationFunctions'
 const RegisterForm = () => {
 
-    const [user, setUser] = useState({
-        user_name: '',
-        user_email: '',
-        user_password: '',
-        phone_number: '',
-    });
-
-    const handleChange = (event) => {
-        setUser({
-            ...user,
-            [event.target.name]: event.target.value,
-        });
-    };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        try {
-            const response = await axios.post('http://localhost:5151/auth/register', user);
-            console.log(response)
-            // Access the token from the response data
-            const token = response.data.token;
-            // console.log(token)
-            // Save the token in local storage or a cookie for future use
-            localStorage.setItem('token', token);
-
-            // Redirect or perform any desired action after successful registration
-            // window.location.href = 'RegisterForm';
-            console.log(token)
-        } catch (error) {
-            console.error('Error:', error.message);
-        }
-    };
+    const { handleChange,
+        handleSubmit,
+        user }
+        = registerFunctions();
 
 
     return (
@@ -44,11 +16,15 @@ const RegisterForm = () => {
 
 
                     <div
-                        class="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center hidden">
+                        class="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-900 to-purple-200 i justify-around items-center hidden">
                         <div>
                             <h1 class="text-white font-bold text-4xl font-sans"> تسجيل الدخول    </h1>
-                            <p class="text-white mt-1">إذا كنت تمتلك حسابًا مسبقًا, قم بتسجيل الدخول</p>
-                            <button type="submit" class="block w-28 bg-white text-indigo-800 mt-4 py-2 rounded-2xl font-bold mb-2">من هنا</button>
+                            <p class="text-white mt-1">
+                                إذا كنت تمتلك حسابًا مسبقًا, قم</p>
+                            <a href="/LoginForm"><span> بتسجيل الدخول</span> </a>
+                            <a href="/LoginForm">
+                                <button type="submit" class="block w-28 bg-white text-indigo-800 mt-4 py-2 rounded-2xl font-bold mb-2">من هنا</button>
+                            </a>
                         </div>
                         <div class="absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
                         <div class="absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
@@ -69,6 +45,7 @@ const RegisterForm = () => {
                                 <input class="pl-2 px-5 outline-none border-none" type="text" id=""
                                     required
                                     name="user_name"
+                                    // value={user.user_name}
                                     value={user.user_name}
                                     onChange={handleChange}
                                     placeholder="اسم المستخدم" />
@@ -124,7 +101,9 @@ const RegisterForm = () => {
                             </div>
                             <button type="submit" class="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">تسجيل</button>
                             <span class="text-sm ml-2 hover:text-blue-500 cursor-pointer">نسيت كلمة السر ؟</span>
-                            <span class="text-sm mr-10 hover:text-blue-500 cursor-pointer">لديك حساب بالفعل؟</span>
+                            <a href="/LoginForm">
+                                <span class="text-sm mr-10 hover:text-blue-500 cursor-pointer">لديك حساب بالفعل؟</span>
+                            </a>
                         </form>
                     </div>
 

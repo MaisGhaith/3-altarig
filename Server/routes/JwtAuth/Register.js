@@ -1,18 +1,17 @@
 const router = require("express").Router();
-const pool = require('../db');
+const pool = require('../../db');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const secretKey = 'a24f41837ef05ad9e52a3794dab8c0055cc7baf383db5d19534454768751a344';
 
-const app = require('../index');
+const app = require('../../index');
 
 
 router.post("/register", async (req, res) => {
     try {
-        //* 1 destructure the req.body  (name, email, passowrd, phone)
-
-        const { user_name, user_email, user_password, phone_number } = req.body;
-
+        //* 1 destructure the req.body  (name, email, passowrd, phone, role)
+        const { user_name, user_email, user_password, phone_number, role, deleted } = req.body;
+        console.log(user_name, user_email, role, deleted)
         //* 2 check if user exist (if user exist then throw error)
 
         const user = await pool.query("SELECT * FROM users WHERE user_email = $1",
@@ -31,8 +30,8 @@ router.post("/register", async (req, res) => {
 
             //* 4 enter the new user inside our db
 
-            const newUsersql = "INSERT INTO users (user_name, user_email, user_password, phone_number) VALUES ($1, $2, $3, $4) RETURNING * ";
-            const newUserValues = [user_name, user_email, bcryptPassword, phone_number]
+            const newUsersql = "INSERT INTO users (user_name, user_email, user_password, phone_number, deleted, role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING * ";
+            const newUserValues = [user_name, user_email, bcryptPassword, phone_number, deleted, role || 'user'];
 
             const insertResult = await pool.query(newUsersql, newUserValues);
             // let user0 = newUser.rows[0]
@@ -44,46 +43,17 @@ router.post("/register", async (req, res) => {
 
             const insertedUserId = insertResult.rows[0].user_id;
 
-            const token = jwt.sign({ user_id: insertedUserId, user_name, user_email, phone_number }, secretKey);
+            const token = jwt.sign({ user_id: insertedUserId, user_name, user_password, user_email, phone_number, deleted, role }, secretKey);
             res.status(200).json({ token, message: 'User registered successfully' });
 
             // res.status(200).json({ "user": newUser.rows[0] });
-
-
         }
-
-
     } catch (error) {
         console.log(error.message);
         res.status(500).send("Server error");
     }
 });
 
-
-
-router.post('/login', (req, res) => {
-    const { email, password } = req.body; // Assuming the email and password are provided in the request body
-
-    const sql = 'SELECT * FROM users WHERE user_email = $1';
-
-    pool.query(
-        sql, [email],
-        async (error, results) => {
-            if (error) {
-                return res.status(400).json(error);
-            }
-
-            const user = results.rows[0];
-
-            if (!user || !(await bcrypt.compare(password, user.user_password))) {
-                return res.status(401).send("Incorrect email or password");
-            } else {
-                const token = jwt.sign({ user_id: user.user_id, user_name: user.user_name, user_email: user.user_email }, secretKey);
-                res.json({ token: token, message: 'User login successful' });
-            }
-        }
-    );
-});
 
 
 module.exports = router;

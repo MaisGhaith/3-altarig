@@ -1,43 +1,98 @@
-// import logo from './logo.svg';
 import './App.css';
-// import Nav from './component/Nav';
-// import LoginForm from './component/LoginForm';
-// import RegisterForm from './component/RegisterForm';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-// import Appointment from './component/Appointment';
-// import Confirm from './component/Confirm';
-// import DropImage from './component/DropImage';
-// import GoogleMapReact from './component/GoogleMapReact';
-// import ContactUs from './component/ContactUs';
+import { BrowserRouter as Router, Route, Routes, useNavigate, BrowserRouter } from "react-router-dom";
 import AboutUs from './Components/AboutUs';
-// import Home from './Components/Home';
 import Navbar from './Components/Navbar';
 import ContactUs from './Components/ContactUs';
 import LoginForm from './Components/LoginForm';
 import RegisterForm from './Components/RegisterForm';
-import Confirm from './Components/Confirm'
+import Confirm from './Components/Confirm';
 import Profile from './Components/Profile';
-// import Services from './Components/Services';
 import Landing from './Components/Landing';
-function App() {
+import jwt_decode from 'jwt-decode';
+import React, { useEffect, useState, useReducer } from 'react';
+import ProfileFunctions from './Components/ProfileFunctions';
+import NotFound from './Components/NotFound';
+
+function App({ userName }) {
+
+  // const navigate = useNavigate();
+
+  const [id, setId] = useState("");
+  const [role, setRole] = useState("guest")
+  // const [userType, setUserType] = useState("guest");
+  // const [reducer, forceUpdate] = useReducer((x) => x + 1, 0);
+
+  useEffect(() => {
+    const getUserNameFromToken = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        const id1 = decodedToken.user_id;
+        const role = decodedToken.role;
+        setId(id1);
+        setRole(role);
+
+        console.log(id1, role);
+      }
+    };
+
+    getUserNameFromToken();
+  }, []);
+
+
+
   return (
+    <div>
 
-    <Router>
-      {/* <Navbar /> */}
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="AboutUs" element={<AboutUs />} />
-        <Route path="ContactUs" element={<ContactUs />} />
-        <Route path="LoginForm" element={<LoginForm />} />
-        <Route path="RegisterForm" element={<RegisterForm />} />
-        <Route path="Confirm" element={<Confirm />} />
-        <Route path="Profile" element={<Profile />} />
-        {/* <Route path="Services" element={<Services />} /> */}
+      {role === "user" && (
+        <BrowserRouter>
+          <Navbar userName={userName} />
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="AboutUs" element={<AboutUs />} />
+            <Route path="ContactUs" element={<ContactUs />} />
+            <Route path="LoginForm" element={<LoginForm />} />
+            <Route path="RegisterForm" element={<RegisterForm />} />
+            <Route path="Confirm" element={<Confirm />} />
+            <Route path="Profile" element={<Profile />} />
+            <Route path="ProfileFunctions" element={<ProfileFunctions />} />
+          </Routes>
+        </BrowserRouter>
+      )}
 
+      {role == "guest" && (
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="AboutUs" element={<AboutUs />} />
+            <Route path="ContactUs" element={<ContactUs />} />
+            <Route path="LoginForm" element={<LoginForm />} />
+            <Route path="RegisterForm" element={<RegisterForm />} />
+            <Route path="Confirm" element={<Confirm />} />
+            <Route path="*" element={<NotFound />} />
 
-      </Routes>
-
-    </Router>
+          </Routes>
+        </BrowserRouter>
+      )}
+      {/* <Router>
+        <Navbar userName={userName} />
+        <div>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="AboutUs" element={<AboutUs />} />
+            <Route path="ContactUs" element={<ContactUs />} />
+            <Route path="LoginForm" element={<LoginForm />} />
+            <Route path="RegisterForm" element={<RegisterForm />} />
+            <Route path="Confirm" element={<Confirm />} />
+            <Route path="Profile" element={<Profile />} />
+            <Route path="ProfileFunctions" element={<ProfileFunctions />} />
+            <Route path="NotFound" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </Router> */}
+    </div>
   );
 }
 
