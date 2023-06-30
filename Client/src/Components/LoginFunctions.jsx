@@ -44,9 +44,9 @@ const LoginFunctions = () => {
             // Check if token is valid and user is logged in
             if (token && isLoggedIn()) {
                 // Redirect to Home page or perform any desired action
-                navigate("/")
+                // navigate("/")
             }
-            // window.location.href = '/';
+            window.location.href = '/';
             // Redirect or perform any desired action after successful login
         } catch (error) {
             console.error('Error: Wrong email or password', error.message);

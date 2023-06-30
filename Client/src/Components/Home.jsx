@@ -3,17 +3,17 @@ import '../../src/App.css'
 const Home = () => {
     return (
         <div className='w-full h-screen'>
-            {/* <video
+            <video
                 className='absolute top-0 left-0 w-full h-full object-cover'
                 autoPlay
                 loop
                 muted
-            // src='/Video/car_maintence.mp4'
-            /> */}
-            <img src="/Images/main.jpg" alt=""
+                src='/Video/car_maintence.mp4'
+            />
+            {/* <img src="/Images/main.jpg" alt=""
                 className='absolute top-0 left-0 w-full h-full object-cover'
 
-            />
+            /> */}
 
             <div className='w-full h-full flex flex-col justify-center items-center text-white px-4 text-center relative'>
                 <div className='flex flex-col items-center'>

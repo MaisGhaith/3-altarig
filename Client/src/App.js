@@ -12,7 +12,7 @@ import jwt_decode from 'jwt-decode';
 import React, { useEffect, useState, useReducer } from 'react';
 import ProfileFunctions from './Components/ProfileFunctions';
 import NotFound from './Components/NotFound';
-
+// import Map from './Components/Map';
 function App({ userName }) {
 
   // const navigate = useNavigate();
@@ -56,6 +56,7 @@ function App({ userName }) {
             <Route path="Confirm" element={<Confirm />} />
             <Route path="Profile" element={<Profile />} />
             <Route path="ProfileFunctions" element={<ProfileFunctions />} />
+            {/* <Route path="Map" element={<Map />} /> */}
           </Routes>
         </BrowserRouter>
       )}

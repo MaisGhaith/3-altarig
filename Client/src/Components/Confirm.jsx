@@ -182,14 +182,21 @@
 // export default Confirm
 
 
-import { GoogleMap, useLoadScript, Autocomplete, Marker } from "@react-google-maps/api";
+import { useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import jwt_decode from 'jwt-decode';
-
+import Map from './Map';
 import Swal from 'sweetalert2'
 
-const Confirm = () => {
+const Confirm = (props) => {
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const serviceTitle = searchParams.get('serviceTitle');
+    const choice = searchParams.get('choice');
+    const choiceTitle = searchParams.get('choiceTitle');
+
     const navigate = useNavigate();
 
     const [id, setId] = useState("");
@@ -220,67 +227,6 @@ const Confirm = () => {
     };
 
     const [isSetAppointment, setIsSetAppointment] = useState(false);
-
-    /////////////////////////////////////////
-    const [map, setMap] = useState(null);
-    const [autocomplete, setAutocomplete] = useState(null);
-    const [selectedLocation, setSelectedLocation] = useState(null);
-    const [longitude, setLongitude] = useState(35.930359);
-    const [latitude, setLatitude] = useState(31.963158);
-    const [markerPosition, setMarkerPosition] = useState({ lat: 31.963158, lng: 35.930359 });
-    const [markerKey, setMarkerKey] = useState(0); // Added markerKey state
-    const libraries = ["places"];
-    const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: "AIzaSyBj3pEgJixrXWNe0ejDSOagl-HaHUzkWMA",
-        libraries,
-    });
-
-
-
-
-    useEffect(() => {
-        if (latitude && longitude) {
-            setMarkerPosition({ lat: latitude, lng: longitude });
-            setMarkerKey((prevKey) => prevKey + 1); // Update markerKey to trigger re-rendering of Marker
-        }
-    }, [latitude, longitude]);
-
-    const handleMapLoad = (map) => {
-        setMap(map);
-    };
-
-    const handleAutocompleteLoad = (autocomplete) => {
-        setAutocomplete(autocomplete);
-    };
-
-    const handlePlaceSelect = () => {
-        if (autocomplete !== null) {
-            const addressObject = autocomplete.getPlace();
-            const address = addressObject.formatted_address;
-            setSelectedLocation(address);
-
-            const { lat, lng } = addressObject.geometry.location;
-            setLatitude(lat);
-            setLongitude(lng);
-            setMarkerPosition({ lat, lng });
-        }
-    };
-
-    const handleMapClick = (event) => {
-        const lat = event.latLng.lat();
-        const lng = event.latLng.lng();
-        setLatitude(lat);
-        setLongitude(lng);
-        setMarkerPosition({ lat, lng });
-    };
-
-    if (loadError) {
-        return <div>Error loading Google Maps API</div>;
-    }
-
-    if (!isLoaded) {
-        return <div>Loading...</div>;
-    }
 
     //////////////////////////////////////////
     const submitButton = () => {
@@ -315,6 +261,14 @@ const Confirm = () => {
     };
 
 
+    // const searchParams = new URLSearchParams(location.search);
+
+    // // Retrieve the service and choice from the query parameters
+    // const service = searchParams.get('service');
+    // const choice = searchParams.get('choice');
+
+
+
 
     return (
         <>
@@ -325,7 +279,7 @@ const Confirm = () => {
                     <h3 className="font-bold text-3xl mb-12">تأكيد الطلب </h3>
                     <div className='flex Items-center justify-start mr-4 mb-5 text-xl'>
                         <h1>  الخدمة المطلوبة :    </h1>
-                        <p className=' mr-3 text-lg'> lorem </p>
+                        <p className=' mr-3 text-lg'> {serviceTitle} {"-"} {choiceTitle} </p>
                     </div>
                     <div className="flex flex-wrap">
                         <div className="mb-6 lg:mb-0 flex-initial shrink w-full lg:w-5/12 lg:pr-3">
@@ -522,26 +476,7 @@ const Confirm = () => {
                     </div>
                 </section>
             </div>
-            <div>
-                <Autocomplete
-                    onLoad={handleAutocompleteLoad}
-                    onPlaceChanged={handlePlaceSelect}
-                >
-                    <input type="text" placeholder="Enter your location" />
-                </Autocomplete>
-                <GoogleMap
-                    onLoad={handleMapLoad}
-                    mapContainerStyle={{ width: "100%", height: "400px" }}
-                    center={{ lat: latitude, lng: longitude }}
-                    zoom={17}
-                    onClick={handleMapClick}
-                >
-                    {latitude && longitude && (
-                        <Marker key={markerKey} position={markerPosition} />
-                    )}
-                </GoogleMap>
-                <div>Selected Location: {`${selectedLocation} ,${latitude},${longitude}`}</div>
-            </div>
+            <Map />
         </>
     );
 };
