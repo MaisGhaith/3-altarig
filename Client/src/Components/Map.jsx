@@ -125,7 +125,7 @@ const Map = () => {
                 ) : (
                     <GoogleMap
                         onLoad={handleMapLoad}
-                        mapContainerStyle={{ width: "100%", height: "400px" }}
+                        mapContainerStyle={{ width: "500px", height: "400px" }}
                         center={{ lat: latitude, lng: longitude }}
                         zoom={17}
                         onClick={handleMapClick}

@@ -13,6 +13,7 @@ const Services = () => {
     const [choice, setChoice] = useState('');
     const [choiceTitle, setChoiceTitle] = useState('');
 
+
     const getServices = async () => {
         try {
             const response = await axios.get('http://localhost:8181/services/getService');
@@ -50,6 +51,7 @@ const Services = () => {
 
     const saveService = (serviceId) => {
         setService(serviceId);
+        setServiceId(serviceId);
     };
 
     const saveChoice = (choiceID, choiceTitle) => {
@@ -62,13 +64,13 @@ const Services = () => {
     const navigate = useNavigate();
 
     const handleSubmit = () => {
-        // Perform the data submission logic here
         console.log('Submitting data...');
         console.log('Service:', service);
         console.log('Choice:', choice);
         console.log('Choice Title:', choiceTitle);
+        console.log('Service Id:', service_id);
         setIsConfirmed(true);
-        navigate(`/Confirm?service=${service}&choice=${choice}&choiceTitle=${encodeURIComponent(choiceTitle)}&serviceTitle=${encodeURIComponent(serviceTitle)}`);
+        navigate(`/Confirm?service=${service}&choice=${choice}&choiceTitle=${encodeURIComponent(choiceTitle)}&serviceTitle=${encodeURIComponent(serviceTitle)}&serviceId=${service_id}`);
     };
 
 

@@ -25,6 +25,8 @@ app.use("/edit", require('./routes/usersRoutes/editUser'));
 // ! Location routes
 app.use("/location", require('./routes/Location/Location'));
 
+// ! order routes
+app.use("/order", require('./routes/ordersRoutes/order'))
 
 // Define the POST route for adding a location
 

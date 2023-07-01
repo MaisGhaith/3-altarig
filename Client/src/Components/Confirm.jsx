@@ -1,201 +1,41 @@
-// import React from 'react'
-
-// const Confirm = () => {
-//     return (
-//         <div>
-//             <>
-//                 <meta charSet="UTF-8" />
-//                 <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-//                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-//                 <title>Tailwind CSS Simple Ecommerce Checkout Page UI Example </title>
-//                 <link
-//                     href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
-//                     rel="stylesheet"
-//                 />
-//                 <div className="mt-20">
-//                     <h1 className="flex items-center justify-center font-bold text-blue-600 text-md lg:text-3xl">
-//                         Tailwind CSS Ecommerce Checkout Page UI
-//                     </h1>
-//                 </div>
-//                 <div className="container p-12 mx-auto">
-//                     <div className="flex flex-col w-full px-0 mx-auto md:flex-row">
-//                         <div className="flex flex-col md:w-full">
-//                             <h2 className="mb-4 font-bold md:text-xl text-heading ">
-//                                 Shipping Address
-//                             </h2>
-//                             <form className="justify-center w-full mx-auto" method="post" action="">
-//                                 <div className="">
-//                                     <div className="space-x-0 lg:flex lg:space-x-4">
-//                                         <div className="w-full lg:w-1/2">
-//                                             <label
-//                                                 htmlFor="firstName"
-//                                                 className="block mb-3 text-sm font-semibold text-gray-500"
-//                                             >
-//                                                 First Name
-//                                             </label>
-//                                             <input
-//                                                 name="firstName"
-//                                                 type="text"
-//                                                 placeholder="First Name"
-//                                                 className="w-1/2 px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
-//                                             />
-//                                         </div>
-//                                         {/* <div className="w-full lg:w-1/2 ">
-//                                             <label
-//                                                 htmlFor="firstName"
-//                                                 className="block mb-3 text-sm font-semibold text-gray-500"
-//                                             >
-//                                                 Last Name
-//                                             </label>
-//                                             <input
-//                                                 name="Last Name"
-//                                                 type="text"
-//                                                 placeholder="Last Name"
-//                                                 className="w-1/2 px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
-//                                             />
-//                                         </div> */}
-//                                     </div>
-//                                     <div className="mt-4">
-//                                         <div className="w-full">
-//                                             <label
-//                                                 htmlFor="Email"
-//                                                 className="block mb-3 text-sm font-semibold text-gray-500"
-//                                             >
-//                                                 Email
-//                                             </label>
-//                                             <input
-//                                                 name="Last Name"
-//                                                 type="text"
-//                                                 placeholder="Email"
-//                                                 className="w-1/2 px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
-//                                             />
-//                                         </div>
-//                                     </div>
-//                                     <div className="mt-4">
-//                                         <div className="w-full">
-//                                             <label
-//                                                 htmlFor="Address"
-//                                                 className="block mb-3 text-sm font-semibold text-gray-500"
-//                                             >
-//                                                 Address
-//                                             </label>
-//                                             <textarea
-//                                                 className="w-1/2 px-4 py-3 text-xs border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
-//                                                 name="Address"
-//                                                 cols={20}
-//                                                 rows={4}
-//                                                 placeholder="Address"
-//                                                 defaultValue={""}
-//                                             />
-//                                         </div>
-//                                     </div>
-//                                     <div className="space-x-0 lg:flex lg:space-x-4">
-//                                         <div className="w-full lg:w-1/2">
-//                                             <label
-//                                                 htmlFor="city"
-//                                                 className="block mb-3 text-sm font-semibold text-gray-500"
-//                                             >
-//                                                 City
-//                                             </label>
-//                                             <input
-//                                                 name="city"
-//                                                 type="text"
-//                                                 placeholder="City"
-//                                                 className="w-1/2 px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
-//                                             />
-//                                         </div>
-//                                         <div className="w-full lg:w-1/2 ">
-//                                             <label
-//                                                 htmlFor="postcode"
-//                                                 className="block mb-3 text-sm font-semibold text-gray-500"
-//                                             >
-//                                                 Postcode
-//                                             </label>
-//                                             <input
-//                                                 name="postcode"
-//                                                 type="text"
-//                                                 placeholder="Post Code"
-//                                                 className="w-1/2 px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
-//                                             />
-//                                         </div>
-//                                     </div>
-//                                     <div className="flex items-center mt-4">
-//                                         <label className="flex items-center text-sm group text-heading">
-//                                             <input
-//                                                 type="checkbox"
-//                                                 className="w-5 h-5 border border-gray-300 rounded focus:outline-none focus:ring-1"
-//                                             />
-//                                             <span className="ml-2">
-//                                                 Save this information for next time
-//                                             </span>
-//                                         </label>
-//                                     </div>
-//                                     <div className="relative pt-3 xl:pt-6">
-//                                         <label
-//                                             htmlFor="note"
-//                                             className="block mb-3 text-sm font-semibold text-gray-500"
-//                                         >
-//                                             {" "}
-//                                             Notes (Optional)
-//                                         </label>
-//                                         <textarea
-//                                             name="note"
-//                                             className="flex items-center w-1/2 px-4 py-3 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-600"
-//                                             rows={4}
-//                                             placeholder="Notes for delivery"
-//                                             defaultValue={""}
-//                                         />
-//                                     </div>
-//                                     <div className="mt-4">
-//                                         <button className="w-1/2 px-6 py-2 text-blue-200 bg-blue-600 hover:bg-blue-900">
-//                                             Process
-//                                         </button>
-//                                     </div>
-//                                 </div>
-//                             </form>
-//                         </div>
-//                         {/* <div className="flex flex-col w-full ml-0 lg:ml-12 lg:w-2/5">
-//                             <div className="pt-12 md:pt-0 2xl:ps-4">
-//                                 <h2 className="text-xl font-bold">Order Summary</h2>
-//                                 <div className="flex p-4 mt-4">
-//                                     <h2 className="text-xl font-bold">ITEMS 2</h2>
-//                                 </div>
-//                                 <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-//                                     Subtotal<span className="ml-2">$40.00</span>
-//                                 </div>
-//                                 <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-//                                     Shipping Tax<span className="ml-2">$10</span>
-//                                 </div>
-//                                 <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-//                                     Total<span className="ml-2">$50.00</span>
-//                                 </div>
-//                             </div>
-//                         </div> */}
-//                     </div>
-//                 </div>
-//             </>
-
-//         </div>
-//     )
-// }
-
-// export default Confirm
-
-
 import { useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { GoogleMap, useLoadScript, Autocomplete, Marker } from "@react-google-maps/api";
 import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import jwt_decode from 'jwt-decode';
 import Map from './Map';
-import Swal from 'sweetalert2'
+import axios from 'axios';
+
 
 const Confirm = (props) => {
 
+    const [img, setImg] = useState("");
     const location = useLocation();
+
     const searchParams = new URLSearchParams(location.search);
+    const [isSetAppointment, setIsSetAppointment] = useState(false);
+    const [selectedDate, setSelectedDate] = useState('');
     const serviceTitle = searchParams.get('serviceTitle');
     const choice = searchParams.get('choice');
     const choiceTitle = searchParams.get('choiceTitle');
+    const serviceId = searchParams.get('serviceId');
+    const [selectedOption, setSelectedOption] = useState('');
+    // const [selectedImage, setSelectedImage] = useState(null);
+
+    const [formData, setFormData] = useState({
+        name: '',
+        phone: '',
+        notes: '',
+        image: '',
+        service_name: serviceTitle || '',
+        service_time: isSetAppointment ? selectedDate : 'مستعجل في الحال',
+        car_rent: '',
+        location: '',
+        service_id: serviceId ? parseInt(serviceId) : 0,
+        choice_id: choice ? parseInt(choice) : 0,
+        user_id: 0,
+        choice_name: choiceTitle || '',
+    });
 
     const navigate = useNavigate();
 
@@ -214,58 +54,147 @@ const Confirm = (props) => {
         getUserNameFromToken();
     }, []);
 
-    // const [isOpen, setIsOpen] = useState("");
-    const handleOpenModal = () => {
-        if (id) {
-            // setIsOpen(true);
-            navigate("/ContactUs");
+    // ! Map functionality 
+    const [map, setMap] = useState(null);
+    const [autocomplete, setAutocomplete] = useState(null);
+    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [longitude, setLongitude] = useState(null);
+    const [latitude, setLatitude] = useState(null);
+    const [markerPosition, setMarkerPosition] = useState({ lat: null, lng: null });
+    const [markerKey, setMarkerKey] = useState(0);
+    const [loadingLocation, setLoadingLocation] = useState(false);
+
+    const libraries = ["places"];
+    const { isLoaded, loadError } = useLoadScript({
+        googleMapsApiKey: "AIzaSyBj3pEgJixrXWNe0ejDSOagl-HaHUzkWMA",
+        libraries,
+    });
+
+    useEffect(() => {
+        if (latitude && longitude) {
+            setMarkerPosition({ lat: latitude, lng: longitude });
+            setMarkerKey((prevKey) => prevKey + 1);
         }
-        else {
-            // Redirect to signup page if not logged in
-            navigate("/RegisterForm");
+    }, [latitude, longitude]);
+
+    const handleMapLoad = (map) => {
+        setMap(map);
+    };
+
+    const handleAutocompleteLoad = (autocomplete) => {
+        setAutocomplete(autocomplete);
+    };
+
+    const handlePlaceSelect = () => {
+        if (autocomplete !== null) {
+            const addressObject = autocomplete.getPlace();
+            const address = addressObject.formatted_address;
+            setSelectedLocation(address);
+
+            const { lat, lng } = addressObject.geometry.location;
+            setLatitude(lat);
+            setLongitude(lng);
+            setMarkerPosition({ lat, lng });
         }
     };
 
-    const [isSetAppointment, setIsSetAppointment] = useState(false);
+    const handleMapClick = (event) => {
+        const lat = event.latLng.lat();
+        const lng = event.latLng.lng();
+        setLatitude(lat);
+        setLongitude(lng);
+        setMarkerPosition({ lat, lng });
+    };
 
-    //////////////////////////////////////////
-    const submitButton = () => {
-        Swal.fire({
-            title: 'هل تريد تأكيد الطلب؟',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#A0D8B3',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'حسنًا',
-            cancelButtonText: 'إلغاء',
-            onBeforeOpen: () => {
-                const swalModal = Swal.getPopup();
-                swalModal.style.display = 'flex';
-                swalModal.style.flexDirection = 'column';
-                swalModal.style.justifyContent = 'center';
-                swalModal.style.alignItems = 'center';
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'تم تأكيد الطلب!',
-                    text: 'تم الطلب بنجاح، سيتم التواصل معك في الوقت المحدد',
-                    icon: 'success',
-                    confirmButtonText: 'حسنًا', // Change the text for the confirm button in the second alert
-                    didClose: () => {
-                        window.location.href = '/'; // Replace '/' with the desired URL of the home page
-                    }
-                });
-            }
+    const handleShareLocation = () => {
+        setLoadingLocation(true);
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    setLatitude(userLocation.lat);
+                    setLongitude(userLocation.lng);
+                    setMarkerPosition(userLocation);
+                    setLoadingLocation(false);
+                },
+                (error) => {
+                    console.log('Error getting user location:', error);
+                    setLoadingLocation(false);
+                }
+            );
+        } else {
+            console.log('Geolocation is not supported');
+            setLoadingLocation(false);
+        }
+    };
+
+    if (loadError) {
+        return <div>Error loading Google Maps API</div>;
+    }
+
+    if (!isLoaded) {
+        return <div>Loading...</div>;
+    }
+
+    // ! end of map functionality 
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
         });
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    // const searchParams = new URLSearchParams(location.search);
+        const formDataWithDate = {
+            ...formData,
+            service_time: isSetAppointment ? selectedDate : 'مستعجل في الحال',
+            car_rent: selectedOption,
+            image: img,
+            location: `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`,
+        };
 
-    // // Retrieve the service and choice from the query parameters
-    // const service = searchParams.get('service');
-    // const choice = searchParams.get('choice');
+        try {
+            const response = await axios.post(
+                `http://localhost:5151/order/order/${id}`,
+                formDataWithDate
+            );
+            console.log('Order created:', response.data);
+            // Perform any additional actions after successful order creation
+        } catch (error) {
+            console.error('Error creating order:', error);
+            // Handle error cases
+        }
+    };
+
+
+
+    const onChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            getBase64(file);
+        }
+    };
+
+    // Function to convert file to base64 string
+    const getBase64 = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            onLoad(reader.result);
+        };
+    };
+
+    // Function to handle base64 string
+    const onLoad = (fileString) => {
+        setImg(fileString);
+    };
 
 
 
@@ -277,26 +206,44 @@ const Confirm = (props) => {
                 {/*Section: Design Block*/}
                 <section className="mb-20 text-gray-800 text-center">
                     <h3 className="font-bold text-3xl mb-12">تأكيد الطلب </h3>
-                    <div className='flex Items-center justify-start mr-4 mb-5 text-xl'>
+                    <div className='flex Items-center justify-center mr-4 mb-5 text-xl'>
                         <h1>  الخدمة المطلوبة :    </h1>
-                        <p className=' mr-3 text-lg'> {serviceTitle} {"-"} {choiceTitle} </p>
+                        <p className=' mr-3 text-lg'> {serviceTitle} {"-"} {choiceTitle} {serviceId} {choice} </p>
                     </div>
-                    <div className="flex flex-wrap">
+                    <div className="flex flex-wrap justify-center">
                         <div className="mb-6 lg:mb-0 flex-initial shrink w-full lg:w-5/12 lg:pr-3">
-                            <h1 className="text-black flex justify-right mb-5">
-                                <span> * </span> قم بتحديد موقع السيارة :
-                            </h1>
-
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12094.57348593182!2d-74.00599512526003!3d40.72586666928451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2598f988156a9%3A0xd54629bdf9d61d68!2sBroadway-Lafayette%20St!5e0!3m2!1spl!2spl!4v1624523797308!5m2!1spl!2spl"
-                                className="h-56 md:h-full w-full border-0 rounded-md"
-                                allowFullScreen=""
-                                loading="lazy"
-                                required
-                            />
+                            <div>
+                                <button onClick={handleShareLocation}>Share Location</button>
+                                <Autocomplete
+                                    onLoad={handleAutocompleteLoad}
+                                    onPlaceChanged={handlePlaceSelect}
+                                >
+                                    <input type="text" placeholder="Enter your location" />
+                                </Autocomplete>
+                                {loadingLocation ? (
+                                    <div>Loading location...</div>
+                                ) : (
+                                    <GoogleMap
+                                        onLoad={handleMapLoad}
+                                        mapContainerStyle={{ width: "500px", height: "400px" }}
+                                        center={{ lat: latitude, lng: longitude }}
+                                        zoom={17}
+                                        onClick={handleMapClick}
+                                    >
+                                        {latitude && longitude && (
+                                            <Marker key={markerKey} position={markerPosition} />
+                                        )}
+                                    </GoogleMap>
+                                )}
+                                <div>Selected Location: {`${selectedLocation}, ${latitude},${longitude}`}</div>
+                                {/* <button onClick={handleSaveLocation}>Save Location</button> */}
+                            </div>
                         </div>
+
+
+
                         <div className="flex-initial shrink w-full lg:w-7/12 lg:pl-3">
-                            <form>
+                            <form >
                                 <br />
                                 <br />
                                 <div className="flex flex-wrap">
@@ -305,55 +252,121 @@ const Confirm = (props) => {
                                             <div className="mb-6 md:mb-0">
                                                 <input
                                                     type="text"
-                                                    className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                    id="exampleX1"
-                                                    placeholder="الاسم "
-                                                    required
+                                                    name="name"
+                                                    placeholder="Name"
+                                                    value={formData.name}
+                                                    onChange={handleChange}
                                                 />
                                             </div>
                                             <div>
                                                 <input
                                                     type="tel"
-                                                    className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                                    name="phone"
+                                                    placeholder="Phone"
+                                                    value={formData.phone}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                            <div>
+                                                <input
+                                                    type="text"
+                                                    className="hidden"
                                                     id="exampleX2"
-                                                    placeholder="رقم الهاتف"
+                                                    placeholder="choice id"
                                                     required
+                                                    value={formData.choice}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                            <div>
+                                                <input
+                                                    type="text"
+                                                    className="hidden"
+                                                    id="exampleX3"
+                                                    placeholder="service id"
+                                                    required
+                                                    value={formData.service_id}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                            <div>
+                                                <input
+                                                    type="text"
+                                                    className="hidden"
+                                                    id="exampleX4"
+                                                    placeholder="service name"
+                                                    required
+                                                    value={formData.service_name}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                            <div>
+                                                <input
+                                                    type="text"
+                                                    className="hidden"
+                                                    id="exampleX5"
+                                                    placeholder="choice name"
+                                                    required
+                                                    value={formData.choice_name}
+                                                    onChange={handleChange}
                                                 />
                                             </div>
                                         </div>
 
 
                                         <div className="mb-6">
+
                                             <textarea
                                                 className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="exampleX4"
-                                                rows={4}
-                                                placeholder="ملاحظات : نوع المركبة, سنة الصنع, سعة المحرك, استفسار .. "
                                                 defaultValue={""}
-                                            />
+                                                name="notes"
+                                                placeholder="ملاحظات : نوع المركبة, سنة الصنع, سعة المحرك, استفسار .. "
+                                                value={formData.notes}
+                                                onChange={handleChange}
+                                            ></textarea>
                                         </div>
                                         <div className="mb-5">
 
                                             <>
                                                 {/* component */}
-                                                <div className="w-full relative grid grid-cols-1 md:grid-cols-3 border border-gray-300 bg-gray-100 rounded-lg">
-                                                    <div className="rounded-l-lg p-4 bg-gray-200 flex flex-col justify-center items-center border-0 border-r border-gray-300">
-                                                        <label
-                                                            className="cursor-pointer hover:opacity-80 inline-flex items-center shadow-md my-2 px-2 py-2 bg-gray-900 text-gray-50 border border-transparent
-            rounded-md font-semibold text-xs uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none
-            focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
-                                                            htmlFor="restaurantImage"
-                                                        >
-                                                            اختر صورة
-                                                            <input id="restaurantImage" className="text-sm cursor-pointer w-36 hidden" type="file" />
-                                                        </label>
-                                                        <button
-                                                            className="inline-flex items-center shadow-md my-2 px-2 py-2 bg-gray-900 text-gray-50 border border-transparent
-            rounded-md font-semibold text-xs uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none
-            focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
-                                                        >
-                                                            حذف الصورة
-                                                        </button>
+                                                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                                    <div className="space-y-1 text-center">
+                                                        {img ? (
+                                                            <div>
+                                                                <img
+                                                                    src={img}
+                                                                    alt="Selected"
+                                                                    className="mx-auto h-12 w-12 text-gray-400"
+                                                                />
+                                                                <p className="text-xs text-gray-500">Selected</p>
+                                                            </div>
+                                                        ) : (
+                                                            <div>
+                                                                <p className="text-xs text-gray-500">
+                                                                    PNG, JPG, GIF up to 10MB
+                                                                </p>
+                                                            </div>
+                                                        )}
+                                                        <div className="flex text-sm text-gray-600">
+                                                            <label
+                                                                htmlFor="file-upload"
+                                                                className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                                            >
+                                                                <span>Upload a file</span>
+                                                                <input
+                                                                    id="file-upload"
+                                                                    name="file-upload"
+                                                                    type="file"
+                                                                    className="sr-only"
+                                                                    accept="image/*"
+                                                                    onChange={onChange}
+                                                                />
+                                                            </label>
+                                                            <p className="pl-1">or drag and drop</p>
+                                                        </div>
+                                                        <p className="text-xs text-gray-500">
+                                                            PNG, JPG, GIF up to 10MB
+                                                        </p>
                                                     </div>
                                                     <div
                                                         className="relative order-first md:order-last h-40 md:h-auto flex justify-center items-center border border-dashed border-gray-400 col-span-2 m-2 rounded-lg bg-no-repeat bg-center bg-origin-padding bg-cover"
@@ -379,7 +392,7 @@ const Confirm = (props) => {
                                                 </div>
                                             </>
 
-                                            <label className="flex items-center justify-start mt-5 mb-3 block text-base font-medium text-[#07074D]">
+                                            <label className="flex items-center justify-start mt-5 mb-3 text-base font-medium text-[#07074D]">
                                                 تحديد وقت الخدمة المطلوبة
                                             </label>
                                             <div className="flex items-center space-x-6">
@@ -410,54 +423,71 @@ const Confirm = (props) => {
                                                     </label>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        {isSetAppointment && (
-                                            <div className="-mx-3 flex flex-wrap">
-                                                <div className="w-full px-3 sm:w-1/2">
-                                                    <div className="mb-5">
-                                                        <label htmlFor="date" className="flex items-center justify-start mb-3 block text-base font-medium text-[#07074D]">
-                                                            تحديد التاريخ
-                                                        </label>
-                                                        <input
-                                                            type="date"
-                                                            name="date"
-                                                            id="date"
-                                                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                                        />
+                                            {isSetAppointment && (
+                                                <div className="-mx-3 flex flex-wrap">
+                                                    <div className="w-full px-3 sm:w-1/2">
+                                                        <div className="mb-5">
+                                                            <label htmlFor="date" className="flex items-center justify-start mb-3 text-base font-medium text-[#07074D]">
+                                                                تحديد التاريخ
+                                                            </label>
+                                                            <input
+                                                                type="date"
+                                                                name="date"
+                                                                id="date"
+                                                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                                                value={selectedDate}
+                                                                onChange={(e) => setSelectedDate(e.target.value)}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
+
+                                        </div>
+
 
 
                                         <div className="mb-5">
-                                            <label className="flex items-center justify-start mb-3 block text-base font-medium text-[#07074D]">
+                                            <label className="flex items-center justify-start mb-3 text-base font-medium text-[#07074D]">
                                                 هل ترغب في أن نقوم بتأمين سيارة لك ؟
                                             </label>
                                             <div className="flex items-center space-x-6">
                                                 <div className="flex items-center">
                                                     <input
-                                                        type="radio" name="radio-5" className="radio radio-success" />
+                                                        type="radio"
+                                                        name="radio-5"
+                                                        className="radio radio-success"
+                                                        onChange={() => setSelectedOption('نعم, استئجار سيارة')}
+                                                    />
                                                     <label htmlFor="radioButton1" className="pl-3 text-base font-medium text-[#07074D]">
                                                         نعم, استئجار سيارة
                                                     </label>
                                                 </div>
                                                 <div className="flex items-center">
                                                     <input
-                                                        type="radio" name="radio-5" className="radio radio-success" />
+                                                        type="radio"
+                                                        name="radio-5"
+                                                        className="radio radio-success"
+                                                        onChange={() => setSelectedOption('نعم, توصيلة فقط')}
+                                                    />
                                                     <label htmlFor="radioButton2" className="pl-3 text-base font-medium text-[#07074D]">
                                                         نعم, توصيلة فقط
                                                     </label>
                                                 </div>
                                                 <div className="flex items-center">
                                                     <input
-                                                        type="radio" name="radio-5" className="radio radio-success" />
+                                                        type="radio"
+                                                        name="radio-5"
+                                                        className="radio radio-success"
+                                                        onChange={() => setSelectedOption('لا أريد')}
+                                                    />
                                                     <label htmlFor="radioButton3" className="pl-3 text-base font-medium text-[#07074D]">
                                                         لا أريد
                                                     </label>
                                                 </div>
                                             </div>
+
                                         </div>
 
                                         <div className="text-center md:text-left">
@@ -466,7 +496,7 @@ const Confirm = (props) => {
                                                 <span class="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-purple-700 group-hover:bg-purple-500 group-hover:-skew-x-12"></span>
                                                 <span class="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-purple-600 -rotate-12"></span>
                                                 <span class="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-purple-400 -rotate-12"></span>
-                                                <span class="relative" onClick={handleOpenModal}>تأكيد الطلب </span>
+                                                <span class="relative" onClick={handleSubmit}>تأكيد الطلب </span>
                                             </a>
                                         </div>
                                     </div>
@@ -476,7 +506,7 @@ const Confirm = (props) => {
                     </div>
                 </section>
             </div>
-            <Map />
+
         </>
     );
 };
