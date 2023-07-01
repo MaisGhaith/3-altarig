@@ -81,23 +81,6 @@ const Confirm = (props) => {
         setMap(map);
     };
 
-    const handleAutocompleteLoad = (autocomplete) => {
-        setAutocomplete(autocomplete);
-    };
-
-    const handlePlaceSelect = () => {
-        if (autocomplete !== null) {
-            const addressObject = autocomplete.getPlace();
-            const address = addressObject.formatted_address;
-            setSelectedLocation(address);
-
-            const { lat, lng } = addressObject.geometry.location;
-            setLatitude(lat);
-            setLongitude(lng);
-            setMarkerPosition({ lat, lng });
-        }
-    };
-
     const handleMapClick = (event) => {
         const lat = event.latLng.lat();
         const lng = event.latLng.lng();
@@ -214,12 +197,6 @@ const Confirm = (props) => {
                         <div className="mb-6 lg:mb-0 flex-initial shrink w-full lg:w-5/12 lg:pr-3">
                             <div>
                                 <button onClick={handleShareLocation}>Share Location</button>
-                                <Autocomplete
-                                    onLoad={handleAutocompleteLoad}
-                                    onPlaceChanged={handlePlaceSelect}
-                                >
-                                    <input type="text" placeholder="Enter your location" />
-                                </Autocomplete>
                                 {loadingLocation ? (
                                     <div>Loading location...</div>
                                 ) : (

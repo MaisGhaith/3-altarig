@@ -135,9 +135,17 @@ const Map = () => {
                         )}
                     </GoogleMap>
                 )}
-                <div>Selected Location: {`${selectedLocation}, ${latitude},${longitude}`}</div>
+                <div>
+                    Selected Location:{" "}
+                    {selectedLocation && latitude && longitude ? (
+                        `${selectedLocation}, ${latitude}, ${longitude}`
+                    ) : (
+                        "Location not selected"
+                    )}
+                </div>
                 <button onClick={handleSaveLocation}>Save Location</button>
             </div>
+
         </div>
     );
 }
