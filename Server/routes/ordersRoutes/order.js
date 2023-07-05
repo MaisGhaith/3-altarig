@@ -7,13 +7,13 @@ router.post("/order/:user_id", async (req, res) => {
         const {
             name, phone, notes, image,
             service_name, service_time, car_rent,
-            location, service_id, choice_id, choice_name
+            location, service_id, choice_id, choice_name, order_no
         } = req.body;
 
-        const sql = 'INSERT INTO orders (name, phone, notes, image, service_name, service_time, car_rent, location, service_id, choice_id, user_id, choice_name) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
+        const sql = 'INSERT INTO orders (name, phone, notes, image, service_name, service_time, car_rent, location, service_id, choice_id, user_id, choice_name, order_no) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
         const newOrderData = [
             name, phone, notes, image, service_name, service_time, car_rent,
-            location, service_id, choice_id, user_id, choice_name
+            location, service_id, choice_id, user_id, choice_name, order_no
         ];
 
         const newOrder = await pool.query(sql, newOrderData);

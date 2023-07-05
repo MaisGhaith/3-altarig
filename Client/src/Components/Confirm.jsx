@@ -20,13 +20,19 @@ const Confirm = (props) => {
     const choiceTitle = searchParams.get('choiceTitle');
     const serviceId = searchParams.get('serviceId');
     const [selectedOption, setSelectedOption] = useState('');
-    // const [selectedImage, setSelectedImage] = useState(null);
+
+
+    const generateOrderNumber = () => {
+        const prefix = "3T-";
+        const randomNum = Math.floor(Math.random() * 1000000);
+        const paddedNum = randomNum.toString().padStart(6, "0");
+        return prefix + paddedNum;
+    };
 
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
         notes: '',
-        image: '',
         service_name: serviceTitle || '',
         service_time: isSetAppointment ? selectedDate : 'مستعجل في الحال',
         car_rent: '',
@@ -35,6 +41,7 @@ const Confirm = (props) => {
         choice_id: choice ? parseInt(choice) : 0,
         user_id: 0,
         choice_name: choiceTitle || '',
+        order_no: generateOrderNumber(),
     });
 
     const navigate = useNavigate();
@@ -182,6 +189,7 @@ const Confirm = (props) => {
 
 
 
+
     return (
         <>
             {/* Container for demo purpose */}
@@ -191,7 +199,7 @@ const Confirm = (props) => {
                     <h3 className="font-bold text-3xl mb-12">تأكيد الطلب </h3>
                     <div className='flex Items-center justify-center mr-4 mb-5 text-xl'>
                         <h1>  الخدمة المطلوبة :    </h1>
-                        <p className=' mr-3 text-lg'> {serviceTitle} {"-"} {choiceTitle} {serviceId} {choice} </p>
+                        <p className=' mr-3 text-lg'> {serviceTitle} {"-"} {choiceTitle}</p>
                     </div>
                     <div className="flex flex-wrap justify-center">
                         <div className="mb-6 lg:mb-0 flex-initial shrink w-full lg:w-5/12 lg:pr-3">
