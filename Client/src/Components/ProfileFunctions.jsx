@@ -74,6 +74,28 @@ const ProfileFunctions = () => {
         }
     };
 
+
+
+    // ! get user orders 
+    const [userOrders, setUserOrders] = useState([]);
+    const getUserOrder = async (id) => {
+        try {
+            const response = await axios.get(`http://localhost:5151/userOrders/userOrders/${id}`);
+
+            const orders = response.data;
+            setUserOrders(orders);
+
+        } catch (error) {
+            console.log("Error getting orders data : ", error);
+        }
+    }
+
+    useEffect(() => {
+        getUserOrder(id);
+    }, [id])
+
+
+
     return {
         handleEditSubmit,
         setNameUser,
@@ -83,7 +105,9 @@ const ProfileFunctions = () => {
         phone_number,
         setUser,
         user,
-        user_email
+        user_email,
+        getUserOrder,
+        userOrders
     };
 };
 

@@ -63,7 +63,7 @@ const Confirm = (props) => {
 
     // ! Map functionality 
     const [map, setMap] = useState(null);
-    const [autocomplete, setAutocomplete] = useState(null);
+    // const [autocomplete, setAutocomplete] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const [latitude, setLatitude] = useState(null);
