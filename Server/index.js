@@ -3,10 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const router = express.Router();
 const pool = require('./db');
-
 const app = express();
-const PORT = 5151;
-
+const PORT = process.env.PORT || 5151;
+// const PORT = 8181
 //* middleware //
 app.use(express.json()); // access data from client side   // req.body
 app.use(cors()); // to make our backend interact with frontend
@@ -29,7 +28,8 @@ app.use("/location", require('./routes/Location/Location'));
 app.use("/order", require('./routes/ordersRoutes/addOrder'));
 // app.use("/userOrders", require('./routes/ordersRoutes/getUserOrders'));
 app.use("/userOrders", require('./routes/ordersRoutes/getUserOrders'));
-
+app.use("/userDoneOrders", require('./routes/ordersRoutes/getUserOrders'));
+app.use("/deleteUserOrders", require('./routes/ordersRoutes/deleteUserOrder'))
 // Define the POST route for adding a location
 
 

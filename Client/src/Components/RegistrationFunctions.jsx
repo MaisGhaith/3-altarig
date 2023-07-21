@@ -34,7 +34,7 @@ const RegistrationFunctions = () => {
             // window.location.href = 'RegisterForm';
             console.log(token)
         } catch (error) {
-            console.error('Error:', error.message);
+            console.error('Error add data to database, server error:', error.message);
         }
     };
 

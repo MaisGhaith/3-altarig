@@ -3,7 +3,6 @@ import '../../src/App.css'
 // import { useNavigate, Link, useHistory } from 'react-router-dom'
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
-import Landing from './Landing';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default () => {

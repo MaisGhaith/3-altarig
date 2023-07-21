@@ -95,6 +95,38 @@ const ProfileFunctions = () => {
     }, [id])
 
 
+    // ! get user done orders 
+    const [userDoneOrders, setUserDoneOrders] = useState([]);
+    const getDoneUserOrder = async (id) => {
+        try {
+            const response = await axios.get(`http://localhost:5151/userOrders/userDoneOrders/${id}`);
+            const orders = response.data;
+            setUserDoneOrders(orders);
+        } catch (error) {
+            console.log("Error getting orders data: ", error);
+        }
+    }
+
+    useEffect(() => {
+        getDoneUserOrder(id);
+    }, [id]);
+
+
+    // ! delete user order 
+    const deleteUserOrder = async (id) => {
+        const confirmed = window.confirm('Are you sure you want to delete this choice ?');
+        if (confirmed) {
+            try {
+                await axios.put(`http://localhost:5151/deleteUserOrders/deleteUserOrder/${id}`);
+                console.log("order deleted successfully");
+                await getUserOrder();
+            } catch (error) {
+                console.error('Error when trying to delete the choice:', error);
+
+            }
+        }
+    }
+
 
     return {
         handleEditSubmit,
@@ -107,7 +139,9 @@ const ProfileFunctions = () => {
         user,
         user_email,
         getUserOrder,
-        userOrders
+        userOrders,
+        userDoneOrders,
+        deleteUserOrder
     };
 };
 

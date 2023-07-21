@@ -2,8 +2,8 @@ const router = require("express").Router();
 const pool = require('../../db');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const secretKey = 'a24f41837ef05ad9e52a3794dab8c0055cc7baf383db5d19534454768751a344';
-
+// const secretKey = 'a24f41837ef05ad9e52a3794dab8c0055cc7baf383db5d19534454768751a344';
+const JWTsecretKey = require('../../config');
 const app = require('../../index');
 
 
@@ -43,7 +43,7 @@ router.post("/register", async (req, res) => {
 
             const insertedUserId = insertResult.rows[0].user_id;
 
-            const token = jwt.sign({ user_id: insertedUserId, user_name, user_password, user_email, phone_number, deleted, role }, secretKey);
+            const token = jwt.sign({ user_id: insertedUserId, user_name, user_password, user_email, phone_number, deleted, role }, JWTsecretKey);
             res.status(200).json({ token, message: 'User registered successfully' });
 
             // res.status(200).json({ "user": newUser.rows[0] });
