@@ -17,6 +17,9 @@ const Profile = () => {
     const [emailError, setEmailError] = useState(false);
     const [phoneNumberError, setPhoneNumberError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [deleted, setDeleted] = useState(false);
+
 
     const validateForm = () => {
         let isValid = true;
@@ -53,10 +56,15 @@ const Profile = () => {
         }
     };
 
+    const handleOpenModal = () => {
+        setModal(true);
+    };
+
     const handleCloseModal = () => {
-        // Logic to close the modal goes here
+        setModal(false);
         console.log("Modal closed");
     };
+
 
     const validateName = () => {
         const namePattern = /^[\u0600-\u06FF\sA-Za-z]{6,20}$/;
@@ -98,30 +106,6 @@ const Profile = () => {
         setPasswordError(false);
     };
 
-
-    // const [userName, setUserName] = useState("");
-    // const [userEmail, setUserEmail] = useState("");
-    // const [userPhoneNumber, setUserPhoneNumber] = useState("");
-
-    // const [id, setId] = useState("");
-    // useEffect(() => {
-    //     const getUserNameFromToken = () => {
-    //         const token = localStorage.getItem("token");
-    //         if (token) {
-    //             const decodedToken = jwt_decode(token);
-    //             const id1 = decodedToken.user_id;
-
-    //             setId(id1);
-    //             setUserEmail(email);
-    //             setUserName(name);
-    //             setUserPhoneNumber(phone);
-    //             console.log(id1, email, name, phone);
-    //         }
-    //     };
-
-    //     getUserNameFromToken();
-    // }, []);
-
     const {
         handleEditSubmit,
         setNameUser,
@@ -138,11 +122,29 @@ const Profile = () => {
         deleteUserOrder
     } = useProfileFunctions();
 
+
+    const [showFullText, setShowFullText] = useState(false);
+
+    function shortenText(text, wordsCount) {
+        const words = text.split(' ');
+        const shortenedText = words.slice(0, wordsCount).join(' ');
+        return shortenedText;
+    }
+
+    // Assuming "orders" is an array of objects with "notes" field
+    const orders = [
+        // ... Your array of orders with each order having a "notes" field
+    ];
+
+
+    function formatDate(dateString) {
+        const dateObject = new Date(dateString);
+        const formattedDate = dateObject.toISOString().split('T')[0];
+        return formattedDate;
+    }
+
     return (
         <div>
-            {/* <Profile userName={userName} /> */}
-
-            {/* <App userName={userName} /> */}
 
             <>
                 <link
@@ -191,54 +193,59 @@ const Profile = () => {
                         <div className="container mx-auto px-4">
                             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
                                 <div className="px-6">
-                                    <div className="flex flex-wrap justify-end">
-
-                                    </div>
                                     <div className="text-center mt-12">
 
-                                        <button onClick={() => window.my_modal_1.showModal()}
+                                        <button onClick={handleOpenModal}
                                             className="btn flex p-2.5 bg-green-400 rounded-xl hover:rounded-3xl hover:bg-green-600 transition-all duration-300 text-white">  تعديل
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                             </svg>
                                         </button>
-                                        <dialog id="my_modal_1" className="modal">
-                                            <form method="dialog" className="modal-box">
-                                                <h3 className="font-bold text-lg">Hello!</h3>
-                                                <div className="modal-action flex justify-center">
-                                                    <div className="flex flex-col items-center gap-6">
-                                                        <div className="flex flex-col gap-6">
-                                                            <input
-                                                                value={user_name}
-                                                                onChange={(e) => setNameUser(e.target.value)}
-                                                                className={`block mb-2 text-sm font-medium ${nameError ? 'border-red-500' : 'border-slate-900 text-gray-900 dark:text-white'
-                                                                    }`}
-                                                                placeholder="تعديل الإسم"
-                                                            />
-                                                            <input
-                                                                value={phone_number}
-                                                                onChange={(e) => setPhone(e.target.value)}
-                                                                className={`block mb-2 text-sm font-medium ${phoneNumberError ? 'border-red-500' : 'border-slate-900 text-gray-900 dark:text-white'
-                                                                    }`}
-                                                                placeholder="تعديل رقم الهاتف"
-                                                            />
-                                                        </div>
-                                                        <div className="flex justify-start">
-                                                            <button
-                                                                onClick={handleEditSubmit}
-                                                                type="submit"
-                                                                className="btn mx-5 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                                                            >
-                                                                تأكيد
-                                                            </button>
-                                                            <button type="button" className="btn mx-5">
-                                                                إلغاء
-                                                            </button>
+
+                                        {modal && (
+                                            <div className="fixed inset-0 flex items-center justify-center z-50">
+                                                <form method="dialog" className="modal-box">
+                                                    <h3 className="font-bold text-lg">Hello!</h3>
+                                                    <div className="modal-action flex justify-center">
+                                                        <div className="flex flex-col items-center gap-6">
+                                                            <div className="flex flex-col gap-6">
+                                                                <input
+                                                                    value={user_name}
+                                                                    onChange={(e) => setNameUser(e.target.value)}
+                                                                    className={`block mb-2 text-sm font-medium ${nameError
+                                                                        ? 'border-red-500'
+                                                                        : 'border-slate-900 text-gray-900 dark:text-white'
+                                                                        }`}
+                                                                    placeholder="تعديل الإسم"
+                                                                />
+                                                                <input
+                                                                    value={phone_number}
+                                                                    onChange={(e) => setPhone(e.target.value)}
+                                                                    className={`block mb-2 text-sm font-medium ${phoneNumberError
+                                                                        ? 'border-red-500'
+                                                                        : 'border-slate-900 text-gray-900 dark:text-white'
+                                                                        }`}
+                                                                    placeholder="تعديل رقم الهاتف"
+                                                                />
+                                                            </div>
+                                                            <div className="flex justify-start">
+                                                                <button
+                                                                    onClick={handleEditSubmit}
+                                                                    type="submit"
+                                                                    className="btn mx-5 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                                                                >
+                                                                    تأكيد
+                                                                </button>
+                                                                <button onClick={handleCloseModal} type="button" className="btn mx-5">
+                                                                    إلغاء
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </form>
-                                        </dialog>
+                                                </form>
+                                            </div>
+                                        )}
+
 
                                         <h3 className="text-4xl font-semibold leading-normal text-blueGray-700 mb-2">
                                             {user?.user_name || ""}
@@ -265,11 +272,12 @@ const Profile = () => {
                                                 <div className="flex flex-wrap mt-10 justify-center">
                                                     {userOrders.map((order) => {
                                                         return (
-                                                            <div className="max-w-xs m-5" key={order.id}>
-                                                                <div className="bg-gray-100 shadow-xl rounded-lg py-3">
+                                                            <div className="max-w-xs m-5 overflow-y-scroll h-52 border rounded-lg hover:scale-105" key={order.id} >
+                                                                <div className="bg-gray-100 shadow-xl rounded-lg py-3 hover:bg-gray-200">
                                                                     <div className="p-2">
                                                                         <h3 className="text-center text-xl text-gray-900 font-medium leading-8">
-                                                                            {order.service_name}
+                                                                            {order.service_name}{" "}
+                                                                            {order.choice_name}
                                                                         </h3>
                                                                         <table className="text-xs my-3">
                                                                             <tbody>
@@ -287,24 +295,71 @@ const Profile = () => {
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        التاريخ
+                                                                                        تاريخ طلب الخدمة
                                                                                     </td>
-                                                                                    <td className="px-2 py-2">{order.date}</td>
+                                                                                    <td className="px-2 py-2">{formatDate(order.date)}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                        تاريخ التنفيذ المطلوب
+                                                                                    </td>
+                                                                                    <td className="px-2 py-2">{order.service_time}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                        ملاحظات
+                                                                                    </td>
+                                                                                    <td className="px-2 py-2">
+                                                                                        {showFullText ? order.notes : shortenText(order.notes, 3)}
+                                                                                        {!showFullText && order.notes.split(' ').length > 3 && (
+                                                                                            <button className="text-green-500" onClick={() => setShowFullText(true)}>
+                                                                                                اقرأ المزيد
+                                                                                            </button>
+                                                                                        )}
+                                                                                        {showFullText && (
+                                                                                            <button className="text-yellow-500" onClick={() => setShowFullText(false)}>
+                                                                                                إخفاء
+                                                                                            </button>
+                                                                                        )}
+                                                                                    </td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td className="px-2 py-2 text-gray-500 font-semibold">
                                                                                         المبلغ
                                                                                     </td>
-                                                                                    {/* <td className="px-2 py-2">{order.amount}</td> */}
+                                                                                    <td className="px-2 py-2">{order.price} دينار</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                        طلب سيارة
+                                                                                    </td>
+                                                                                    <td className="px-2 py-2">{order.car_rent}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                        رقم الطلب
+                                                                                    </td>
+                                                                                    <td className="px-2 py-2">{order.order_no}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                        حالة الطلب
+                                                                                    </td>
+                                                                                    <td className="px-2 py-2">{order?.approved === false ? "not approved" : "approved"} </td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
                                                                         <div className="text-center my-3">
-                                                                            {/* <button className="m-2 text-yellow-500 hover:scale-105 hover:text-black font-medium" href="#">
-                  تعديل
-              </button> */}
-                                                                            <button onClick={() => deleteUserOrder(order.id)} className="m-2 text-red-500 hover:scale-105 hover:text-black font-medium" href="#">
-                                                                                حذف
+                                                                            {order?.approved === false && (
+                                                                                <button
+                                                                                    onClick={() => deleteUserOrder(order.id)}
+                                                                                    className="m-2 text-red-500 hover:scale-105 hover:text-black font-medium"
+                                                                                >
+                                                                                    حذف
+                                                                                </button>
+                                                                            )}
+                                                                            <button onClick={() => deleteUserOrder(order.id)} className=" m-2 text-yellow-500 hover:scale-105 hover:text-black font-medium" href="#">
+                                                                                دفع
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -332,11 +387,12 @@ const Profile = () => {
                                                 <div className="flex flex-wrap mt-10 justify-center">
                                                     {userDoneOrders.map((order) => {
                                                         return (
-                                                            <div className="max-w-xs m-5" key={order.id}>
-                                                                <div className="bg-gray-100 shadow-xl rounded-lg py-3">
+                                                            <div className="max-w-xs m-5 overflow-y-scroll h-52 border rounded-lg hover:scale-105" key={order.id}>
+                                                                <div className="bg-gray-100 shadow-xl rounded-lg py-3 hover:bg-gray-200">
                                                                     <div className="p-2">
                                                                         <h3 className="text-center text-xl text-gray-900 font-medium leading-8">
-                                                                            {order.service_name}
+                                                                            {order.service_name}{" "}
+                                                                            {order.choice_name}
                                                                         </h3>
                                                                         <table className="text-xs my-3">
                                                                             <tbody>
@@ -354,15 +410,51 @@ const Profile = () => {
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        التاريخ
+                                                                                        تاريخ طلب الخدمة
                                                                                     </td>
-                                                                                    <td className="px-2 py-2">{order.date}</td>
+                                                                                    <td className="px-2 py-2">{formatDate(order.date)}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                        تاريخ التنفيذ المطلوب
+                                                                                    </td>
+                                                                                    <td className="px-2 py-2">{order.service_time}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                        ملاحظات
+                                                                                    </td>
+                                                                                    <td className="px-2 py-2">
+                                                                                        {showFullText ? order.notes : shortenText(order.notes, 3)}
+                                                                                        {!showFullText && order.notes.split(' ').length > 3 && (
+                                                                                            <button className="text-green-500" onClick={() => setShowFullText(true)}>
+                                                                                                اقرأ المزيد
+                                                                                            </button>
+                                                                                        )}
+                                                                                        {showFullText && (
+                                                                                            <button className="text-yellow-500" onClick={() => setShowFullText(false)}>
+                                                                                                إخفاء
+                                                                                            </button>
+                                                                                        )}
+                                                                                    </td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td className="px-2 py-2 text-gray-500 font-semibold">
                                                                                         المبلغ
                                                                                     </td>
-                                                                                    {/* <td className="px-2 py-2">{order.amount}</td> */}
+                                                                                    <td className="px-2 py-2">{order.price} دينار </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                        طلب سيارة
+                                                                                    </td>
+                                                                                    <td className="px-2 py-2">{order.car_rent}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                        رقم الطلب
+                                                                                    </td>
+                                                                                    <td className="px-2 py-2">{order.order_no}</td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>

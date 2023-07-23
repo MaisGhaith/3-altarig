@@ -12,6 +12,7 @@ const Services = () => {
     const [service, setService] = useState('');
     const [choice, setChoice] = useState('');
     const [choiceTitle, setChoiceTitle] = useState('');
+    const [price, setPrice] = useState('');
 
 
     const getServices = async () => {
@@ -54,9 +55,10 @@ const Services = () => {
         setServiceId(serviceId);
     };
 
-    const saveChoice = (choiceID, choiceTitle) => {
+    const saveChoice = (choiceID, choiceTitle, choicePrice) => {
         setChoice(choiceID);
         setChoiceTitle(choiceTitle);
+        setPrice(choicePrice)
     };
 
 
@@ -69,8 +71,9 @@ const Services = () => {
         console.log('Choice:', choice);
         console.log('Choice Title:', choiceTitle);
         console.log('Service Id:', service_id);
+        console.log('Price:', price);
         setIsConfirmed(true);
-        navigate(`/Confirm?service=${service}&choice=${choice}&choiceTitle=${encodeURIComponent(choiceTitle)}&serviceTitle=${encodeURIComponent(serviceTitle)}&serviceId=${service_id}`);
+        navigate(`/Confirm?service=${service}&choice=${choice}&choiceTitle=${encodeURIComponent(choiceTitle)}&serviceTitle=${encodeURIComponent(serviceTitle)}&serviceId=${service_id}&price=${encodeURIComponent(price)}`);
     };
 
 
@@ -135,7 +138,7 @@ const Services = () => {
                                         <button
                                             type="radio"
                                             onClick={() => {
-                                                saveChoice(choice.id, choice.choice);
+                                                saveChoice(choice.id, choice.choice, choice.price);
                                                 saveService(service_id);
                                             }}
                                         >

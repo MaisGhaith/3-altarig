@@ -32,7 +32,7 @@ function App({ userName }) {
         setId(id1);
         setRole(role);
 
-        console.log(id1, role);
+        // console.log(id1, role);
       }
     };
 
@@ -48,7 +48,7 @@ function App({ userName }) {
         <BrowserRouter>
           <Navbar userName={userName} />
           <Routes>
-            <Route path="/" element={<Landing />} />
+            <Route path="/Landing" element={<Landing />} />
             <Route path="AboutUs" element={<AboutUs />} />
             <Route path="ContactUs" element={<ContactUs />} />
             <Route path="LoginForm" element={<LoginForm />} />
@@ -65,7 +65,7 @@ function App({ userName }) {
         <BrowserRouter>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Landing />} />
+            <Route path="/Landing" element={<Landing />} />
             <Route path="AboutUs" element={<AboutUs />} />
             <Route path="ContactUs" element={<ContactUs />} />
             <Route path="LoginForm" element={<LoginForm />} />

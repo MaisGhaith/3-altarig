@@ -3,7 +3,7 @@ import '../../src/App.css'
 // import { useNavigate, Link, useHistory } from 'react-router-dom'
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default () => {
 
@@ -13,11 +13,11 @@ export default () => {
 
     // Replace javascript:void(0) paths with your paths
     const navigation = [
-        { title: "الرئيسية", path: "/" },
-        { title: "خدماتنا", path: "#Services" },
+        { title: "الرئيسية", path: "/Landing" },
+        { title: "خدماتنا", path: window.location = '#Services' },
         { title: "معلومات", path: "javascript:void(0)" },
         { title: "من نحن", path: "/AboutUs" },
-        { title: "اتصل بنا", path: "/" },
+        { title: "اتصل بنا", path: "/ContactUs" },
     ];
 
 
@@ -66,8 +66,6 @@ export default () => {
                 try {
                     const response = await axios.get(`http://localhost:5151/getUser/${id1}`);
                     setUserName(response.data[0].user_name);
-                    console.log(response.data);
-                    console.log(id1);
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                 }
@@ -81,7 +79,6 @@ export default () => {
     const isLoggedIn = !!userName;
 
     const [isLoggedOut, setIsLoggedOut] = useState(false);
-    // const navigate = useNavigate();
     useEffect(() => {
         if (isLoggedOut) {
             setUserName('');
@@ -127,7 +124,7 @@ export default () => {
 
             <nav
                 id="stickyNav"
-                className={`fixed top-0 z-10 left-0 right-0 md:text-sm ${state ? "shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0" : ""
+                className={`absolute top-0 z-10 left-0 right-0 md:text-sm ${state ? "shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0" : ""
                     }`}
                 style={{ backgroundColor: "rgba(0, 0, 0, 0.422)" }}
             >            <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8">
@@ -214,7 +211,6 @@ export default () => {
                                 </a>
                             )}
                         </div>
-
                     </div>
                 </div>
             </nav>

@@ -46,7 +46,7 @@ const LoginFunctions = () => {
                 // Redirect to Home page or perform any desired action
                 // navigate("/")
             }
-            window.location.href = '/';
+            window.location = '/Landing';
             // Redirect or perform any desired action after successful login
         } catch (error) {
             console.error('Error: Wrong email or password', error.message);

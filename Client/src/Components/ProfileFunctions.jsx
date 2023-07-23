@@ -3,28 +3,23 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 const ProfileFunctions = () => {
-    // let id = 25
-    // console.log(id)
     const [user, setUser] = useState({});
     const [user_name, setNameUser] = useState("");
     const [phone_number, setPhone] = useState("");
     const [user_email, setUserEmail] = useState("");
-
+    const [deleted, setDeleted] = useState(false)
 
     const [id, setId] = useState("");
 
     const getUserNameFromToken = async () => {
         const token = localStorage.getItem("token");
         if (token) {
-            console.log(token)
             const decodedToken = jwt_decode(token);
             const id1 = decodedToken.user_id;
             setId(id1);
             try {
                 const response = await axios.get(`http://localhost:5151/getUser/${id1}`);
                 setUser(response.data[0]);
-                console.log(response.data);
-                console.log(id1);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -34,27 +29,8 @@ const ProfileFunctions = () => {
     useEffect(() => {
         getUserNameFromToken();
     }, []);
-    console.log(id)
 
 
-    // useEffect(() => {
-    //     const getUserData = async () => {
-    //         try {
-    //             const response = await axios.get(`http://localhost:5151/getUser/${id}`);
-    //             setUser(response.data[0]);
-    //             console.log(response.data);
-    //             console.log(id);
-    //         } catch (error) {
-    //             console.error("Error fetching user data:", error);
-    //         }
-    //     };
-
-    //     getUserData();
-    // }, [id]);
-
-    console.log(user)
-
-    console.log(id)
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         console.log(user_name)

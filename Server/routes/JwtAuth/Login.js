@@ -9,7 +9,7 @@ router.post('/login', (req, res) => {
     const { user_email, user_password, role, deleted } = req.body; // Assuming the email and password are provided in the request body
 
     console.log(req.body)
-    const sql = 'SELECT * FROM users WHERE user_email = $1';
+    const sql = 'SELECT * FROM users WHERE deleted = false AND user_email = $1';
 
     pool.query(
         sql, [user_email],

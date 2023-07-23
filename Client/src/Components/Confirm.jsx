@@ -19,6 +19,7 @@ const Confirm = (props) => {
     const choice = searchParams.get('choice');
     const choiceTitle = searchParams.get('choiceTitle');
     const serviceId = searchParams.get('serviceId');
+    const price = searchParams.get('price')
     const [selectedOption, setSelectedOption] = useState('');
 
 
@@ -41,10 +42,9 @@ const Confirm = (props) => {
         choice_id: choice ? parseInt(choice) : 0,
         user_id: 0,
         choice_name: choiceTitle || '',
+        price: price ? parseInt(price) : 0,
         order_no: generateOrderNumber(),
     });
-
-    const navigate = useNavigate();
 
     const [id, setId] = useState("");
     useEffect(() => {
@@ -199,7 +199,7 @@ const Confirm = (props) => {
                     <h3 className="font-bold text-3xl mb-12">تأكيد الطلب </h3>
                     <div className='flex Items-center justify-center mr-4 mb-5 text-xl'>
                         <h1>  الخدمة المطلوبة :    </h1>
-                        <p className=' mr-3 text-lg'> {serviceTitle} {"-"} {choiceTitle}</p>
+                        <p className=' mr-3 text-lg'> {serviceTitle} {"-"} {choiceTitle} {price}</p>
                     </div>
                     <div className="flex flex-wrap justify-center">
                         <div className="mb-6 lg:mb-0 flex-initial shrink w-full lg:w-5/12 lg:pr-3">
@@ -254,47 +254,13 @@ const Confirm = (props) => {
                                             </div>
                                             <div>
                                                 <input
-                                                    type="text"
-                                                    className="hidden"
-                                                    id="exampleX2"
-                                                    placeholder="choice id"
-                                                    required
-                                                    value={formData.choice}
+                                                    type="tel"
+                                                    name="phone"
+                                                    placeholder="Phone"
+                                                    defaultValue={generateOrderNumber()}
+                                                    value={formData.order_no}
                                                     onChange={handleChange}
-                                                />
-                                            </div>
-                                            <div>
-                                                <input
-                                                    type="text"
-                                                    className="hidden"
-                                                    id="exampleX3"
-                                                    placeholder="service id"
-                                                    required
-                                                    value={formData.service_id}
-                                                    onChange={handleChange}
-                                                />
-                                            </div>
-                                            <div>
-                                                <input
-                                                    type="text"
-                                                    className="hidden"
-                                                    id="exampleX4"
-                                                    placeholder="service name"
-                                                    required
-                                                    value={formData.service_name}
-                                                    onChange={handleChange}
-                                                />
-                                            </div>
-                                            <div>
-                                                <input
-                                                    type="text"
-                                                    className="hidden"
-                                                    id="exampleX5"
-                                                    placeholder="choice name"
-                                                    required
-                                                    value={formData.choice_name}
-                                                    onChange={handleChange}
-                                                />
+                                                    readOnly />
                                             </div>
                                         </div>
 

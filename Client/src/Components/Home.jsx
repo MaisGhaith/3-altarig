@@ -22,7 +22,7 @@ const Home = () => {
                     <h1 className='text-xl font-bold mb-6 sm:text-2xl'>
                         <span className='blue'>نحن نهتم بها، كما تفعل أنت</span>
                     </h1>
-                    <button className='heroButton'>طلب خدمة</button>
+                    <button onClick={() => window.location = '#Services'} className='heroButton'>طلب خدمة</button>
                 </div>
             </div>
         </div>
