@@ -7,8 +7,6 @@ import useProfileFunctions from './ProfileFunctions'
 
 const Profile = () => {
 
-
-
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -20,6 +18,19 @@ const Profile = () => {
     const [modal, setModal] = useState(false);
     const [deleted, setDeleted] = useState(false);
 
+    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false); // State to control the modal display
+    const [orderData, setOrderData] = useState(null);
+    // Function to handle opening the modal
+    const handleOpenDetailsModal = (id) => {
+        console.log('Opening the modal...');
+        console.log(id)
+        setIsDetailsModalOpen(true);
+        setOrderData(id);
+    };
+
+    const handleCloseDetailsModal = () => {
+        setIsDetailsModalOpen(false)
+    }
 
     const validateForm = () => {
         let isValid = true;
@@ -131,10 +142,6 @@ const Profile = () => {
         return shortenedText;
     }
 
-    // Assuming "orders" is an array of objects with "notes" field
-    const orders = [
-        // ... Your array of orders with each order having a "notes" field
-    ];
 
 
     function formatDate(dateString) {
@@ -142,6 +149,30 @@ const Profile = () => {
         const formattedDate = dateObject.toISOString().split('T')[0];
         return formattedDate;
     }
+
+
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Function to handle search input change
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
+
+    // Filter the orders based on the search query for both userOrders and userDoneOrders
+    const filteredUserOrders = userOrders.filter((order) =>
+        order.service_name.includes(searchQuery) ||
+        order.choice_name.includes(searchQuery) ||
+        order.order_no.includes(searchQuery)
+    );
+
+    const filteredUserDoneOrders = userDoneOrders.filter((order) =>
+        order.service_name.includes(searchQuery) ||
+        order.choice_name.includes(searchQuery) ||
+        order.order_no.includes(searchQuery)
+    );
+
+
 
     return (
         <div>
@@ -264,215 +295,391 @@ const Profile = () => {
                                     <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                                         <div className="flex flex-wrap justify-center">
                                             <div className="w-full lg:w-9/12 px-4">
-                                                <div className='text-xl'>
-                                                    <h2>طلباتي الحالية</h2>
-                                                </div>
-                                                {/* component */}
+                                                <>
+                                                    {/* component */}
+                                                    <div className="bg-white p-8 rounded-md w-full">
+                                                        <div className=" flex items-center justify-between pb-6">
+                                                            <div>
+                                                                <h2 className="text-xl text-gray-600 font-semibold">طلباتي الحالية</h2>
+                                                                {/* <span className="text-xs"> All products item</span> */}
+                                                            </div>
+                                                            <div className="flex items-center justify-between">
+                                                                <div className="flex bg-gray-50 items-center p-2 rounded-md">
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        className="h-5 w-5 text-gray-400"
+                                                                        viewBox="0 0 20 20"
+                                                                        fill="currentColor"
+                                                                    >
+                                                                        <path
+                                                                            fillRule="evenodd"
+                                                                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                                            clipRule="evenodd"
+                                                                        />
+                                                                    </svg>
+                                                                    <input
+                                                                        className="bg-gray-50 outline-none ml-1 block "
+                                                                        type="text"
+                                                                        name=""
+                                                                        id=""
+                                                                        placeholder="search..."
+                                                                        onChange={handleSearch}
+                                                                    />
+                                                                </div>
 
-                                                <div className="flex flex-wrap mt-10 justify-center">
-                                                    {userOrders.map((order) => {
-                                                        return (
-                                                            <div className="max-w-xs m-5 overflow-y-scroll h-52 border rounded-lg hover:scale-105" key={order.id} >
-                                                                <div className="bg-gray-100 shadow-xl rounded-lg py-3 hover:bg-gray-200">
-                                                                    <div className="p-2">
-                                                                        <h3 className="text-center text-xl text-gray-900 font-medium leading-8">
-                                                                            {order.service_name}{" "}
-                                                                            {order.choice_name}
-                                                                        </h3>
-                                                                        <table className="text-xs my-3">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        الموقع
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">{order.location}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        رقم الهاتف
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">{order.phone}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        تاريخ طلب الخدمة
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">{formatDate(order.date)}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        تاريخ التنفيذ المطلوب
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">{order.service_time}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        ملاحظات
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">
-                                                                                        {showFullText ? order.notes : shortenText(order.notes, 3)}
-                                                                                        {!showFullText && order.notes.split(' ').length > 3 && (
-                                                                                            <button className="text-green-500" onClick={() => setShowFullText(true)}>
-                                                                                                اقرأ المزيد
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                                                                <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                                                                    <table className="min-w-full leading-normal">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100  text-xs font-semibold text-gray-600 uppercase tracking-wider ">
+                                                                                    الخدمة
+                                                                                </th>
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                    رقم الطلب
+                                                                                </th>
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                    المبلغ
+                                                                                </th>
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                    المزيد
+                                                                                </th>
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                    حالة القبول
+                                                                                </th>
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                    الحالة
+                                                                                </th>
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {filteredUserOrders.map((order) => {
+                                                                            return (
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                                                                                            <div className="flex items-center">
+
+                                                                                                <div className="ml-3">
+                                                                                                    <p className=" w-48 text-gray-900 whitespace-no-wrap">
+                                                                                                        {order.service_name} {order.choice_name}
+                                                                                                    </p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                                                                                            <p className="text-gray-900 whitespace-no-wrap">{order.order_no}</p>
+                                                                                        </td>
+                                                                                        <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                                                                                            <p className="text-gray-900 whitespace-no-wrap">
+                                                                                                {order.price} JD
+                                                                                            </p>
+                                                                                        </td>
+                                                                                        <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                                                                                            <button
+                                                                                                data-modal-target="authentication-modal"
+                                                                                                data-modal-toggle="authentication-modal"
+                                                                                                onClick={() => handleOpenDetailsModal(order)}
+                                                                                                className="border border-none">
+                                                                                                <p className="text-gray-900 whitespace-no-wrap">عرض التفاصيل</p>
                                                                                             </button>
-                                                                                        )}
-                                                                                        {showFullText && (
-                                                                                            <button className="text-yellow-500" onClick={() => setShowFullText(false)}>
-                                                                                                إخفاء
+                                                                                        </td>
+                                                                                        <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                                                                                            <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                                                                <span
+                                                                                                    aria-hidden=""
+                                                                                                    className="absolute inset-0 bg-gray-300 opacity-50 rounded-full"
+                                                                                                />
+                                                                                                <span className="relative"
+                                                                                                    style={{ color: order?.approved ? 'green' : 'red' }}>
+                                                                                                    {order?.approved ? 'approved' : 'not approved'}
+                                                                                                </span>
+
+                                                                                            </span>
+                                                                                        </td>
+                                                                                        <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                                                                                            <div className="text-center my-3">
+                                                                                                {order?.approved === false ? (
+                                                                                                    <button
+                                                                                                        onClick={() => deleteUserOrder(order.id)}
+                                                                                                        className="m-2 text-red-500 hover:scale-105 hover:text-black font-medium"
+                                                                                                    >
+                                                                                                        حذف
+                                                                                                    </button>
+                                                                                                ) : (
+                                                                                                    <button onClick={() => deleteUserOrder(order.id)} className=" m-2 text-yellow-500 hover:scale-105 hover:text-black font-medium" href="#">
+                                                                                                        دفع
+                                                                                                    </button>
+                                                                                                )}
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </table>
+
+                                                                    {isDetailsModalOpen &&
+                                                                        <div className="fixed inset-0 flex items-center justify-center z-50">
+                                                                            <form method="dialog" className="modal-box">
+                                                                                <h3 className="font-bold text-lg">Hello!</h3>
+                                                                                <div className="modal-action flex justify-center">
+                                                                                    <div className="flex flex-col items-center gap-6">
+                                                                                        <div>
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                        الموقع
+                                                                                                    </td>
+                                                                                                    <a href="">
+                                                                                                        <td className="px-2 py-2">{orderData?.location}</td>
+                                                                                                    </a>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                        رقم الهاتف
+                                                                                                    </td>
+                                                                                                    <td className="px-2 py-2">{orderData?.phone}</td>
+                                                                                                    {/* {orderData?.phone} */}
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                        تاريخ طلب الخدمة
+                                                                                                    </td>
+                                                                                                    <td className="px-2 py-2">{formatDate(orderData.date)}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                        تاريخ التنفيذ المطلوب
+                                                                                                    </td>
+                                                                                                    <td className="px-2 py-2">{orderData.service_time}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                        ملاحظات
+                                                                                                    </td>
+                                                                                                    <td className="px-2 py-2">
+                                                                                                        {showFullText ? orderData.notes : shortenText(orderData.notes, 3)}
+                                                                                                        {!showFullText && orderData.notes.split(' ').length > 3 && (
+                                                                                                            <button className="text-green-500" onClick={() => setShowFullText(true)}>
+                                                                                                                اقرأ المزيد
+                                                                                                            </button>
+                                                                                                        )}
+                                                                                                        {showFullText && (
+                                                                                                            <button className="text-yellow-500" onClick={() => setShowFullText(false)}>
+                                                                                                                إخفاء
+                                                                                                            </button>
+                                                                                                        )}
+                                                                                                    </td>
+                                                                                                </tr>
+
+                                                                                                <tr>
+                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                        طلب سيارة
+                                                                                                    </td>
+                                                                                                    <td className="px-2 py-2">{orderData.car_rent}</td>
+                                                                                                </tr>
+
+                                                                                            </tbody>
+                                                                                        </div>
+                                                                                        <div className="flex justify-start">
+                                                                                            <button onClick={handleCloseDetailsModal} type="button" className="btn mx-5">
+                                                                                                إلغاء
                                                                                             </button>
-                                                                                        )}
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        المبلغ
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">{order.price} دينار</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        طلب سيارة
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">{order.car_rent}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        رقم الطلب
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">{order.order_no}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        حالة الطلب
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">{order?.approved === false ? "not approved" : "approved"} </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                        <div className="text-center my-3">
-                                                                            {order?.approved === false && (
-                                                                                <button
-                                                                                    onClick={() => deleteUserOrder(order.id)}
-                                                                                    className="m-2 text-red-500 hover:scale-105 hover:text-black font-medium"
-                                                                                >
-                                                                                    حذف
-                                                                                </button>
-                                                                            )}
-                                                                            <button onClick={() => deleteUserOrder(order.id)} className=" m-2 text-yellow-500 hover:scale-105 hover:text-black font-medium" href="#">
-                                                                                دفع
-                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
                                                                         </div>
-                                                                    </div>
+                                                                    }
+
                                                                 </div>
                                                             </div>
-                                                        );
-                                                    })}
-                                                </div>
-
-
-
-
+                                                        </div>
+                                                    </div>
+                                                </>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                                         <div className="flex flex-wrap justify-center">
                                             <div className="w-full lg:w-9/12 px-4">
-                                                <div className='text-xl'>
-                                                    <h2>طلباتي السابقة</h2>
-                                                </div>
+                                                <div className="bg-white p-8 rounded-md w-full">
+                                                    <div className='text-xl mb-5 text-gray-600 font-semibold'>
+                                                        <h2>طلباتي السابقة</h2>
+                                                    </div>
+                                                    <div>
+                                                        <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                                                            <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                                                                <table className="min-w-full leading-normal">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100  text-xs font-semibold text-gray-600 uppercase tracking-wider ">
+                                                                                الخدمة
+                                                                            </th>
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                رقم الطلب
+                                                                            </th>
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                المبلغ
+                                                                            </th>
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                المزيد
+                                                                            </th>
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                حالة الطلب
+                                                                            </th>
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                الحالة
+                                                                            </th>
 
-                                                {/* component */}
-
-                                                <div className="flex flex-wrap mt-10 justify-center">
-                                                    {userDoneOrders.map((order) => {
-                                                        return (
-                                                            <div className="max-w-xs m-5 overflow-y-scroll h-52 border rounded-lg hover:scale-105" key={order.id}>
-                                                                <div className="bg-gray-100 shadow-xl rounded-lg py-3 hover:bg-gray-200">
-                                                                    <div className="p-2">
-                                                                        <h3 className="text-center text-xl text-gray-900 font-medium leading-8">
-                                                                            {order.service_name}{" "}
-                                                                            {order.choice_name}
-                                                                        </h3>
-                                                                        <table className="text-xs my-3">
+                                                                        </tr>
+                                                                    </thead>
+                                                                    {filteredUserDoneOrders.map((order) => {
+                                                                        return (
                                                                             <tbody>
                                                                                 <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        الموقع
+                                                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                                        <div className="flex items-center">
+
+                                                                                            <div className="ml-3">
+                                                                                                <p className=" w-48 text-gray-900 whitespace-no-wrap">
+                                                                                                    {order.service_name} {order.choice_name}
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </td>
-                                                                                    <td className="px-2 py-2">{order.location}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        رقم الهاتف
+                                                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                                        <p className="text-gray-900 whitespace-no-wrap">{order.order_no}</p>
                                                                                     </td>
-                                                                                    <td className="px-2 py-2">{order.phone}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        تاريخ طلب الخدمة
+                                                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                                        <p className="text-gray-900 whitespace-no-wrap">
+                                                                                            {order.price} JD
+                                                                                        </p>
                                                                                     </td>
-                                                                                    <td className="px-2 py-2">{formatDate(order.date)}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        تاريخ التنفيذ المطلوب
+                                                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                                        <button
+                                                                                            data-modal-target="authentication-modal"
+                                                                                            data-modal-toggle="authentication-modal"
+                                                                                            onClick={() => handleOpenDetailsModal(order)}
+                                                                                            className="border border-none">
+                                                                                            <p className="text-gray-900 whitespace-no-wrap">عرض التفاصيل</p>
+                                                                                        </button>
                                                                                     </td>
-                                                                                    <td className="px-2 py-2">{order.service_time}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        ملاحظات
+                                                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                                        <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                                                            <span
+                                                                                                aria-hidden=""
+                                                                                                className="absolute inset-0 bg-gray-300 opacity-50 rounded-full"
+                                                                                            />
+                                                                                            <span className="relative"
+                                                                                                style={{ color: order?.approved ? 'green' : 'red' }}>
+                                                                                                {order?.approved ? 'approved' : 'not approved'}
+                                                                                            </span>
+
+                                                                                        </span>
                                                                                     </td>
-                                                                                    <td className="px-2 py-2">
-                                                                                        {showFullText ? order.notes : shortenText(order.notes, 3)}
-                                                                                        {!showFullText && order.notes.split(' ').length > 3 && (
-                                                                                            <button className="text-green-500" onClick={() => setShowFullText(true)}>
-                                                                                                اقرأ المزيد
-                                                                                            </button>
-                                                                                        )}
-                                                                                        {showFullText && (
-                                                                                            <button className="text-yellow-500" onClick={() => setShowFullText(false)}>
-                                                                                                إخفاء
-                                                                                            </button>
-                                                                                        )}
+                                                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                                        <a href="">
+                                                                                            <p className="text-green-500 whitespace-no-wrap">
+                                                                                                عرض الفاتورة
+                                                                                            </p>
+                                                                                        </a>
                                                                                     </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        المبلغ
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">{order.price} دينار </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        طلب سيارة
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">{order.car_rent}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                        رقم الطلب
-                                                                                    </td>
-                                                                                    <td className="px-2 py-2">{order.order_no}</td>
                                                                                 </tr>
                                                                             </tbody>
-                                                                        </table>
+                                                                        )
+                                                                    })}
+                                                                </table>
+
+                                                                {isDetailsModalOpen &&
+                                                                    <div className="fixed inset-0 flex items-center justify-center z-50">
+                                                                        <form method="dialog" className="modal-box">
+                                                                            <h3 className="font-bold text-lg">Hello!</h3>
+                                                                            <div className="modal-action flex justify-center">
+                                                                                <div className="flex flex-col items-center gap-6">
+                                                                                    <div>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                    الموقع
+                                                                                                </td>
+                                                                                                <a href="">
+                                                                                                    <td className="px-2 py-2">{orderData?.location}</td>
+                                                                                                </a>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                    رقم الهاتف
+                                                                                                </td>
+                                                                                                <td className="px-2 py-2">{orderData?.phone}</td>
+                                                                                                {/* {orderData?.phone} */}
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                    تاريخ طلب الخدمة
+                                                                                                </td>
+                                                                                                <td className="px-2 py-2">{formatDate(orderData.date)}</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                    تاريخ التنفيذ المطلوب
+                                                                                                </td>
+                                                                                                <td className="px-2 py-2">{orderData.service_time}</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                    ملاحظات
+                                                                                                </td>
+                                                                                                <td className="px-2 py-2">
+                                                                                                    {showFullText ? orderData.notes : shortenText(orderData.notes, 3)}
+                                                                                                    {!showFullText && orderData.notes.split(' ').length > 3 && (
+                                                                                                        <button className="text-green-500" onClick={() => setShowFullText(true)}>
+                                                                                                            اقرأ المزيد
+                                                                                                        </button>
+                                                                                                    )}
+                                                                                                    {showFullText && (
+                                                                                                        <button className="text-yellow-500" onClick={() => setShowFullText(false)}>
+                                                                                                            إخفاء
+                                                                                                        </button>
+                                                                                                    )}
+                                                                                                </td>
+                                                                                            </tr>
+
+                                                                                            <tr>
+                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                                                    طلب سيارة
+                                                                                                </td>
+                                                                                                <td className="px-2 py-2">{orderData.car_rent}</td>
+                                                                                            </tr>
+
+                                                                                        </tbody>
+                                                                                    </div>
+                                                                                    <div className="flex justify-start">
+                                                                                        <button onClick={handleCloseDetailsModal} type="button" className="btn mx-5">
+                                                                                            إلغاء
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
                                                                     </div>
-                                                                </div>
+                                                                }
+
                                                             </div>
-                                                        );
-                                                    })}
+                                                        </div>
+                                                    </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-
                         <footer className="relative bg-blueGray-200 pt-8 pb-6 mt-8">
                             <div className="container mx-auto px-4">
                                 <div className="flex flex-wrap items-center md:justify-between justify-center">

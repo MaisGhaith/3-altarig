@@ -20,6 +20,8 @@ const ProfileFunctions = () => {
             try {
                 const response = await axios.get(`http://localhost:5151/getUser/${id1}`);
                 setUser(response.data[0]);
+                setNameUser(response.data[0].user_name)
+                setPhone(response.data[0].phone_number)
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
