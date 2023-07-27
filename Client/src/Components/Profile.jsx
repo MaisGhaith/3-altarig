@@ -4,175 +4,38 @@ import jwt_decode from 'jwt-decode';
 import App from "../App";
 // import useProfileFunctions from "./ProfileFunctions";
 import useProfileFunctions from './ProfileFunctions'
-
-const Profile = () => {
-
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [password, setPassword] = useState("");
-    const [nameError, setNameError] = useState(false);
-    const [emailError, setEmailError] = useState(false);
-    const [phoneNumberError, setPhoneNumberError] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);
-    const [modal, setModal] = useState(false);
-    const [deleted, setDeleted] = useState(false);
-
-    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false); // State to control the modal display
-    const [orderData, setOrderData] = useState(null);
-    // Function to handle opening the modal
-    const handleOpenDetailsModal = (id) => {
-        console.log('Opening the modal...');
-        console.log(id)
-        setIsDetailsModalOpen(true);
-        setOrderData(id);
-    };
-
-    const handleCloseDetailsModal = () => {
-        setIsDetailsModalOpen(false)
-    }
-
-    const validateForm = () => {
-        let isValid = true;
-
-        if (!validateName()) {
-            setNameError(true);
-            isValid = false;
-        }
-
-        if (!validateEmail()) {
-            setEmailError(true);
-            isValid = false;
-        }
-
-        if (!validatePhoneNumber()) {
-            setPhoneNumberError(true);
-            isValid = false;
-        }
-
-        if (!validatePassword()) {
-            setPasswordError(true);
-            isValid = false;
-        }
-
-        return isValid;
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (validateForm()) {
-            // Form is valid, perform submit action
-            console.log("Form submitted");
-        }
-    };
-
-    const handleOpenModal = () => {
-        setModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setModal(false);
-        console.log("Modal closed");
-    };
+import Clipboard from 'clipboard';
 
 
-    const validateName = () => {
-        const namePattern = /^[\u0600-\u06FF\sA-Za-z]{6,20}$/;
-        return namePattern.test(name);
-    };
-
-    const validateEmail = () => {
-        const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-        return emailPattern.test(email);
-    };
-
-    const validatePhoneNumber = () => {
-        const phoneNumberPattern = /^07[789]\d{7}$/;
-        return phoneNumberPattern.test(phoneNumber);
-    };
-
-    const validatePassword = () => {
-        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{6,20}$/;
-        return passwordPattern.test(password);
-    };
-
-    const handleNameChange = (e) => {
-        setName(e.target.value);
-        setNameError(false);
-    };
-
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-        setEmailError(false);
-    };
-
-    const handlePhoneNumberChange = (e) => {
-        setPhoneNumber(e.target.value);
-        setPhoneNumberError(false);
-    };
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        setPasswordError(false);
-    };
+const Profile = ({ orders }) => {
 
     const {
         handleEditSubmit,
         setNameUser,
         setPhone,
-        setUserEmail,
         user_name,
         phone_number,
-        setUser,
         user,
-        user_email,
-        getUserOrder,
-        userOrders,
-        userDoneOrders,
-        deleteUserOrder
+        deleteUserOrder,
+        handleCopy,
+        showAlert,
+        showFullText,
+        setShowFullText,
+        shortenText,
+        isDetailsModalOpen,
+        orderData,
+        handleOpenDetailsModal,
+        handleCloseDetailsModal,
+        modal,
+        handleOpenModal,
+        handleCloseModal,
+        formatDate,
+        handleSearch,
+        filteredUserDoneOrders,
+        filteredUserOrders,
+        nameError,
+        phoneNumberError
     } = useProfileFunctions();
-
-
-    const [showFullText, setShowFullText] = useState(false);
-
-    function shortenText(text, wordsCount) {
-        const words = text.split(' ');
-        const shortenedText = words.slice(0, wordsCount).join(' ');
-        return shortenedText;
-    }
-
-
-
-    function formatDate(dateString) {
-        const dateObject = new Date(dateString);
-        const formattedDate = dateObject.toISOString().split('T')[0];
-        return formattedDate;
-    }
-
-
-    const [searchQuery, setSearchQuery] = useState('');
-
-    // Function to handle search input change
-    const handleSearch = (e) => {
-        setSearchQuery(e.target.value);
-    };
-
-
-    // Filter the orders based on the search query for both userOrders and userDoneOrders
-    const filteredUserOrders = userOrders.filter((order) =>
-        order.service_name.includes(searchQuery) ||
-        order.choice_name.includes(searchQuery) ||
-        order.order_no.includes(searchQuery)
-    );
-
-    const filteredUserDoneOrders = userDoneOrders.filter((order) =>
-        order.service_name.includes(searchQuery) ||
-        order.choice_name.includes(searchQuery) ||
-        order.order_no.includes(searchQuery)
-    );
-
-
 
     return (
         <div>
@@ -304,7 +167,7 @@ const Profile = () => {
                                                                 {/* <span className="text-xs"> All products item</span> */}
                                                             </div>
                                                             <div className="flex items-center justify-between">
-                                                                <div className="flex bg-gray-50 items-center p-2 rounded-md">
+                                                                {/* <div className="flex bg-gray-50 items-center p-2 rounded-md">
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg"
                                                                         className="h-5 w-5 text-gray-400"
@@ -325,10 +188,52 @@ const Profile = () => {
                                                                         placeholder="search..."
                                                                         onChange={handleSearch}
                                                                     />
+                                                                </div> */}
+                                                                <div className="pt-2 relative mx-auto text-gray-600">
+
+                                                                    <button type="submit" className="absolute right-32 top-0 mt-5 mr-4 pl-6">
+                                                                        <svg
+                                                                            className="text-gray-600 h-4 w-4 fill-current"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            xmlnsXlink="http://www.w3.org/1999/xlink"
+                                                                            version="1.1"
+                                                                            id="Capa_1"
+                                                                            x="0px"
+                                                                            y="0px"
+                                                                            viewBox="0 0 56.966 56.966"
+                                                                            style={{ enableBackground: "new 0 0 56.966 56.966" }}
+                                                                            xmlSpace="preserve"
+                                                                            width="512px"
+                                                                            height="512px"
+                                                                        >
+                                                                            <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                                                                        </svg>
+                                                                    </button>
+                                                                    <input
+                                                                        className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                                                                        type="search"
+                                                                        name="search"
+                                                                        placeholder="Search"
+                                                                        onChange={handleSearch}
+                                                                    />
                                                                 </div>
 
                                                             </div>
+                                                            <>
+                                                                {/* component */}
+                                                                {/* This is an example component */}
+
+                                                            </>
+
                                                         </div>
+                                                        {showAlert && (
+                                                            <div
+                                                                className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                                                                role="alert"
+                                                            >
+                                                                <span className="font-medium">Success alert!</span> Text has been copied successfully.
+                                                            </div>
+                                                        )}
                                                         <div>
                                                             <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                                                                 <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -356,6 +261,7 @@ const Profile = () => {
 
                                                                             </tr>
                                                                         </thead>
+
                                                                         {filteredUserOrders.map((order) => {
                                                                             return (
                                                                                 <tbody>
@@ -370,7 +276,11 @@ const Profile = () => {
                                                                                                 </div>
                                                                                             </div>
                                                                                         </td>
-                                                                                        <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
+                                                                                        <td
+                                                                                            onClick={() => handleCopy(order.order_no)}
+                                                                                            style={{ cursor: 'copy' }}
+                                                                                            className="px-2 py-2 border-b border-gray-200 bg-white text-sm"
+                                                                                        >
                                                                                             <p className="text-gray-900 whitespace-no-wrap">{order.order_no}</p>
                                                                                         </td>
                                                                                         <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
@@ -421,81 +331,6 @@ const Profile = () => {
                                                                             )
                                                                         })}
                                                                     </table>
-
-                                                                    {isDetailsModalOpen &&
-                                                                        <div className="fixed inset-0 flex items-center justify-center z-50">
-                                                                            <form method="dialog" className="modal-box">
-                                                                                <h3 className="font-bold text-lg">Hello!</h3>
-                                                                                <div className="modal-action flex justify-center">
-                                                                                    <div className="flex flex-col items-center gap-6">
-                                                                                        <div>
-                                                                                            <tbody>
-                                                                                                <tr>
-                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                        الموقع
-                                                                                                    </td>
-                                                                                                    <a href="">
-                                                                                                        <td className="px-2 py-2">{orderData?.location}</td>
-                                                                                                    </a>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                        رقم الهاتف
-                                                                                                    </td>
-                                                                                                    <td className="px-2 py-2">{orderData?.phone}</td>
-                                                                                                    {/* {orderData?.phone} */}
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                        تاريخ طلب الخدمة
-                                                                                                    </td>
-                                                                                                    <td className="px-2 py-2">{formatDate(orderData.date)}</td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                        تاريخ التنفيذ المطلوب
-                                                                                                    </td>
-                                                                                                    <td className="px-2 py-2">{orderData.service_time}</td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                        ملاحظات
-                                                                                                    </td>
-                                                                                                    <td className="px-2 py-2">
-                                                                                                        {showFullText ? orderData.notes : shortenText(orderData.notes, 3)}
-                                                                                                        {!showFullText && orderData.notes.split(' ').length > 3 && (
-                                                                                                            <button className="text-green-500" onClick={() => setShowFullText(true)}>
-                                                                                                                اقرأ المزيد
-                                                                                                            </button>
-                                                                                                        )}
-                                                                                                        {showFullText && (
-                                                                                                            <button className="text-yellow-500" onClick={() => setShowFullText(false)}>
-                                                                                                                إخفاء
-                                                                                                            </button>
-                                                                                                        )}
-                                                                                                    </td>
-                                                                                                </tr>
-
-                                                                                                <tr>
-                                                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                        طلب سيارة
-                                                                                                    </td>
-                                                                                                    <td className="px-2 py-2">{orderData.car_rent}</td>
-                                                                                                </tr>
-
-                                                                                            </tbody>
-                                                                                        </div>
-                                                                                        <div className="flex justify-start">
-                                                                                            <button onClick={handleCloseDetailsModal} type="button" className="btn mx-5">
-                                                                                                إلغاء
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                    }
-
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -552,7 +387,8 @@ const Profile = () => {
                                                                                             </div>
                                                                                         </div>
                                                                                     </td>
-                                                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                                    <td onClick={() => handleCopy(order.order_no)}
+                                                                                        style={{ cursor: 'copy' }} className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                                                         <p className="text-gray-900 whitespace-no-wrap">{order.order_no}</p>
                                                                                     </td>
                                                                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -668,12 +504,10 @@ const Profile = () => {
                                                                         </form>
                                                                     </div>
                                                                 }
-
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -711,8 +545,6 @@ const Profile = () => {
                     </section>
                 </main >
             </>
-
-
         </div >
     )
 }

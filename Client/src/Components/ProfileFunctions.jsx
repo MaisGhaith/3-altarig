@@ -35,7 +35,6 @@ const ProfileFunctions = () => {
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-        console.log(user_name)
         try {
             const response = await axios.put(`http://localhost:5151/edit/editUser/${id}`, {
                 user_name: user_name,
@@ -106,20 +105,217 @@ const ProfileFunctions = () => {
     }
 
 
+    // ! copy text function
+    const [showAlert, setShowAlert] = useState(false);
+    const handleCopy = (textToCopy) => {
+        try {
+            // Create a temporary textarea element and set its value to the text to copy
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = textToCopy;
+
+            // Append the textarea to the document
+            document.body.appendChild(tempTextarea);
+
+            // Select the text inside the textarea
+            tempTextarea.select();
+
+            // Use the Clipboard API to copy the selected text to the clipboard
+            document.execCommand('copy');
+
+            // Remove the temporary textarea from the document
+            document.body.removeChild(tempTextarea);
+
+            setShowAlert(true);
+
+            // Hide the success alert after a few seconds (e.g., 3 seconds)
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000); // 3000 milliseconds = 3 seconds
+            console.log('تم النسخ بنجاح:', textToCopy);
+        } catch (error) {
+            console.log('فشل النسخ:', error);
+        }
+    };
+
+    // ! show full text function
+    const [showFullText, setShowFullText] = useState(false);
+
+    function shortenText(text, wordsCount) {
+        const words = text.split(' ');
+        const shortenedText = words.slice(0, wordsCount).join(' ');
+        return shortenedText;
+    }
+
+    // ! open Data modal 
+    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false); // State to control the modal display
+    const [orderData, setOrderData] = useState(null);
+    const handleOpenDetailsModal = (id) => {
+        console.log('Opening the modal...');
+        console.log(id)
+        setIsDetailsModalOpen(true);
+        setOrderData(id);
+    };
+
+    const handleCloseDetailsModal = () => {
+        setIsDetailsModalOpen(false)
+    }
+
+
+    // ! edit profile modal 
+    const [modal, setModal] = useState(false);
+    const handleOpenModal = () => {
+        setModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setModal(false);
+    };
+
+    // ! form Date shape function
+    function formatDate(dateString) {
+        const dateObject = new Date(dateString);
+        const formattedDate = dateObject.toISOString().split('T')[0];
+        return formattedDate;
+    }
+
+
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Function to handle search input change
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
+    // Filter the orders based on the search query for both userOrders and userDoneOrders
+    const filteredUserOrders = userOrders.filter((order) =>
+        order.service_name.includes(searchQuery) ||
+        order.choice_name.includes(searchQuery) ||
+        order.order_no.includes(searchQuery)
+    );
+
+    const filteredUserDoneOrders = userDoneOrders.filter((order) =>
+        order.service_name.includes(searchQuery) ||
+        order.choice_name.includes(searchQuery) ||
+        order.order_no.includes(searchQuery)
+    );
+
+
+    // ! validation functions 
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [password, setPassword] = useState("");
+    const [nameError, setNameError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+    const [phoneNumberError, setPhoneNumberError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+
+    const validateForm = () => {
+        let isValid = true;
+
+        if (!validateName()) {
+            setNameError(true);
+            isValid = false;
+        }
+
+        if (!validateEmail()) {
+            setEmailError(true);
+            isValid = false;
+        }
+
+        if (!validatePhoneNumber()) {
+            setPhoneNumberError(true);
+            isValid = false;
+        }
+
+        if (!validatePassword()) {
+            setPasswordError(true);
+            isValid = false;
+        }
+
+        return isValid;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (validateForm()) {
+            // Form is valid, perform submit action
+            console.log("Form submitted");
+        }
+    };
+
+
+
+
+    const validateName = () => {
+        const namePattern = /^[\u0600-\u06FF\sA-Za-z]{6,20}$/;
+        return namePattern.test(name);
+    };
+
+    const validateEmail = () => {
+        const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        return emailPattern.test(email);
+    };
+
+    const validatePhoneNumber = () => {
+        const phoneNumberPattern = /^07[789]\d{7}$/;
+        return phoneNumberPattern.test(phoneNumber);
+    };
+
+    const validatePassword = () => {
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{6,20}$/;
+        return passwordPattern.test(password);
+    };
+
+    const handleNameChange = (e) => {
+        setName(e.target.value);
+        setNameError(false);
+    };
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+        setEmailError(false);
+    };
+
+    const handlePhoneNumberChange = (e) => {
+        setPhoneNumber(e.target.value);
+        setPhoneNumberError(false);
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        setPasswordError(false);
+    };
+
+
     return {
         handleEditSubmit,
         setNameUser,
         setPhone,
-        setUserEmail,
         user_name,
         phone_number,
-        setUser,
         user,
-        user_email,
-        getUserOrder,
-        userOrders,
-        userDoneOrders,
-        deleteUserOrder
+        deleteUserOrder,
+        handleCopy,
+        showAlert,
+        showFullText,
+        setShowFullText,
+        shortenText,
+        isDetailsModalOpen,
+        orderData,
+        handleOpenDetailsModal,
+        handleCloseDetailsModal,
+        modal,
+        handleOpenModal,
+        handleCloseModal,
+        formatDate,
+        handleSearch,
+        filteredUserDoneOrders,
+        filteredUserOrders,
+        nameError,
+        phoneNumberError
     };
 };
 
