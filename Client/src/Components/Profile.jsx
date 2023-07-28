@@ -4,10 +4,10 @@ import jwt_decode from 'jwt-decode';
 import App from "../App";
 // import useProfileFunctions from "./ProfileFunctions";
 import useProfileFunctions from './ProfileFunctions'
-import Clipboard from 'clipboard';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-
-const Profile = ({ orders }) => {
+const Profile = () => {
 
     const {
         handleEditSubmit,
@@ -36,6 +36,13 @@ const Profile = ({ orders }) => {
         nameError,
         phoneNumberError
     } = useProfileFunctions();
+
+    useEffect(() => {
+        AOS.init({
+            // Add any options you want to customize the animation behavior
+            // For example, you can set the duration, offset, etc.
+        });
+    }, []);
 
     return (
         <div>
@@ -106,7 +113,7 @@ const Profile = ({ orders }) => {
                                                                 <input
                                                                     value={user_name}
                                                                     onChange={(e) => setNameUser(e.target.value)}
-                                                                    className={`block mb-2 text-sm font-medium ${nameError
+                                                                    className={` input input-bordered input-accent w-full max-w-xs hover:bg-gray-100 block mb-2 text-sm font-medium ${nameError
                                                                         ? 'border-red-500'
                                                                         : 'border-slate-900 text-gray-900 dark:text-white'
                                                                         }`}
@@ -115,7 +122,7 @@ const Profile = ({ orders }) => {
                                                                 <input
                                                                     value={phone_number}
                                                                     onChange={(e) => setPhone(e.target.value)}
-                                                                    className={`block mb-2 text-sm font-medium ${phoneNumberError
+                                                                    className={`input input-bordered input-accent w-full max-w-xs hover:bg-gray-100 block mb-2 text-sm font-medium ${phoneNumberError
                                                                         ? 'border-red-500'
                                                                         : 'border-slate-900 text-gray-900 dark:text-white'
                                                                         }`}
@@ -126,7 +133,7 @@ const Profile = ({ orders }) => {
                                                                 <button
                                                                     onClick={handleEditSubmit}
                                                                     type="submit"
-                                                                    className="btn mx-5 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                                                                    className="btn glass mx-5 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                                                                 >
                                                                     تأكيد
                                                                 </button>
@@ -159,36 +166,15 @@ const Profile = ({ orders }) => {
                                         <div className="flex flex-wrap justify-center">
                                             <div className="w-full lg:w-9/12 px-4">
                                                 <>
-                                                    {/* component */}
                                                     <div className="bg-white p-8 rounded-md w-full">
                                                         <div className=" flex items-center justify-between pb-6">
                                                             <div>
                                                                 <h2 className="text-xl text-gray-600 font-semibold">طلباتي الحالية</h2>
-                                                                {/* <span className="text-xs"> All products item</span> */}
                                                             </div>
-                                                            <div className="flex items-center justify-between">
-                                                                {/* <div className="flex bg-gray-50 items-center p-2 rounded-md">
-                                                                    <svg
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        className="h-5 w-5 text-gray-400"
-                                                                        viewBox="0 0 20 20"
-                                                                        fill="currentColor"
-                                                                    >
-                                                                        <path
-                                                                            fillRule="evenodd"
-                                                                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                                                            clipRule="evenodd"
-                                                                        />
-                                                                    </svg>
-                                                                    <input
-                                                                        className="bg-gray-50 outline-none ml-1 block "
-                                                                        type="text"
-                                                                        name=""
-                                                                        id=""
-                                                                        placeholder="search..."
-                                                                        onChange={handleSearch}
-                                                                    />
-                                                                </div> */}
+                                                            <div data-aos="fade-zoom-in"
+                                                                data-aos-easing="ease-in-back"
+                                                                data-aos-delay="300"
+                                                                data-aos-offset="0" className="flex items-center justify-between">
                                                                 <div className="pt-2 relative mx-auto text-gray-600">
 
                                                                     <button type="submit" className="absolute right-32 top-0 mt-5 mr-4 pl-6">
@@ -210,30 +196,25 @@ const Profile = ({ orders }) => {
                                                                         </svg>
                                                                     </button>
                                                                     <input
-                                                                        className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                                                                        className="border-2 border-green-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
                                                                         type="search"
                                                                         name="search"
                                                                         placeholder="Search"
-                                                                        onChange={handleSearch}
-                                                                    />
+                                                                        onChange={handleSearch} />
                                                                 </div>
-
                                                             </div>
-                                                            <>
-                                                                {/* component */}
-                                                                {/* This is an example component */}
-
-                                                            </>
-
                                                         </div>
-                                                        {showAlert && (
-                                                            <div
-                                                                className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-                                                                role="alert"
-                                                            >
-                                                                <span className="font-medium">Success alert!</span> Text has been copied successfully.
+                                                        <div className="flex justify-center items-end h-full">
+                                                            <div className="alert-container fixed bottom-4 w-1/6 z-50">
+                                                                {showAlert && (
+                                                                    <div
+                                                                        className="p-4 text-sm text-green-900 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400"
+                                                                        role="alert">
+                                                                        تم النسخ بنجاح
+                                                                    </div>
+                                                                )}
                                                             </div>
-                                                        )}
+                                                        </div>
                                                         <div>
                                                             <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                                                                 <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -258,7 +239,6 @@ const Profile = ({ orders }) => {
                                                                                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                                                     الحالة
                                                                                 </th>
-
                                                                             </tr>
                                                                         </thead>
 
@@ -268,7 +248,6 @@ const Profile = ({ orders }) => {
                                                                                     <tr>
                                                                                         <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
                                                                                             <div className="flex items-center">
-
                                                                                                 <div className="ml-3">
                                                                                                     <p className=" w-48 text-gray-900 whitespace-no-wrap">
                                                                                                         {order.service_name} {order.choice_name}
@@ -279,8 +258,7 @@ const Profile = ({ orders }) => {
                                                                                         <td
                                                                                             onClick={() => handleCopy(order.order_no)}
                                                                                             style={{ cursor: 'copy' }}
-                                                                                            className="px-2 py-2 border-b border-gray-200 bg-white text-sm"
-                                                                                        >
+                                                                                            className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
                                                                                             <p className="text-gray-900 whitespace-no-wrap">{order.order_no}</p>
                                                                                         </td>
                                                                                         <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
@@ -300,14 +278,11 @@ const Profile = ({ orders }) => {
                                                                                         <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
                                                                                             <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                                                                                 <span
-                                                                                                    aria-hidden=""
-                                                                                                    className="absolute inset-0 bg-gray-300 opacity-50 rounded-full"
-                                                                                                />
+                                                                                                    aria-hidden="" className="absolute inset-0 bg-gray-300 opacity-50 rounded-full" />
                                                                                                 <span className="relative"
                                                                                                     style={{ color: order?.approved ? 'green' : 'red' }}>
                                                                                                     {order?.approved ? 'approved' : 'not approved'}
                                                                                                 </span>
-
                                                                                             </span>
                                                                                         </td>
                                                                                         <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
@@ -315,12 +290,16 @@ const Profile = ({ orders }) => {
                                                                                                 {order?.approved === false ? (
                                                                                                     <button
                                                                                                         onClick={() => deleteUserOrder(order.id)}
-                                                                                                        className="m-2 text-red-500 hover:scale-105 hover:text-black font-medium"
-                                                                                                    >
+                                                                                                        className="m-2 text-red-500 hover:scale-105 hover:text-black font-medium">
                                                                                                         حذف
                                                                                                     </button>
                                                                                                 ) : (
-                                                                                                    <button onClick={() => deleteUserOrder(order.id)} className=" m-2 text-yellow-500 hover:scale-105 hover:text-black font-medium" href="#">
+                                                                                                    <button
+                                                                                                        className={`m-2 text-yellow-500 hover:scale-105 hover:text-black font-medium 
+                                                                                                        ${order?.price === '0' ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                                                                                                            }`}
+                                                                                                        disabled={order?.price === '0'}
+                                                                                                    >
                                                                                                         دفع
                                                                                                     </button>
                                                                                                 )}
@@ -339,7 +318,9 @@ const Profile = ({ orders }) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
+                                    <div data-aos="fade-down"
+                                        data-aos-easing="linear"
+                                        data-aos-duration="1500" className="mt-10 py-10 border-t border-blueGray-200 text-center">
                                         <div className="flex flex-wrap justify-center">
                                             <div className="w-full lg:w-9/12 px-4">
                                                 <div className="bg-white p-8 rounded-md w-full">
@@ -370,7 +351,6 @@ const Profile = ({ orders }) => {
                                                                             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                                                 الحالة
                                                                             </th>
-
                                                                         </tr>
                                                                     </thead>
                                                                     {filteredUserDoneOrders.map((order) => {
@@ -409,13 +389,11 @@ const Profile = ({ orders }) => {
                                                                                         <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                                                                             <span
                                                                                                 aria-hidden=""
-                                                                                                className="absolute inset-0 bg-gray-300 opacity-50 rounded-full"
-                                                                                            />
+                                                                                                className="absolute inset-0 bg-gray-300 opacity-50 rounded-full" />
                                                                                             <span className="relative"
                                                                                                 style={{ color: order?.approved ? 'green' : 'red' }}>
                                                                                                 {order?.approved ? 'approved' : 'not approved'}
                                                                                             </span>
-
                                                                                         </span>
                                                                                     </td>
                                                                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -431,79 +409,6 @@ const Profile = ({ orders }) => {
                                                                     })}
                                                                 </table>
 
-                                                                {isDetailsModalOpen &&
-                                                                    <div className="fixed inset-0 flex items-center justify-center z-50">
-                                                                        <form method="dialog" className="modal-box">
-                                                                            <h3 className="font-bold text-lg">Hello!</h3>
-                                                                            <div className="modal-action flex justify-center">
-                                                                                <div className="flex flex-col items-center gap-6">
-                                                                                    <div>
-                                                                                        <tbody>
-                                                                                            <tr>
-                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                    الموقع
-                                                                                                </td>
-                                                                                                <a href="">
-                                                                                                    <td className="px-2 py-2">{orderData?.location}</td>
-                                                                                                </a>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                    رقم الهاتف
-                                                                                                </td>
-                                                                                                <td className="px-2 py-2">{orderData?.phone}</td>
-                                                                                                {/* {orderData?.phone} */}
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                    تاريخ طلب الخدمة
-                                                                                                </td>
-                                                                                                <td className="px-2 py-2">{formatDate(orderData.date)}</td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                    تاريخ التنفيذ المطلوب
-                                                                                                </td>
-                                                                                                <td className="px-2 py-2">{orderData.service_time}</td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                    ملاحظات
-                                                                                                </td>
-                                                                                                <td className="px-2 py-2">
-                                                                                                    {showFullText ? orderData.notes : shortenText(orderData.notes, 3)}
-                                                                                                    {!showFullText && orderData.notes.split(' ').length > 3 && (
-                                                                                                        <button className="text-green-500" onClick={() => setShowFullText(true)}>
-                                                                                                            اقرأ المزيد
-                                                                                                        </button>
-                                                                                                    )}
-                                                                                                    {showFullText && (
-                                                                                                        <button className="text-yellow-500" onClick={() => setShowFullText(false)}>
-                                                                                                            إخفاء
-                                                                                                        </button>
-                                                                                                    )}
-                                                                                                </td>
-                                                                                            </tr>
-
-                                                                                            <tr>
-                                                                                                <td className="px-2 py-2 text-gray-500 font-semibold">
-                                                                                                    طلب سيارة
-                                                                                                </td>
-                                                                                                <td className="px-2 py-2">{orderData.car_rent}</td>
-                                                                                            </tr>
-
-                                                                                        </tbody>
-                                                                                    </div>
-                                                                                    <div className="flex justify-start">
-                                                                                        <button onClick={handleCloseDetailsModal} type="button" className="btn mx-5">
-                                                                                            إلغاء
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </form>
-                                                                    </div>
-                                                                }
                                                             </div>
                                                         </div>
                                                     </div>
@@ -511,6 +416,77 @@ const Profile = ({ orders }) => {
                                             </div>
                                         </div>
                                     </div>
+                                    {isDetailsModalOpen &&
+                                        <div className="fixed inset-0 flex items-center justify-center z-50">
+                                            <form method="dialog" className="modal-box">
+                                                <h3 className="font-bold text-lg">Hello!</h3>
+                                                <div className="modal-action flex justify-center">
+                                                    <div className="flex flex-col items-center gap-6">
+                                                        <div>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                        الموقع
+                                                                    </td>
+                                                                    <a href={orderData?.location} target="_blank">
+                                                                        <td className="px-2 py-2">{orderData?.location}</td>
+                                                                    </a>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                        رقم الهاتف
+                                                                    </td>
+                                                                    <td className="px-2 py-2">{orderData?.phone}</td>
+                                                                    {/* {orderData?.phone} */}
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                        تاريخ طلب الخدمة
+                                                                    </td>
+                                                                    <td className="px-2 py-2">{formatDate(orderData.date)}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                        تاريخ التنفيذ المطلوب
+                                                                    </td>
+                                                                    <td className="px-2 py-2">{orderData.service_time}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                        ملاحظات
+                                                                    </td>
+                                                                    <td className="px-2 py-2">
+                                                                        {showFullText ? orderData.notes : shortenText(orderData.notes, 3)}
+                                                                        {!showFullText && orderData.notes.split(' ').length > 3 && (
+                                                                            <button className="text-green-500" onClick={() => setShowFullText(true)}>
+                                                                                اقرأ المزيد
+                                                                            </button>
+                                                                        )}
+                                                                        {showFullText && (
+                                                                            <button className="text-yellow-500" onClick={() => setShowFullText(false)}>
+                                                                                إخفاء
+                                                                            </button>
+                                                                        )}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className="px-2 py-2 text-gray-500 font-semibold">
+                                                                        طلب سيارة
+                                                                    </td>
+                                                                    <td className="px-2 py-2">{orderData.car_rent}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </div>
+                                                        <div className="flex justify-start">
+                                                            <button onClick={handleCloseDetailsModal} type="button" className="btn mx-5">
+                                                                إلغاء
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -548,5 +524,4 @@ const Profile = ({ orders }) => {
         </div >
     )
 }
-
 export default Profile

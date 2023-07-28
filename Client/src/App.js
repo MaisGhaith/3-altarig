@@ -9,35 +9,36 @@ import Confirm from './Components/Confirm';
 import Profile from './Components/Profile';
 import Landing from './Components/Landing';
 import jwt_decode from 'jwt-decode';
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useState, useReducer, useContext } from 'react';
 import ProfileFunctions from './Components/ProfileFunctions';
 import NotFound from './Components/NotFound';
-// import Map from './Components/Map';
+import { UserContext } from './Context/UserContext';
+
 function App({ userName }) {
+  const { userId, role } = useContext(UserContext);
+
 
   // const navigate = useNavigate();
 
-  const [id, setId] = useState("");
-  const [role, setRole] = useState("guest")
-  // const [userType, setUserType] = useState("guest");
-  // const [reducer, forceUpdate] = useReducer((x) => x + 1, 0);
+  // const [id, setId] = useState("");
+  // const [role, setRole] = useState("guest")
 
-  useEffect(() => {
-    const getUserNameFromToken = () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        const decodedToken = jwt_decode(token);
-        const id1 = decodedToken.user_id;
-        const role = decodedToken.role;
-        setId(id1);
-        setRole(role);
+  // useEffect(() => {
+  //   const getUserNameFromToken = () => {
+  //     const token = localStorage.getItem("token");
+  //     if (token) {
+  //       const decodedToken = jwt_decode(token);
+  //       const id1 = decodedToken.user_id;
+  //       const role = decodedToken.role;
+  //       setId(id1);
+  //       setRole(role);
 
-        // console.log(id1, role);
-      }
-    };
+  //       // console.log(id1, role);
+  //     }
+  //   };
 
-    getUserNameFromToken();
-  }, []);
+  //   getUserNameFromToken();
+  // }, []);
 
 
 

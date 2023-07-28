@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import '../../src/App.css'
 // import { useNavigate, Link, useHistory } from 'react-router-dom'
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from '../Context/UserContext';
 
 export default () => {
-
+    const { userId, userName, setUserName } = useContext(UserContext);
 
 
     const [state, setState] = useState(false)
@@ -52,20 +53,13 @@ export default () => {
         navigate(`/${path}`)
     }
 
-    const [userName, setUserName] = useState("");
-    const [id, setId] = useState("");
 
     useEffect(() => {
         const getUserNameFromToken = async () => {
             const token = localStorage.getItem("token");
             if (token) {
-                const decodedToken = jwt_decode(token);
-                const id1 = decodedToken.user_id;
-                setId(id1);
-
                 try {
-                    const response = await axios.get(`http://localhost:5151/getUser/${id1}`);
-                    setUserName(response.data[0].user_name);
+                    await axios.get(`http://localhost:5151/getUser/${userId}`);
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                 }
@@ -93,14 +87,7 @@ export default () => {
         try {
             const token = localStorage.getItem("token");
             if (token) {
-                const decodedToken = jwt_decode(token);
-                const id1 = decodedToken.user_id;
-                setId(id1);
-
-                const response = await axios.get(`http://localhost:5151/getUser/${id1}`);
-                setUserName(response.data[0].user_name);
-                console.log(response.data);
-                console.log(id1);
+                await axios.get(`http://localhost:5151/getUser/${userId}`);
             }
         } catch (error) {
             console.error("Error fetching user data:", error);
@@ -116,7 +103,7 @@ export default () => {
         setIsLoggedOut(true);
 
         // Redirect to Landing page
-        navigate('/');
+        navigate('/Landing');
     };
 
     return (
@@ -126,8 +113,8 @@ export default () => {
                 id="stickyNav"
                 className={`absolute top-0 z-10 left-0 right-0 md:text-sm ${state ? "shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0" : ""
                     }`}
-                style={{ backgroundColor: "rgba(0, 0, 0, 0.422)" }}
-            >            <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8">
+                style={{ backgroundColor: "rgba(0, 0, 0, 0.422)" }}>
+                <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8">
                     <div className="flex items-center justify-between py-2 md:block">
                         <a href="javascript:void(0)">
                             <img

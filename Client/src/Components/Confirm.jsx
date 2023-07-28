@@ -1,13 +1,15 @@
 import { useLocation } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { GoogleMap, useLoadScript, Autocomplete, Marker } from "@react-google-maps/api";
 import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import jwt_decode from 'jwt-decode';
 import Map from './Map';
 import axios from 'axios';
-
+import { UserContext } from '../Context/UserContext';
 
 const Confirm = (props) => {
+    // ! get the userId from userContext
+    const { userId } = useContext(UserContext);
 
     const [img, setImg] = useState("");
     const location = useLocation();
@@ -45,21 +47,6 @@ const Confirm = (props) => {
         price: price ? parseInt(price) : 0,
         order_no: generateOrderNumber(),
     });
-
-    const [id, setId] = useState("");
-    useEffect(() => {
-        const getUserNameFromToken = () => {
-            const token = localStorage.getItem("token");
-            if (token) {
-                const decodedToken = jwt_decode(token);
-                const id1 = decodedToken.user_id;
-                setId(id1);
-                console.log(id1);
-            }
-        };
-
-        getUserNameFromToken();
-    }, []);
 
     // ! Map functionality 
     const [map, setMap] = useState(null);
@@ -152,7 +139,7 @@ const Confirm = (props) => {
 
         try {
             const response = await axios.post(
-                `http://localhost:5151/order/order/${id}`,
+                `http://localhost:5151/order/order/${userId}`,
                 formDataWithDate
             );
             console.log('Order created:', response.data);

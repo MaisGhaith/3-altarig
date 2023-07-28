@@ -2,7 +2,7 @@ const router = require("express").Router();
 const pool = require('../../db');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const secretKey = 'a24f41837ef05ad9e52a3794dab8c0055cc7baf383db5d19534454768751a344';
+const SECRETKEY = process.env.SECRET_KEY;
 const app = require('../../index');
 
 router.post('/login', (req, res) => {
@@ -38,7 +38,7 @@ router.post('/login', (req, res) => {
                 role: user.role,
                 deleted: user.deleted,
 
-            }, secretKey);
+            }, SECRETKEY);
             res.json({ token: token, message: 'User login successful' });
 
         }

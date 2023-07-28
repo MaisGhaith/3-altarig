@@ -5,6 +5,10 @@ const router = express.Router();
 const pool = require('./db');
 const app = express();
 const PORT = process.env.PORT || 5151;
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+
 // const PORT = 8181
 //* middleware //
 app.use(express.json()); // access data from client side   // req.body
@@ -15,6 +19,9 @@ app.use(cors()); // to make our backend interact with frontend
 
 app.use("/Register", require('./routes/JwtAuth/Register'))
 app.use("/Login", require('./routes/JwtAuth/Login'))
+
+// ! get user token info 
+app.use("/auth", require('./routes/JwtAuth/auth'));
 
 // user routes
 app.use("/getUsers", require('./routes/usersRoutes/getUsers'));

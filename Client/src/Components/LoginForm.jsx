@@ -62,7 +62,7 @@ const LoginForm = () => {
                         </div>
                         <button
                             type="submit"
-                            className="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
+                            className="block w-full bg-indigo-600 mt-4 py-2 hover:bg-indigo-700 rounded-2xl text-white font-semibold mb-2"
                         >
                             تسجيل
                         </button>
@@ -83,7 +83,7 @@ const LoginForm = () => {
                         <a href="/RegisterForm">
                             <button
                                 type="submit"
-                                className="block w-28 bg-white text-indigo-800 mt-4 py-2 rounded-2xl font-bold mb-2"
+                                className="block w-28 bg-white text-indigo-800 hover:bg-gray-200 mt-4 py-2 rounded-2xl font-bold mb-2"
                             >
                                 من هنا
                             </button>

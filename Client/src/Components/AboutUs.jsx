@@ -1,6 +1,9 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../Context/UserContext';
 
 const AboutUs = () => {
+
     return (
         <div>
             <section className="flex items-center bg-stone-100 xl:h-screen font-poppins dark:bg-gray-800 ">

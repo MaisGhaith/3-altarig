@@ -20,13 +20,8 @@ const LoginFunctions = () => {
     const isLoggedIn = () => {
         // Check if the token exists in local storage
         const token = localStorage.getItem('token');
-        // Perform any additional checks if needed
-        // For example, you can decode the token and check its expiration date
-        // Return true or false based on the checks
         return token ? true : false;
     };
-
-    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -44,10 +39,10 @@ const LoginFunctions = () => {
             // Check if token is valid and user is logged in
             if (token && isLoggedIn()) {
                 // Redirect to Home page or perform any desired action
-                // navigate("/")
+                // navigate("/Landing")
             }
             window.location = '/Landing';
-            // Redirect or perform any desired action after successful login
+
         } catch (error) {
             console.error('Error: Wrong email or password', error.message);
         }
