@@ -5,8 +5,6 @@ export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
 
-
-
     const [userId, setUserId] = useState()
     const [userName, setUserName] = useState();
     const [role, setRole] = useState();
@@ -40,7 +38,6 @@ const UserProvider = ({ children }) => {
         }
     }, [])
 
-
     return (
         <>
             <UserContext.Provider
@@ -48,7 +45,8 @@ const UserProvider = ({ children }) => {
                     userId,
                     userName,
                     setUserName,
-                    role
+                    role,
+                    setRole
                 }}
             >
                 {children}

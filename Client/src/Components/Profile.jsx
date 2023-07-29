@@ -97,7 +97,7 @@ const Profile = () => {
                                     <div className="text-center mt-12">
 
                                         <button onClick={handleOpenModal}
-                                            className="btn flex p-2.5 bg-green-400 rounded-xl hover:rounded-3xl hover:bg-green-600 transition-all duration-300 text-white">  تعديل
+                                            className="btn flex p-2.5 bg-blue-300 rounded-lg hover:rounded-xl hover:bg-blue-400 transition-all duration-300 text-black">  تعديل
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                             </svg>
@@ -113,7 +113,7 @@ const Profile = () => {
                                                                 <input
                                                                     value={user_name}
                                                                     onChange={(e) => setNameUser(e.target.value)}
-                                                                    className={` input input-bordered input-accent w-full max-w-xs hover:bg-gray-100 block mb-2 text-sm font-medium ${nameError
+                                                                    className={` input input-bordered input-info w-full max-w-xs hover:bg-gray-100 block mb-2 text-sm font-medium ${nameError
                                                                         ? 'border-red-500'
                                                                         : 'border-slate-900 text-gray-900 dark:text-white'
                                                                         }`}
@@ -122,7 +122,7 @@ const Profile = () => {
                                                                 <input
                                                                     value={phone_number}
                                                                     onChange={(e) => setPhone(e.target.value)}
-                                                                    className={`input input-bordered input-accent w-full max-w-xs hover:bg-gray-100 block mb-2 text-sm font-medium ${phoneNumberError
+                                                                    className={`input input-bordered input-info w-full max-w-xs hover:bg-gray-100 block mb-2 text-sm font-medium ${phoneNumberError
                                                                         ? 'border-red-500'
                                                                         : 'border-slate-900 text-gray-900 dark:text-white'
                                                                         }`}
@@ -133,11 +133,11 @@ const Profile = () => {
                                                                 <button
                                                                     onClick={handleEditSubmit}
                                                                     type="submit"
-                                                                    className="btn glass mx-5 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                                                                    className="btn glass mx-5 text-white bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                                                                 >
                                                                     تأكيد
                                                                 </button>
-                                                                <button onClick={handleCloseModal} type="button" className="btn mx-5">
+                                                                <button onClick={handleCloseModal} type="button" className="btn bg-gray-200 hover:bg-gray-300 mx-5">
                                                                     إلغاء
                                                                 </button>
                                                             </div>
@@ -162,19 +162,21 @@ const Profile = () => {
                                             {user?.phone_number || ""}
                                         </div>
                                     </div>
-                                    <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
+                                    <div data-aos="fade-down"
+                                        data-aos-easing="linear"
+                                        data-aos-duration="1500" className="mt-10 py-10 border-t border-blueGray-200 text-center">
                                         <div className="flex flex-wrap justify-center">
                                             <div className="w-full lg:w-9/12 px-4">
+                                                <div className='text-xl mb-5 text-gray-600 font-semibold'>
+                                                    <h2>طلباتي الحالية</h2>
+                                                </div>
                                                 <>
                                                     <div className="bg-white p-8 rounded-md w-full">
                                                         <div className=" flex items-center justify-between pb-6">
-                                                            <div>
+                                                            {/* <div>
                                                                 <h2 className="text-xl text-gray-600 font-semibold">طلباتي الحالية</h2>
-                                                            </div>
-                                                            <div data-aos="fade-zoom-in"
-                                                                data-aos-easing="ease-in-back"
-                                                                data-aos-delay="300"
-                                                                data-aos-offset="0" className="flex items-center justify-between">
+                                                            </div> */}
+                                                            <div className="flex items-center justify-between">
                                                                 <div className="pt-2 relative mx-auto text-gray-600">
 
                                                                     <button type="submit" className="absolute right-32 top-0 mt-5 mr-4 pl-6">
@@ -196,7 +198,7 @@ const Profile = () => {
                                                                         </svg>
                                                                     </button>
                                                                     <input
-                                                                        className="border-2 border-green-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                                                                        className="border-blue-300 hover:bg-gray-100 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
                                                                         type="search"
                                                                         name="search"
                                                                         placeholder="Search"
@@ -220,23 +222,23 @@ const Profile = () => {
                                                                 <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
                                                                     <table className="min-w-full leading-normal">
                                                                         <thead>
-                                                                            <tr>
-                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100  text-xs font-semibold text-gray-600 uppercase tracking-wider ">
+                                                                            <tr className="bg-[#B2DEEC]">
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider ">
                                                                                     الخدمة
                                                                                 </th>
-                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                                                     رقم الطلب
                                                                                 </th>
-                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                                                     المبلغ
                                                                                 </th>
-                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                                                     المزيد
                                                                                 </th>
-                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                                                     حالة القبول
                                                                                 </th>
-                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                                <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                                                     الحالة
                                                                                 </th>
                                                                             </tr>
@@ -332,23 +334,23 @@ const Profile = () => {
                                                             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
                                                                 <table className="min-w-full leading-normal">
                                                                     <thead>
-                                                                        <tr>
-                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100  text-xs font-semibold text-gray-600 uppercase tracking-wider ">
+                                                                        <tr className="bg-[#B2DEEC]">
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider ">
                                                                                 الخدمة
                                                                             </th>
-                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider ">
                                                                                 رقم الطلب
                                                                             </th>
-                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider ">
                                                                                 المبلغ
                                                                             </th>
-                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider ">
                                                                                 المزيد
                                                                             </th>
-                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider ">
                                                                                 حالة الطلب
                                                                             </th>
-                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                            <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider ">
                                                                                 الحالة
                                                                             </th>
                                                                         </tr>
@@ -389,16 +391,16 @@ const Profile = () => {
                                                                                         <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                                                                             <span
                                                                                                 aria-hidden=""
-                                                                                                className="absolute inset-0 bg-gray-300 opacity-50 rounded-full" />
+                                                                                                className="absolute inset-0 bg-[#B2DFFB] opacity-50 rounded-full" />
                                                                                             <span className="relative"
-                                                                                                style={{ color: order?.approved ? 'green' : 'red' }}>
-                                                                                                {order?.approved ? 'approved' : 'not approved'}
+                                                                                                style={{ color: "GREEN" }}
+                                                                                            > Done
                                                                                             </span>
                                                                                         </span>
                                                                                     </td>
                                                                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                                                         <a href="">
-                                                                                            <p className="text-green-500 whitespace-no-wrap">
+                                                                                            <p className="text-blue-400 whitespace-no-wrap">
                                                                                                 عرض الفاتورة
                                                                                             </p>
                                                                                         </a>
@@ -478,7 +480,7 @@ const Profile = () => {
                                                             </tbody>
                                                         </div>
                                                         <div className="flex justify-start">
-                                                            <button onClick={handleCloseDetailsModal} type="button" className="btn mx-5">
+                                                            <button onClick={handleCloseDetailsModal} type="button" className="btn bg-gray-200 mx-5">
                                                                 إلغاء
                                                             </button>
                                                         </div>

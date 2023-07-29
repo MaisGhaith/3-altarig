@@ -15,30 +15,30 @@ import NotFound from './Components/NotFound';
 import { UserContext } from './Context/UserContext';
 
 function App({ userName }) {
-  const { userId, role } = useContext(UserContext);
+  // const { role , setRole} = useContext(UserContext);
 
 
   // const navigate = useNavigate();
 
-  // const [id, setId] = useState("");
-  // const [role, setRole] = useState("guest")
+  const [id, setId] = useState("");
+  const [role, setRole] = useState("guest")
 
-  // useEffect(() => {
-  //   const getUserNameFromToken = () => {
-  //     const token = localStorage.getItem("token");
-  //     if (token) {
-  //       const decodedToken = jwt_decode(token);
-  //       const id1 = decodedToken.user_id;
-  //       const role = decodedToken.role;
-  //       setId(id1);
-  //       setRole(role);
+  useEffect(() => {
+    const getUserNameFromToken = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        const id1 = decodedToken.user_id;
+        const role = decodedToken.role;
+        setId(id1);
+        setRole(role);
 
-  //       // console.log(id1, role);
-  //     }
-  //   };
+        // console.log(id1, role);
+      }
+    };
 
-  //   getUserNameFromToken();
-  // }, []);
+    getUserNameFromToken();
+  }, []);
 
 
 

@@ -6,6 +6,7 @@ const AboutUs = () => {
 
     return (
         <div>
+            {console.log("Hello")}
             <section className="flex items-center bg-stone-100 xl:h-screen font-poppins dark:bg-gray-800 ">
                 <div className="justify-center flex-1 max-w-6xl py-4 mx-auto lg:py-6 md:px-6">
                     <div className="flex flex-wrap ">
