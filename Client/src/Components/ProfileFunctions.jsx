@@ -8,7 +8,6 @@ const ProfileFunctions = () => {
     const [phone_number, setPhone] = useState("");
     const [user_email, setUserEmail] = useState("");
     const [deleted, setDeleted] = useState(false)
-
     const [id, setId] = useState("");
 
     const getUserNameFromToken = async () => {
@@ -188,7 +187,7 @@ const ProfileFunctions = () => {
 
     // Filter the orders based on the search query for both userOrders and userDoneOrders
     const filteredUserOrders = userOrders.filter((order) =>
-        order.service_name.includes(searchQuery) ||
+        order.service_name.includes() ||
         order.choice_name.includes(searchQuery) ||
         order.order_no.includes(searchQuery)
     );
@@ -290,6 +289,43 @@ const ProfileFunctions = () => {
     };
 
 
+    // ! rating modal 
+    const [orderIdToRate, setOrderIdToRate] = useState(null);
+    const [rating, setRating] = useState(0);
+    const [isRatingModalOpen, setRatingModalOpen] = useState(false);
+
+    const handleRatingChange = (newRating) => {
+        setRating(newRating);
+    };
+
+    useEffect(() => {
+    }, [handleRatingChange])
+
+    const handleSubmitRating = async () => {
+        try {
+            // Send rating data to the server
+            const response = await axios.put(`http://localhost:5151/ratingOrder/rate/${orderIdToRate}`, {
+                rating: rating
+            });
+            console.log(response.data, "rating updated succesfully");
+            handleCloseRatingModal();
+        } catch (error) {
+            // Handle errors
+            console.error(error, "Error to handle rating this order");
+        }
+    };
+
+    const handleOpenRatingModal = (orderId) => {
+        setRatingModalOpen(true);
+        setOrderIdToRate(orderId);
+    };
+
+    const handleCloseRatingModal = () => {
+        setRatingModalOpen(false);
+    };
+
+
+
     return {
         handleEditSubmit,
         setNameUser,
@@ -315,7 +351,14 @@ const ProfileFunctions = () => {
         filteredUserDoneOrders,
         filteredUserOrders,
         nameError,
-        phoneNumberError
+        phoneNumberError,
+        handleSubmitRating,
+        handleOpenRatingModal,
+        handleCloseRatingModal,
+        isRatingModalOpen,
+        handleRatingChange,
+        rating,
+        orderIdToRate
     };
 };
 

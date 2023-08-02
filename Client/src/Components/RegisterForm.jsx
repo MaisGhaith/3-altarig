@@ -194,7 +194,7 @@ const RegisterForm = () => {
                                 // placeholder="Enter your password"
                                 />
                                 <img
-                                    src={showPassword ? 'eye-open.png' : 'eye-closed.png'}
+                                    src={showPassword ? '/Images/eye.png' : '/Images/eyebrow.png'}
                                     alt="Show Password"
                                     onClick={togglePasswordVisibility}
                                     className="eye-icon"

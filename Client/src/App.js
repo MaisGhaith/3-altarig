@@ -13,6 +13,7 @@ import React, { useEffect, useState, useReducer, useContext } from 'react';
 import ProfileFunctions from './Components/ProfileFunctions';
 import NotFound from './Components/NotFound';
 import { UserContext } from './Context/UserContext';
+import Footer from './Components/Footer';
 
 function App({ userName }) {
   // const { role , setRole} = useContext(UserContext);
@@ -59,6 +60,7 @@ function App({ userName }) {
             <Route path="ProfileFunctions" element={<ProfileFunctions />} />
             {/* <Route path="Map" element={<Map />} /> */}
           </Routes>
+          <Footer />
         </BrowserRouter>
       )}
 
@@ -75,6 +77,7 @@ function App({ userName }) {
             <Route path="*" element={<NotFound />} />
 
           </Routes>
+          <Footer />
         </BrowserRouter>
       )}
     </div>

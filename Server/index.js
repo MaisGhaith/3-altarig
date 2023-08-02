@@ -1,15 +1,13 @@
 
 const express = require("express");
+const app = express();
 const cors = require("cors");
 const router = express.Router();
 const pool = require('./db');
-const app = express();
 const PORT = process.env.PORT || 5151;
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-
-// const PORT = 8181
 //* middleware //
 app.use(express.json()); // access data from client side   // req.body
 app.use(cors()); // to make our backend interact with frontend
@@ -33,12 +31,11 @@ app.use("/location", require('./routes/Location/Location'));
 
 // ! order routes
 app.use("/order", require('./routes/ordersRoutes/addOrder'));
-// app.use("/userOrders", require('./routes/ordersRoutes/getUserOrders'));
 app.use("/userOrders", require('./routes/ordersRoutes/getUserOrders'));
 app.use("/userDoneOrders", require('./routes/ordersRoutes/getUserOrders'));
-app.use("/deleteUserOrders", require('./routes/ordersRoutes/deleteUserOrder'))
-// Define the POST route for adding a location
-
+app.use("/deleteUserOrders", require('./routes/ordersRoutes/deleteUserOrder'));
+app.use("/ratingOrder", require('./routes/ordersRoutes/ratingOrder'));
+app.use("/getOrderRate", require('./routes/Rating/getRating'));
 
 
 

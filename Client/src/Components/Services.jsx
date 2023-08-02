@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Confirm from './Confirm';
 import { useNavigate } from 'react-router-dom';
+import {
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+    Typography,
+    Button,
+} from "@material-tailwind/react";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Services = () => {
     const [service_id, setServiceId] = useState(null);
@@ -66,23 +76,24 @@ const Services = () => {
     const navigate = useNavigate();
 
     const handleSubmit = () => {
-        console.log('Submitting data...');
-        console.log('Service:', service);
-        console.log('Choice:', choice);
-        console.log('Choice Title:', choiceTitle);
-        console.log('Service Id:', service_id);
-        console.log('Price:', price);
         setIsConfirmed(true);
         navigate(`/Confirm?service=${service}&choice=${choice}&choiceTitle=${encodeURIComponent(choiceTitle)}&serviceTitle=${encodeURIComponent(serviceTitle)}&serviceId=${service_id}&price=${encodeURIComponent(price)}`);
     };
 
-
+    useEffect(() => {
+        AOS.init({
+            // Add any options you want to customize the animation behavior
+            // For example, you can set the duration, offset, etc.
+        });
+    }, []);
 
 
 
 
     return (
-        <div id="Services">
+        <div data-aos="fade-down"
+            data-aos-easing="linear"
+            data-aos-duration="1500" id="Services" className='mt-16'>
             <h1 className="flex justify-center text-3xl text-black font-bold">الخدمات</h1>
             <hr
                 style={{
@@ -93,35 +104,123 @@ const Services = () => {
                     borderColor: 'black',
                 }}
             />
-            <div className="py-12 flex flex-wrap justify-center">
-                {showServices.map((service) => (
-                    <div
-                        key={service.id}
-                        className="m-5 mx-10  p-6 max-w-[330px] w-full bg-white dark:bg-gray-800 shadow-2xl rounded-lg relative z-10"
-                    >
-                        <div className="rounded-lg mt-[-60px] relative h-[230px]">
-                            <div
-                                className="transition-all duration-300 ease-in-out absolute w-full h-full top-5 left-0 bg-cover bg-no-repeat rounded-lg"
-                                style={{
-                                    backgroundImage: `url(${service.image})`,
-                                    zIndex: -1,
-                                }}
-                            ></div>
-                        </div>
-                        <div className="pt-10">
-                            <div className="flex justify-between items-center">
-                                <h2 className="text-lg font-body text-black font-semibold mt-2">{service.title}</h2>
+
+            <div className="flex justify-center">
+                <div className='py-12 grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-3 gap-8  justify-center '>
+                    {showServices.map((service) => (
+                        <article class="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+                            <img
+                                alt="Office"
+                                src={service.image}
+                                class="h-56 w-full object-cover"
+                            />
+
+                            <div class="p-4 sm:p-6">
+                                <a href="#">
+                                    <h3 class="text-lg font-medium text-gray-900">
+                                        {service.title}
+                                    </h3>
+                                </a>
+
+                                <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+
+                                </p>
+
                                 <button
                                     onClick={() => getDataModal(service.id, service.title)}
-                                    className="border-2 border-gray-800 rounded-lg px-3 py-2 text-gray-800 cursor-pointer hover:bg-gray-800 hover:text-gray-200"
+                                    class="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-blue-600"
                                 >
-                                    طلب خدمة
+                                    طلب الخدمة
+
+                                    {/* <span aria-hidden="true" class="block transition-all group-hover:ms-0.5 rtl:rotate-180">
+                &rarr;
+            </span> */}
                                 </button>
+                            </div>
+                        </article>
+                    ))}
+                </div>
+            </div>
+
+
+
+
+            {/* <div className="py-12 flex flex-wrap justify-center">
+                {showServices.map((service) => (
+                    <div key={service.id} className="m-5 card w-96 glass">
+                        <figure><img src={service.image} alt="car!" /></figure>
+                        <div className="card-body">
+                            <h2 className="card-title">{service.title}</h2>
+                            <p>How to park your car at your garage?</p>
+                            <div className="card-actions justify-end">
+                                <button onClick={() => getDataModal(service.id, service.title)}
+                                    className="btn btn-primary">طلب الخدمة</button>
                             </div>
                         </div>
                     </div>
-                ))}
-            </div>
+                ))} */}
+
+            {/* <div className="py-12 flex flex-wrap justify-center">
+                    {showServices.map((service) => (
+                        // <div >
+                        <Card key={service.id} className="hover:scale-105 w-96 h-96 m-5 border-2 border-blue-200 ">
+                            <CardHeader shadow={false} floated={false} className="h-80">
+                                <div
+                                    style={{
+                                        backgroundImage: `url(${service.image})`,
+                                        height: '100%',
+                                    }}
+                                    className="h-full w-full bg-no-repeat bg-center bg-cover"
+                                />
+                            </CardHeader>
+
+                            <CardBody>
+                                <div className="mb-2 flex items-center justify-between">
+                                    <Typography color="blue-gray" className="font-medium">
+                                        {service.title}
+                                    </Typography>
+                                    <Typography
+                                        color="blue-gray"
+                                        className="flex items-center gap-1.5 font-normal"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="currentColor"
+                                            className="-mt-0.5 h-5 w-5 text-yellow-700"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        5.0
+                                    </Typography>
+                                </div>
+                                <Typography
+                                    variant="small"
+                                    color="gray"
+                                    className="font-normal opacity-75"
+                                >
+
+                                </Typography>
+                            </CardBody>
+                            <CardFooter className="pt-0">
+                                <Button
+                                    onClick={() => getDataModal(service.id, service.title)}
+                                    ripple={false}
+                                    fullWidth={true}
+                                    className="text-sm bg-gray-200 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                                >
+                                    طلب الخدمة
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                        // </div>
+                    ))}
+                </div> */}
+
 
             {getModal && (
                 <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-75">
@@ -181,6 +280,7 @@ const Services = () => {
             )}
             {/* {isConfirmed && <Confirm service={service} choice={choice} />} */}
         </div>
+        // </div >
     );
 };
 
