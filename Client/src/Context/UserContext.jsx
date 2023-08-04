@@ -8,6 +8,8 @@ const UserProvider = ({ children }) => {
     const [userId, setUserId] = useState()
     const [userName, setUserName] = useState();
     const [role, setRole] = useState();
+    const [phone, setPhone] = useState();
+
     const fetchUserData = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -21,6 +23,7 @@ const UserProvider = ({ children }) => {
                 setUserId(response.data.user_id);
                 setUserName(response.data.user_name);
                 setRole(response.data.role);
+                setPhone(response.data.phone_number)
 
 
             }
@@ -46,7 +49,8 @@ const UserProvider = ({ children }) => {
                     userName,
                     setUserName,
                     role,
-                    setRole
+                    setRole,
+                    phone
                 }}
             >
                 {children}

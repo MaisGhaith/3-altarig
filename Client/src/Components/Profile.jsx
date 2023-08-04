@@ -43,33 +43,37 @@ const Profile = () => {
         isRatingModalOpen,
         handleRatingChange,
         rating,
-        orderIdToRate
+        orderIdToRate,
+        orderRates,
+        serviceIdToRate,
+        id,
+        getDoneUserOrder
     } = useProfileFunctions();
 
+    // console.log(serviceIdToRate)
     useEffect(() => {
         AOS.init({
         });
     }, []);
 
 
-    console.log(orderIdToRate)
-    // ! get order rate
-    const [orderRates, setOrderRates] = useState([]);
-    const getOrderRate = async (id) => {
+    const handleRateUpdate = async () => {
+
         try {
-            const response = await axios.get(`http://localhost:5151/getOrderRate/getRating/${id}`);
-
-            const rate = response.data;
-            setOrderRates(rate);
+            const response = await axios.put(`http://localhost:5151/ratingOrder/rate/${orderIdToRate}`, {
+                rating: rating,
+                service_id: serviceIdToRate
+            })
+            console.log(serviceIdToRate)
+            console.log(response.data, "rating updated succesfully");
+            handleCloseRatingModal();
+            getDoneUserOrder(id);
         } catch (error) {
-            console.log("Error getting rate order data : ", error);
-        }
-    }
+            console.error(error, "Error to handle rating this order");
 
-    useEffect(() => {
-        getOrderRate(orderIdToRate);
-    }, [])
-    console.log(orderRates)
+        }
+
+    }
 
 
     return (
@@ -438,12 +442,18 @@ const Profile = () => {
                                                                                     </td>
 
                                                                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-
-                                                                                        <p onClick={() => handleOpenRatingModal(order.id)} className="text-gray-900 text-xl whitespace-no-wrap">
-                                                                                            ⭐
-
+                                                                                        <p
+                                                                                            onClick={(e) => {
+                                                                                                e.preventDefault(); // Prevent default behavior of the link
+                                                                                                handleOpenRatingModal(order.id, order.service_id);
+                                                                                                handleRateUpdate(console.log("Hello hind"));
+                                                                                            }}
+                                                                                            className="text-gray-900 text-xl whitespace-no-wrap cursor-pointer"
+                                                                                        >
+                                                                                            ⭐ {order?.rating}
                                                                                         </p>
                                                                                     </td>
+
                                                                                 </tr>
                                                                             </tbody>
                                                                         )

@@ -36,7 +36,8 @@ app.use("/userDoneOrders", require('./routes/ordersRoutes/getUserOrders'));
 app.use("/deleteUserOrders", require('./routes/ordersRoutes/deleteUserOrder'));
 app.use("/ratingOrder", require('./routes/ordersRoutes/ratingOrder'));
 app.use("/getOrderRate", require('./routes/Rating/getRating'));
-
+// app.use("/avg", require('./routes/ordersRoutes/ratingAvg'));
+app.use("/getRatingAvg", require('./routes/ordersRoutes/getRatingAvg'));
 
 
 

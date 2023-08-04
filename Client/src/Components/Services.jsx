@@ -49,6 +49,30 @@ const Services = () => {
         getServices();
     }, []);
 
+
+
+
+
+
+    // const [rate, setRate] = useState('')
+    // const getRating = async () => {
+    //     try {
+    //         const response = await axios.get('http://localhost:5151/getRates/getRate');
+    //         const rating = response.data;
+    //         setRate(rating);
+    //         console.log(rating.rating)
+    //     } catch (error) {
+    //         console.log('Error getting rating data:', error);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     getRating();
+    // }, [])
+
+    // console.log(rate)
+
+
     const getDataModal = (serviceId, serviceTitle) => {
         setServiceId(serviceId);
         setServiceTitle(serviceTitle);
@@ -90,6 +114,7 @@ const Services = () => {
 
 
 
+
     return (
         <div data-aos="fade-down"
             data-aos-easing="linear"
@@ -116,11 +141,33 @@ const Services = () => {
                             />
 
                             <div class="p-4 sm:p-6">
-                                <a href="#">
+                                <div className='flex justify-between'>
                                     <h3 class="text-lg font-medium text-gray-900">
                                         {service.title}
+
                                     </h3>
-                                </a>
+                                    <div className="flex items-center">
+                                        <svg
+                                            className="w-4 h-4 text-yellow-300 mr-1"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor"
+                                            viewBox="0 0 22 20"
+                                        >
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                        </svg>
+                                        <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">{service?.rating}</p>
+                                        <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400" />
+                                        <a
+                                            href="#"
+                                            className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+                                        >
+                                            73 reviews
+                                        </a>
+                                    </div>
+                                </div>
+
+
 
                                 <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
 
@@ -141,86 +188,6 @@ const Services = () => {
                     ))}
                 </div>
             </div>
-
-
-
-
-            {/* <div className="py-12 flex flex-wrap justify-center">
-                {showServices.map((service) => (
-                    <div key={service.id} className="m-5 card w-96 glass">
-                        <figure><img src={service.image} alt="car!" /></figure>
-                        <div className="card-body">
-                            <h2 className="card-title">{service.title}</h2>
-                            <p>How to park your car at your garage?</p>
-                            <div className="card-actions justify-end">
-                                <button onClick={() => getDataModal(service.id, service.title)}
-                                    className="btn btn-primary">طلب الخدمة</button>
-                            </div>
-                        </div>
-                    </div>
-                ))} */}
-
-            {/* <div className="py-12 flex flex-wrap justify-center">
-                    {showServices.map((service) => (
-                        // <div >
-                        <Card key={service.id} className="hover:scale-105 w-96 h-96 m-5 border-2 border-blue-200 ">
-                            <CardHeader shadow={false} floated={false} className="h-80">
-                                <div
-                                    style={{
-                                        backgroundImage: `url(${service.image})`,
-                                        height: '100%',
-                                    }}
-                                    className="h-full w-full bg-no-repeat bg-center bg-cover"
-                                />
-                            </CardHeader>
-
-                            <CardBody>
-                                <div className="mb-2 flex items-center justify-between">
-                                    <Typography color="blue-gray" className="font-medium">
-                                        {service.title}
-                                    </Typography>
-                                    <Typography
-                                        color="blue-gray"
-                                        className="flex items-center gap-1.5 font-normal"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                            fill="currentColor"
-                                            className="-mt-0.5 h-5 w-5 text-yellow-700"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                        5.0
-                                    </Typography>
-                                </div>
-                                <Typography
-                                    variant="small"
-                                    color="gray"
-                                    className="font-normal opacity-75"
-                                >
-
-                                </Typography>
-                            </CardBody>
-                            <CardFooter className="pt-0">
-                                <Button
-                                    onClick={() => getDataModal(service.id, service.title)}
-                                    ripple={false}
-                                    fullWidth={true}
-                                    className="text-sm bg-gray-200 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-                                >
-                                    طلب الخدمة
-                                </Button>
-                            </CardFooter>
-                        </Card>
-                        // </div>
-                    ))}
-                </div> */}
-
 
             {getModal && (
                 <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-75">
@@ -251,8 +218,8 @@ const Services = () => {
                                                     fill="none"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                 ></svg>
-                                                <span className="flex-1 ml-3 whitespace-nowrap justify-start">{choice.choice}</span>
-                                                <span className="inline-flex  justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">
+                                                <span className="flex-1 ml-3  justify-start">{choice.choice}</span>
+                                                <span className="inline-flex justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">
                                                     {choice.price} دينار
                                                 </span>
                                             </a>

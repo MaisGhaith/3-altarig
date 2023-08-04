@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import { UserContext } from '../Context/UserContext';
 
 const ProfileFunctions = () => {
     const [user, setUser] = useState({});
@@ -9,6 +10,7 @@ const ProfileFunctions = () => {
     const [user_email, setUserEmail] = useState("");
     const [deleted, setDeleted] = useState(false)
     const [id, setId] = useState("");
+
 
     const getUserNameFromToken = async () => {
         const token = localStorage.getItem("token");
@@ -291,9 +293,9 @@ const ProfileFunctions = () => {
 
     // ! rating modal 
     const [orderIdToRate, setOrderIdToRate] = useState(null);
-    const [rating, setRating] = useState(0);
     const [isRatingModalOpen, setRatingModalOpen] = useState(false);
 
+    const [rating, setRating] = useState(0);
     const handleRatingChange = (newRating) => {
         setRating(newRating);
     };
@@ -304,26 +306,51 @@ const ProfileFunctions = () => {
     const handleSubmitRating = async () => {
         try {
             // Send rating data to the server
+            console.log(orderIdToRate)
             const response = await axios.put(`http://localhost:5151/ratingOrder/rate/${orderIdToRate}`, {
                 rating: rating
             });
             console.log(response.data, "rating updated succesfully");
+
             handleCloseRatingModal();
+            getDoneUserOrder(id);
         } catch (error) {
             // Handle errors
             console.error(error, "Error to handle rating this order");
         }
     };
+    console.log(orderIdToRate)
 
-    const handleOpenRatingModal = (orderId) => {
+    const [serviceIdToRate, setServiceIdToRate] = useState('')
+    const handleOpenRatingModal = (orderId, serviceId) => {
         setRatingModalOpen(true);
         setOrderIdToRate(orderId);
+        setServiceIdToRate(serviceId)
     };
 
     const handleCloseRatingModal = () => {
         setRatingModalOpen(false);
     };
 
+    // ! get order rate
+    const [orderRates, setOrderRates] = useState([]);
+    const getOrderRate = async (id) => {
+        try {
+            const response = await axios.get(`http://localhost:5151/getOrderRate/getRating/${id}`);
+
+            const rate = response.data;
+            console.log(rate)
+            setOrderRates(rate);
+        } catch (error) {
+            console.log("Error getting rate order data : ", error);
+        }
+    }
+
+    useEffect(() => {
+        if (orderIdToRate) {
+            getOrderRate(orderIdToRate);
+        }
+    }, [orderIdToRate])
 
 
     return {
@@ -358,7 +385,11 @@ const ProfileFunctions = () => {
         isRatingModalOpen,
         handleRatingChange,
         rating,
-        orderIdToRate
+        orderIdToRate,
+        orderRates,
+        serviceIdToRate,
+        id,
+        getDoneUserOrder
     };
 };
 

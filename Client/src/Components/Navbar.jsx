@@ -111,9 +111,10 @@ export default () => {
 
             <nav
                 id="stickyNav"
-                className={`absolute top-0 z-10 left-0 right-0 md:text-sm ${state ? "shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0" : ""
+                className={`absolute bg-[#BE123C] top-0 z-10 left-0 right-0 md:text-sm ${state ? "shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0" : ""
                     }`}
-                style={{ backgroundColor: "rgba(0, 0, 0, 0.422)" }}>
+            // style={{ backgroundColor: "rgba(0, 0, 0, 0.422)" }}
+            >
                 <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8">
                     <div className="flex items-center justify-between py-2 md:block">
                         <a href="javascript:void(0)">
