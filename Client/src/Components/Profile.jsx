@@ -443,8 +443,8 @@ const Profile = () => {
 
                                                                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                                                         <p
-                                                                                            onClick={(e) => {
-                                                                                                e.preventDefault(); // Prevent default behavior of the link
+                                                                                            onClick={() => {
+                                                                                                // e.preventDefault(); // Prevent default behavior of the link
                                                                                                 handleOpenRatingModal(order.id, order.service_id);
                                                                                                 handleRateUpdate(console.log("Hello hind"));
                                                                                             }}

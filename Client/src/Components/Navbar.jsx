@@ -15,7 +15,7 @@ export default () => {
     // Replace javascript:void(0) paths with your paths
     const navigation = [
         { title: "الرئيسية", path: "/Landing" },
-        { title: "خدماتنا", path: window.location = '#Services' },
+        // { title: "خدماتنا", path: window.location = '' },
         { title: "معلومات", path: "javascript:void(0)" },
         { title: "من نحن", path: "/AboutUs" },
         { title: "اتصل بنا", path: "/ContactUs" },
