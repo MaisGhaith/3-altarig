@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Confirm from './Confirm';
 import { useNavigate } from 'react-router-dom';
@@ -12,8 +12,21 @@ import {
 } from "@material-tailwind/react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { UserContext } from '../Context/UserContext';
 
 const Services = () => {
+
+    const { rateRefresh, setRateRefresh } = useContext(UserContext)
+    console.log("-----------------------")
+    console.log(rateRefresh)
+    console.log(rateRefresh)
+    console.log(rateRefresh)
+    console.log(rateRefresh)
+    console.log(rateRefresh)
+    console.log(rateRefresh)
+    console.log(rateRefresh)
+    console.log(rateRefresh)
+    console.log("-----------------------------")
     const [service_id, setServiceId] = useState(null);
     const [serviceTitle, setServiceTitle] = useState(null);
     const [showServices, setShowServices] = useState([]);
@@ -47,7 +60,7 @@ const Services = () => {
 
     useEffect(() => {
         getServices();
-    }, []);
+    }, [rateRefresh]);
 
 
 
@@ -132,8 +145,8 @@ const Services = () => {
 
             <div className="flex justify-center">
                 <div className='py-12 grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-3 gap-8  justify-center '>
-                    {showServices.map((service) => (
-                        <article class="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+                    {showServices.map((service, index) => (
+                        <article key={index} class="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
                             <img
                                 alt="Office"
                                 src={service.image}
@@ -156,26 +169,30 @@ const Services = () => {
                                         >
                                             <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                         </svg>
-                                        <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">{service?.rating}</p>
+
+                                        <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">
+                                            {typeof service.rating === 'numeric' ? service?.rating.toFixed(2) : service.rating}</p>
                                         <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400" />
-                                        <a
+                                        {/* <a
                                             href="#"
                                             className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
                                         >
                                             73 reviews
-                                        </a>
+                                        </a> */}
                                     </div>
                                 </div>
 
 
 
-                                <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                                <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
 
                                 </p>
 
                                 <button
                                     onClick={() => getDataModal(service.id, service.title)}
-                                    class="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-blue-600"
+                                    className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-red-600
+                                    hover:text-red-300
+                                    "
                                 >
                                     طلب الخدمة
 
@@ -189,8 +206,9 @@ const Services = () => {
                 </div>
             </div>
 
+            {/* {isConfirmed && <Confirm service={service} choice={choice} />} */}
             {getModal && (
-                <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-75">
+                <div className=" top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-75">
                     <div className="bg-white rounded-lg shadow-lg p-6">
                         {/* Modal content goes here */}
                         <h3 className="text-xl font-semibold text-gray-900 mb-4">
@@ -245,7 +263,6 @@ const Services = () => {
                     </div>
                 </div>
             )}
-            {/* {isConfirmed && <Confirm service={service} choice={choice} />} */}
         </div>
         // </div >
     );

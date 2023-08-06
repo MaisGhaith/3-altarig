@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import useProfileFunctions from './ProfileFunctions'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -7,9 +7,11 @@ import {
     initTE,
 } from "tw-elements";
 import axios from "axios";
+import { UserContext } from '../Context/UserContext';
 
 initTE({ Rating });
 const Profile = () => {
+    const { rateRefresh, setRateRefresh } = useContext(UserContext)
 
     const {
         handleEditSubmit,
@@ -65,6 +67,7 @@ const Profile = () => {
                 service_id: serviceIdToRate
             })
             console.log(serviceIdToRate)
+            setRateRefresh(serviceIdToRate)
             console.log(response.data, "rating updated succesfully");
             handleCloseRatingModal();
             getDoneUserOrder(id);
@@ -446,7 +449,8 @@ const Profile = () => {
                                                                                             onClick={() => {
                                                                                                 // e.preventDefault(); // Prevent default behavior of the link
                                                                                                 handleOpenRatingModal(order.id, order.service_id);
-                                                                                                handleRateUpdate(console.log("Hello hind"));
+                                                                                                console.log(order.rating)
+                                                                                                // handleRateUpdate(order.id, order.service_id);
                                                                                             }}
                                                                                             className="text-gray-900 text-xl whitespace-no-wrap cursor-pointer"
                                                                                         >
@@ -667,7 +671,8 @@ const Profile = () => {
                                         </div>
                                         <div className="flex pr-5">
                                             <button
-                                                onClick={() => handleSubmitRating(orderIdToRate)}
+                                                // onClick={() => handleSubmitRating(orderIdToRate)}
+                                                onClick={() => handleRateUpdate()}
                                                 data-modal-hide="popup-modal"
                                                 type="button"
                                                 className="text-white bg-green-600 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"

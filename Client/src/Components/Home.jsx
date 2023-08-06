@@ -76,10 +76,10 @@ const Home = () => {
             >
                 <div class="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
                     <h1 class="text-3xl font-extrabold sm:text-5xl">
-                        Let us find your
+                        منصة عَ الطريق
 
-                        <strong class="block font-extrabold text-rose-700">
-                            Forever Home.
+                        <strong class="block font-extrabold mt-4 text-rose-700">
+                            المكان الأمثل لخدمة سيارتك
                         </strong>
                     </h1>
 
@@ -90,17 +90,17 @@ const Home = () => {
 
                     <div class="mt-8 flex flex-wrap gap-4 text-center">
                         <a
-                            href="#"
+                            href="#Services"
                             class="block w-full rounded bg-rose-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-rose-700 focus:outline-none focus:ring active:bg-rose-500 sm:w-auto"
                         >
-                            Get Started
+                            مقطوع ع الطريق ؟
                         </a>
 
                         <a
-                            href="#"
+                            href="/ContactUs"
                             class="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700 focus:outline-none focus:ring active:text-rose-500 sm:w-auto"
                         >
-                            Learn More
+                            تواصل معنا
                         </a>
                     </div>
                 </div>

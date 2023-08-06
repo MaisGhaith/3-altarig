@@ -12,12 +12,21 @@ router.put("/rate/:id", async (req, res) => {
         const updateRating = await pool.query(sql, editRating);
         const orderRate = await pool.query("SELECT rating FROM orders WHERE id = $1", [id]);
 
+        // const ratingAvg = await pool.query(`
+        //     UPDATE orders
+        //     SET rating_avg = (SELECT AVG(rating) AS avg_rating FROM orders WHERE service_id = $1)
+        //     WHERE service_id = $1
+        //     RETURNING rating_avg; -- Return the calculated rating_avg for logging
+        //   `, [service_id]);
+
+
         const ratingAvg = await pool.query(`
-            UPDATE orders
-            SET rating_avg = (SELECT AVG(rating) AS avg_rating FROM orders WHERE service_id = $1)
-            WHERE service_id = $1
-            RETURNING rating_avg; -- Return the calculated rating_avg for logging
-          `, [service_id]);
+  UPDATE orders
+  SET rating_avg = ROUND((SELECT AVG(rating) AS avg_rating FROM orders WHERE service_id = $1), 2)
+  WHERE service_id = $1
+  RETURNING rating_avg; -- Return the calculated rating_avg for logging
+`, [service_id]);
+        console.log(ratingAvg)
 
         console.log(ratingAvg.rows);
 

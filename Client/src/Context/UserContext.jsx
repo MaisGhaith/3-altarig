@@ -9,6 +9,7 @@ const UserProvider = ({ children }) => {
     const [userName, setUserName] = useState();
     const [role, setRole] = useState();
     const [phone, setPhone] = useState();
+    const [rateRefresh, setRateRefresh] = useState();
 
     const fetchUserData = async () => {
         try {
@@ -50,7 +51,9 @@ const UserProvider = ({ children }) => {
                     setUserName,
                     role,
                     setRole,
-                    phone
+                    phone,
+                    rateRefresh,
+                    setRateRefresh
                 }}
             >
                 {children}
