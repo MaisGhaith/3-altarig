@@ -1,8 +1,5 @@
-import React, { useContext } from 'react'
-import { UserContext } from '../Context/UserContext';
+import React from 'react'
 const Footer = () => {
-    const { userId, userName, setUserName } = useContext(UserContext);
-    console.log(userId)
 
     return (
         <div><footer class="bg-gray-100">

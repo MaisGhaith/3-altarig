@@ -1,100 +1,256 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import LoginFunctions from './LoginFunctions'
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const LoginForm = () => {
-    const { credentials, handleChange, handleSubmit } = LoginFunctions();
+
+    // const { isLoggedIn, credentials, handleChange, error } = LoginFunctions();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    const navigate = useNavigate();
+
+    const [user, setUser] = useState({});
+    const [path, setPath] = useState("/Landing");
+
+    const [passwordMode, setPasswordMode] = useState(true);
+
+    function handlePasswordMode() {
+        setPasswordMode(!passwordMode);
+    }
+
+    const themeValue = {
+        success: "green",
+        error: "red",
+        warning: "red",
+        normal: "teal",
+    };
+
+    const [checkInput, setCheckInput] = useState({
+        email: false,
+        password: false,
+        type: false,
+    });
+
+    const [inputTheme, setInputTheme] = useState({
+        email: themeValue.normal,
+        password: themeValue.normal,
+    });
+
+    const [massageWarning, setMassageWarning] = useState({
+        email: "",
+        password: "",
+    });
+
+    function handleEmail(event) {
+        const patternEmail = /^[A-z0-9\.]+@[A-z0-9]+\.[A-z]{3,5}$/;
+        const email = event.target.value;
+        setCheckInput({ ...checkInput, email: false });
+        if (email === "") {
+            setInputTheme({ ...inputTheme, email: themeValue.normal });
+            setMassageWarning({ ...massageWarning, email: "Please enter a value" });
+        } else if (!patternEmail.test(email)) {
+            setInputTheme({ ...inputTheme, email: themeValue.error });
+            setMassageWarning({
+                ...massageWarning,
+                email: "Please enter a valid email.",
+            });
+        } else {
+            setMassageWarning({ ...massageWarning, email: "" });
+            setInputTheme({ ...inputTheme, email: themeValue.success });
+            setUser({ ...user, email: email });
+            setCheckInput({ ...checkInput, email: true });
+        }
+    }
+
+    function handlePassword(event) {
+        const patternPassword =
+            /^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,.?]).{8,}$/;
+        const password = event.target.value;
+        setCheckInput({ ...checkInput, password: false });
+        if (password === "") {
+            setInputTheme({ ...inputTheme, password: themeValue.normal });
+            setMassageWarning({
+                ...massageWarning,
+                password: "Please enter a value",
+            });
+        } else if (!patternPassword.test(password)) {
+            setInputTheme({ ...inputTheme, password: themeValue.error });
+            setMassageWarning({
+                ...massageWarning,
+                password: `Please enter a password that is at least 8 characters long and includes at least one uppercase letter, one lowercase letter, one number, and one special character `,
+            });
+        } else {
+            setMassageWarning({ ...massageWarning, password: "" });
+            setInputTheme({ ...inputTheme, password: themeValue.success });
+            setUser({ ...user, password: password });
+            setCheckInput({ ...checkInput, password: true });
+        }
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+
+        if (!checkInput.email && !checkInput.password) {
+            setMassageWarning({
+                ...massageWarning,
+                submit: "Please enter an email",
+            });
+            return;
+        }
+
+        try {
+            const res = await axios.post("http://localhost:5151/Login/login", {
+                user_email: email,
+                user_password: password,
+            });
+
+            localStorage.setItem("email", user.email);
+            localStorage.setItem("token", res.data.token);
+            navigate(path);
+        } catch (err) {
+            if (err.response && err.response.data === "Don't have access") {
+                setMassageWarning({
+                    ...massageWarning,
+                    submit:
+                        "Your account has not been approved by the admin yet. You will receive an email when your account is approved or rejected.",
+                });
+            } else {
+                setMassageWarning({
+                    ...massageWarning,
+                    submit: "The email or password is invalid.",
+                });
+            }
+            console.error(err);
+        }
+    }
 
     return (
         <div>
-            <div className="h-screen md:flex">
-                <div className="flex md:w-1/2 justify-center py-10 items-center bg-white">
-                    <form onSubmit={handleSubmit} className="bg-white">
-                        <h1 className="text-gray-800 font-bold text-2xl mb-1">اهلا بك</h1>
-                        <p className="text-sm font-normal text-gray-600 mb-7">تسجيل الدخول </p>
-                        <div className="flex items-center border-2 py-1 px-3 rounded-2xl mb-4">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5 text-gray-400"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                                />
-                            </svg>
-                            <input
-                                className="pl-2 outline-none border-none"
-                                type="text"
-                                id=""
-                                required
-                                name="user_email"
-                                value={credentials.user_email}
-                                onChange={handleChange}
-                                placeholder="البريد الإلكتروني"
-                            />
+            <div className='mt-20'>
+                {/* component */}
+                <div className="bg-white relative lg:py-20">
+                    <div
+                        className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-full xl:px-5 lg:flex-row"
+                    >
+                        <div className="flex flex-col items-center w-full pt-5 pr-5 pb-20 pl-5 lg:pt-20 lg:flex-row">
+                            <div className="w-full bg-cover pl-20 relative max-w-md lg:max-w-2xl lg:w-7/12">
+                                <div className="flex flex-col  items-center justify-center w-full h-full relative lg:pr-10">
+                                    <img
+                                        src="/Images/login.png"
+                                        className="hidden lg:block"
+                                    />
+                                </div>
+                            </div>
+                            <div className="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-2xl lg:mt-0 lg:w-5/12">
+                                <div
+                                    className="flex flex-col items-start justify-start pt-10 pr-5 pb-10 pl-5 bg-white shadow-2xl rounded-xl
+      relative z-10 "
+                                >
+                                    <p className="w-full text-4xl font-medium text-center leading-snug font-serif">
+                                        تسجيل الدخول
+                                    </p>
+                                    <form onSubmit={handleSubmit} className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
+                                        <p class="text-sm font-normal flex justify-center text-gray-600 mb-7">التسجيل عن طريق :  </p>
+                                        <div className='flex justify-center gap-7 mb-3'>
+                                            <button className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
+                                                <img
+                                                    className="w-6 h-6"
+                                                    src="https://www.svgrepo.com/show/475656/google-color.svg"
+                                                    loading="lazy"
+                                                    alt="google logo"
+                                                />
+                                                <span className='text-xs'>Login with Google</span>
+                                            </button>
+                                            <button className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
+                                                <img
+                                                    className="w-6 h-6"
+                                                    src="/Images/facebook.png"
+                                                    loading="lazy"
+                                                    alt="google logo"
+                                                />
+                                                <span className='text-xs'>Login with Facebook</span>
+                                            </button>
+                                        </div>
+                                        <div className="relative">
+                                        </div>
+                                        <div className="flex justify-center">
+                                            <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-32 sm:ml-8 md:ml-32 lg:ml-60 font-medium text-gray-600 absolute">
+                                                الايميل
+                                            </p>
+
+                                            <input
+                                                placeholder="123@ex.com"
+                                                type="text"
+                                                className="border placeholder-gray-400 focus:outline-none
+            focus:border-black w-80 justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+            border-gray-300 rounded-md"
+                                                name="email"
+                                                // value={credentials.user_email}
+                                                onChange={(e) => handleEmail(e)}
+                                            />
+                                            <span className="text-danger">
+                                                {massageWarning.email}
+                                            </span>
+                                        </div>
+                                        {/* {error && <span className="text-red-500">{error}</span>} */}
+                                        <div className="flex justify-center">
+                                            <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-28 sm:ml-8 md:ml-32 lg:ml-56 font-medium text-gray-600 absolute">
+
+                                                كلمة المرور
+                                            </p>
+                                            <input
+                                                placeholder="Password"
+                                                type="password"
+                                                className="border placeholder-gray-400 focus:outline-none
+            focus:border-black w-80 p-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
+            border-gray-300 rounded-md"
+                                                name="password"
+                                                // value={credentials.user_password}
+                                                onChange={(e) => handlePassword(e)}
+                                            />
+
+                                            <span className="text-danger">
+                                                {massageWarning.password}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-center">
+                                            <button
+                                                className="w-80 inline-block pt-2 pr-5 pb-2
+                                                 pl-5 text-xl font-medium text-center text-white bg-red-500
+            rounded-lg transition duration-200 hover:bg-red-600 ease"
+                                                type="submit"
+                                            >
+                                                تسجيل دخول
+                                            </button>
+                                        </div>
+                                        <div className='flex flex-col sm:flex-row justify-around mx-4 sm:mx-4 md:mx-32 lg:mx-32'>
+                                            <span className="text-sm mt-2 sm:mt-0 sm:ml-2 hover:text-red-500 cursor-pointer">
+                                                نسيت كلمة السر ؟
+                                            </span>
+                                            <a href="/RegisterForm" className="text-sm mt-2 sm:mt-0">
+                                                <span className="hover:text-red-500 cursor-pointer">
+                                                    إنشاء حساب{' '}
+                                                </span>
+                                            </a>
+                                        </div>
+
+
+                                    </form>
+                                </div>
+
+                            </div>
                         </div>
-                        <div className="flex items-center border-2 py-1 px-3 rounded-2xl">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5 text-gray-400"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
-                            <input
-                                className="pl-2 outline-none border-none"
-                                type="password"
-                                id=""
-                                name="user_password"
-                                value={credentials.user_password}
-                                onChange={handleChange}
-                                placeholder="كلمة المرور"
-                            />
-                        </div>
-                        <button
-                            type="submit"
-                            className="block w-full bg-indigo-600 mt-4 py-2 hover:bg-indigo-700 rounded-2xl text-white font-semibold mb-2"
-                        >
-                            تسجيل
-                        </button>
-                        <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer">
-                            نسيت كلمة السر ؟
-                        </span>
-                        <a href="/RegisterForm">
-                            <span className="text-sm mr-12 hover:text-blue-500 cursor-pointer">
-                                إنشاء حساب{' '}
-                            </span>
-                        </a>
-                    </form>
-                </div>
-                <div className="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-900 to-purple-200 i justify-around items-center hidden">
-                    <div>
-                        <h1 className="text-white font-bold text-4xl font-sans"> إنشاء حساب </h1>
-                        <p className="text-white mt-1"> إذا لم تكن تمتلك حسابًا,قم بالتسجيل </p>
-                        <a href="/RegisterForm">
-                            <button
-                                type="submit"
-                                className="block w-28 bg-white text-indigo-800 hover:bg-gray-200 mt-4 py-2 rounded-2xl font-bold mb-2"
-                            >
-                                من هنا
-                            </button>
-                        </a>
                     </div>
-                    <div className="absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-                    <div className="absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-                    <div className="absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-                    <div className="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
                 </div>
             </div>
+
         </div>
     );
 };

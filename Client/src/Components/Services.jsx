@@ -12,21 +12,9 @@ import {
 } from "@material-tailwind/react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { UserContext } from '../Context/UserContext';
 
 const Services = () => {
 
-    const { rateRefresh, setRateRefresh } = useContext(UserContext)
-    console.log("-----------------------")
-    console.log(rateRefresh)
-    console.log(rateRefresh)
-    console.log(rateRefresh)
-    console.log(rateRefresh)
-    console.log(rateRefresh)
-    console.log(rateRefresh)
-    console.log(rateRefresh)
-    console.log(rateRefresh)
-    console.log("-----------------------------")
     const [service_id, setServiceId] = useState(null);
     const [serviceTitle, setServiceTitle] = useState(null);
     const [showServices, setShowServices] = useState([]);
@@ -60,7 +48,7 @@ const Services = () => {
 
     useEffect(() => {
         getServices();
-    }, [rateRefresh]);
+    }, []);
 
 
 
@@ -204,65 +192,65 @@ const Services = () => {
                         </article>
                     ))}
                 </div>
+                {getModal && (
+                    <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-75 ">
+                        <div className="bg-white rounded-lg shadow-lg p-6">
+                            {/* Modal content goes here */}
+                            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                                خيارات {" "}
+                                {serviceTitle}
+                            </h3>
+                            <div className="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                                {getAllChoices.map((choice) => (
+                                    <div key={choice.id}>
+                                        <ul className="my-4 space-y-3">
+                                            <button
+                                                type="radio"
+                                                onClick={() => {
+                                                    saveChoice(choice.id, choice.choice, choice.price);
+                                                    saveService(service_id);
+                                                }}
+                                            >
+                                                <a
+                                                    className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
+                                                >
+                                                    <svg
+                                                        aria-hidden="true"
+                                                        className="h-4"
+                                                        viewBox="0 0 40 38"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                    ></svg>
+                                                    <span className="flex-1 ml-3  justify-start">{choice.choice}</span>
+                                                    <span className="inline-flex justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">
+                                                        {choice.price} دينار
+                                                    </span>
+                                                </a>
+                                            </button>
+                                        </ul>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex justify-end">
+                                <button
+                                    className="m-3 text-green-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-green-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900"
+                                    onClick={handleSubmit}
+                                >
+                                    تأكيد
+                                </button>
+                                <button
+                                    className="m-3 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900"
+                                    onClick={closeGetDataModal}
+                                >
+                                    إلغاء
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* {isConfirmed && <Confirm service={service} choice={choice} />} */}
-            {getModal && (
-                <div className=" top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-75">
-                    <div className="bg-white rounded-lg shadow-lg p-6">
-                        {/* Modal content goes here */}
-                        <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                            خيارات {" "}
-                            {serviceTitle}
-                        </h3>
-                        <div className="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                            {getAllChoices.map((choice) => (
-                                <div key={choice.id}>
-                                    <ul className="my-4 space-y-3">
-                                        <button
-                                            type="radio"
-                                            onClick={() => {
-                                                saveChoice(choice.id, choice.choice, choice.price);
-                                                saveService(service_id);
-                                            }}
-                                        >
-                                            <a
-                                                className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
-                                            >
-                                                <svg
-                                                    aria-hidden="true"
-                                                    className="h-4"
-                                                    viewBox="0 0 40 38"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                ></svg>
-                                                <span className="flex-1 ml-3  justify-start">{choice.choice}</span>
-                                                <span className="inline-flex justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">
-                                                    {choice.price} دينار
-                                                </span>
-                                            </a>
-                                        </button>
-                                    </ul>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="flex justify-end">
-                            <button
-                                className="m-3 text-green-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-green-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900"
-                                onClick={handleSubmit}
-                            >
-                                تأكيد
-                            </button>
-                            <button
-                                className="m-3 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900"
-                                onClick={closeGetDataModal}
-                            >
-                                إلغاء
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
         // </div >
     );

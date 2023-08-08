@@ -15,10 +15,11 @@ import NotFound from './Components/NotFound';
 import { UserContext } from './Context/UserContext';
 import Footer from './Components/Footer';
 
-function App({ userName }) {
+function App() {
   // const { role , setRole} = useContext(UserContext);
+  const { userId, userName } = useContext(UserContext);
 
-
+  console.log(userName, userId)
   // const navigate = useNavigate();
 
   const [id, setId] = useState("");
@@ -48,7 +49,7 @@ function App({ userName }) {
 
       {role === "user" && (
         <BrowserRouter>
-          <Navbar userName={userName} />
+          <Navbar />
           <Routes>
             <Route path="/Landing" element={<Landing />} />
             <Route path="AboutUs" element={<AboutUs />} />

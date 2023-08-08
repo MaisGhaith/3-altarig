@@ -9,6 +9,12 @@ router.post('/login', (req, res) => {
     const { user_email, user_password, role, deleted } = req.body; // Assuming the email and password are provided in the request body
 
     console.log(req.body)
+    console.log(req.body)
+    console.log(req.body)
+    console.log(req.body)
+    console.log(req.body)
+    console.log(req.body)
+    console.log(req.body)
     const sql = 'SELECT * FROM users WHERE deleted = false AND user_email = $1';
 
     pool.query(
@@ -37,8 +43,9 @@ router.post('/login', (req, res) => {
                 phone_number: user.phone_number,
                 role: user.role,
                 deleted: user.deleted,
-
             }, SECRETKEY);
+
+
             res.json({ token: token, message: 'User login successful' });
 
         }

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import { Children, createContext, useState } from "react";
+import { createContext, useState } from "react";
 export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
@@ -9,7 +9,15 @@ const UserProvider = ({ children }) => {
     const [userName, setUserName] = useState();
     const [role, setRole] = useState();
     const [phone, setPhone] = useState();
-    const [rateRefresh, setRateRefresh] = useState();
+    const [email, setEmail] = useState();
+
+    console.log(userName)
+    useEffect(() => {
+        if (localStorage.token) {
+            fetchUserData();
+        }
+    }, []);
+
 
     const fetchUserData = async () => {
         try {
@@ -21,12 +29,13 @@ const UserProvider = ({ children }) => {
                     },
                 });
 
+                console.log("Response data:", response.data); // Check the entire response object
+
                 setUserId(response.data.user_id);
-                setUserName(response.data.user_name);
-                setRole(response.data.role);
-                setPhone(response.data.phone_number)
-
-
+                setUserName(response.data.user_name); // Property name should match 'user_name'
+                setRole(response.data.role); // Property name should match 'role'
+                setPhone(response.data.phone_number); // Property name should match 'phone_number'
+                setEmail(response.data.user_email); // Property name should match 'user_email'
             }
         } catch (error) {
             console.error(error);
@@ -42,6 +51,14 @@ const UserProvider = ({ children }) => {
         }
     }, [])
 
+    useEffect(() => {
+        // This will log the userName value whenever it changes
+        console.log("userName:", userName);
+    }, [userName]);
+
+    console.log(userName)
+
+
     return (
         <>
             <UserContext.Provider
@@ -52,8 +69,7 @@ const UserProvider = ({ children }) => {
                     role,
                     setRole,
                     phone,
-                    rateRefresh,
-                    setRateRefresh
+                    email
                 }}
             >
                 {children}

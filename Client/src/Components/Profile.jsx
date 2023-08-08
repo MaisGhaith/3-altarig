@@ -7,11 +7,9 @@ import {
     initTE,
 } from "tw-elements";
 import axios from "axios";
-import { UserContext } from '../Context/UserContext';
 
 initTE({ Rating });
 const Profile = () => {
-    const { rateRefresh, setRateRefresh } = useContext(UserContext)
 
     const {
         handleEditSubmit,
@@ -67,7 +65,6 @@ const Profile = () => {
                 service_id: serviceIdToRate
             })
             console.log(serviceIdToRate)
-            setRateRefresh(serviceIdToRate)
             console.log(response.data, "rating updated succesfully");
             handleCloseRatingModal();
             getDoneUserOrder(id);

@@ -10,6 +10,7 @@ export default () => {
     const { userId, userName, setUserName } = useContext(UserContext);
 
 
+
     const [state, setState] = useState(false)
 
     // Replace javascript:void(0) paths with your paths
@@ -54,23 +55,25 @@ export default () => {
     }
 
 
-    useEffect(() => {
-        const getUserNameFromToken = async () => {
-            const token = localStorage.getItem("token");
-            if (token) {
-                try {
-                    await axios.get(`http://localhost:5151/getUser/${userId}`);
-                } catch (error) {
-                    console.error("Error fetching user data:", error);
-                }
-            }
-        };
+    // useEffect(() => {
+    //     const getUserNameFromToken = async () => {
+    //         const token = localStorage.getItem("token");
+    //         if (token) {
+    //             try {
+    //                 await axios.get(`http://localhost:5151/getUser/${userId}`);
+    //             } catch (error) {
+    //                 console.error("Error fetching user data:", error);
+    //             }
+    //         }
+    //     };
 
-        getUserNameFromToken();
-    }, []);
+    //     getUserNameFromToken();
+    // }, []);
 
 
     const isLoggedIn = !!userName;
+
+
 
     const [isLoggedOut, setIsLoggedOut] = useState(false);
     useEffect(() => {
