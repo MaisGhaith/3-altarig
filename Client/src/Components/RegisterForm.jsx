@@ -10,11 +10,8 @@ const RegisterForm = () => {
     }
         = registerFunctions();
 
-    const [showPassword, setShowPassword] = useState(false);
-
     const navigate = useNavigate();
-
-    const [path] = useState("/Landing");
+    const path = "/Landing";
 
     const [user, setUser] = useState({
         user_name: '',
@@ -28,26 +25,9 @@ const RegisterForm = () => {
     const [checkInput, setCheckInput] = useState({
         user_name: false,
         user_email: false,
-        user_password: false,
         phone_number: false,
+        user_password: false,
         confirmPassword: false,
-    });
-
-    const themeValue = {
-        success: "green",
-        error: "red",
-        warning: "red",
-        normal: "teal",
-    };
-
-    const [inputTheme, setInputTheme] = useState({
-        user_email: themeValue.normal,
-        user_password: themeValue.normal,
-        user_name: themeValue.normal,
-        phone_number: themeValue.normal,
-        phone_number: themeValue.normal,
-        confirmPassword: themeValue.normal,
-        serial: themeValue.normal,
     });
 
     const [massageWarning, setMassageWarning] = useState({
@@ -59,160 +39,131 @@ const RegisterForm = () => {
         submit: "",
     });
 
-    const [passwordMode, setPasswordMode] = useState(true);
-    const [passwordModeCon, setPasswordModeCon] = useState(true);
-
-    function handlePasswordMode() {
-        setPasswordMode(!passwordMode);
-    }
-
-    function handlePasswordModeCon() {
-        setPasswordModeCon(!passwordModeCon);
-    }
-
-    // const isLoggedIn = () => {
-    //     // Check if the token exists in local storage
-    //     const token = localStorage.getItem('token');
-    //     return token ? true : false;
-    // };
-
-    function handleName(event) {
-        const username = event.target.value;
-        setCheckInput({ ...checkInput, user_name: false });
-
-        if (username === "") {
-            setInputTheme({ ...inputTheme, user_name: themeValue.normal });
-            setMassageWarning({
-                ...massageWarning,
-                user_name: "Please enter a value",
-            });
-        } else {
-            setInputTheme({ ...inputTheme, usernuser_nameame: themeValue.success });
-            setMassageWarning({ ...massageWarning, user_name: "" });
-            setUser({ ...user, user_name: username });
-            setCheckInput({ ...checkInput, user_name: true });
-        }
-    }
-
-    function handleEmail(event) {
-        const patternEmail = /^[A-z0-9\.]+@[A-z0-9]+\.[A-z]{3,5}$/;
-        setCheckInput({ ...checkInput, user_email: false });
-        const user_email = event.target.value;
-
-        if (user_email === "") {
-            setInputTheme({ ...inputTheme, user_email: themeValue.normal });
-            setMassageWarning({ ...massageWarning, user_email: "Please enter a value" });
-        } else if (!patternEmail.test(user_email)) {
-            setInputTheme({ ...inputTheme, user_email: themeValue.error });
-            setMassageWarning({
-                ...massageWarning,
-                user_email: " Please enter a valid email address",
-            });
-        } else {
-            setMassageWarning({ ...massageWarning, user_email: "" });
-            setInputTheme({ ...inputTheme, user_email: themeValue.success });
-            setUser({ ...user, user_email: user_email });
-            setCheckInput({ ...checkInput, user_email: true });
-        }
-    }
-
-
-    function isValidPhoneNumber(phoneNumber) {
-        // Regular expression pattern for phone number validation
+    const isValidPhoneNumber = (phoneNumber) => {
         const phoneNumberPattern = /^07[789]\d{7}$/;
-
         return phoneNumberPattern.test(phoneNumber);
     }
 
-    function handlePhoneNumber(event) {
-        const phoneNumber = event.target.value;
-        setCheckInput({ ...checkInput, phone_number: false });
+    const handleName = (event) => {
+        const username = event.target.value.trim();
+        // const validUsernamePattern = /^[A-Za-z\s]{8,}$/;
+        const validUsernamePattern = /^[\p{L}A-Za-z_\s]{8,}$/u;
 
-        if (phoneNumber === "") {
-            setInputTheme({ ...inputTheme, phone_number: themeValue.normal });
+        setCheckInput({ ...checkInput, user_name: validUsernamePattern.test(username) });
+
+        if (!username) {
             setMassageWarning({
                 ...massageWarning,
-                phone_number: "Please enter a value",
+                user_name: "يجب إدخال اسم مستخدم ",
             });
-        } else if (!isValidPhoneNumber(phoneNumber)) {
-            setInputTheme({ ...inputTheme, phone_number: themeValue.error });
+        } else if (!validUsernamePattern.test(username)) {
             setMassageWarning({
                 ...massageWarning,
-                phone_number: "Please enter a valid phone number",
+                user_name: " اسم المستخدم يجب ان يحتوي على 8 احرف وبدون رموز خاصة               ",
             });
         } else {
-            setInputTheme({ ...inputTheme, phone_number: themeValue.success });
-            setMassageWarning({ ...massageWarning, phone_number: "" });
-            setUser({ ...user, phone_number: phoneNumber });
-            setCheckInput({ ...checkInput, phone_number: true });
+            setMassageWarning({ ...massageWarning, user_name: "" });
+            setUser({ ...user, user_name: username });
         }
     }
 
+    const handleEmail = (event) => {
+        const patternEmail = /^[A-z0-9\.]+@[A-z0-9]+\.[A-z]{3,5}$/;
+        const user_email = event.target.value;
 
+        setCheckInput({ ...checkInput, user_email: patternEmail.test(user_email) });
 
-    function handlePassword(event) {
-        // more than 8 characters, with at least 1 number, uppercase, and special characters.
+        if (!user_email) {
+            setMassageWarning({ ...massageWarning, user_email: "يرجى ادخال ايميل " });
+        } else if (!patternEmail.test(user_email)) {
+            setMassageWarning({
+                ...massageWarning,
+                user_email: " ادخل ايميل",
+            });
+        } else {
+            setMassageWarning({ ...massageWarning, user_email: "" });
+            setUser({ ...user, user_email: user_email });
+        }
+    }
+
+    const handlePhoneNumber = (event) => {
+        const phoneNumber = event.target.value;
+
+        setCheckInput({ ...checkInput, phone_number: isValidPhoneNumber(phoneNumber) });
+
+        if (!phoneNumber) {
+            setMassageWarning({
+                ...massageWarning,
+                phone_number: " ادخل رقم هاتف",
+            });
+        } else if (!isValidPhoneNumber(phoneNumber)) {
+            setMassageWarning({
+                ...massageWarning,
+                phone_number: "يرجى ادخال رقم هاتف صحيح",
+            });
+        } else {
+            setMassageWarning({ ...massageWarning, phone_number: "" });
+            setUser({ ...user, phone_number: phoneNumber });
+        }
+    }
+
+    const handlePassword = (event) => {
         const patternPassword =
             /^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,.?]).{8,}$/;
-        setCheckInput({ ...checkInput, user_password: false });
         const password = event.target.value;
 
-        if (password === "") {
-            setInputTheme({ ...inputTheme, user_password: themeValue.normal });
+        setCheckInput({ ...checkInput, user_password: patternPassword.test(password) });
+
+        if (!password) {
             setMassageWarning({
                 ...massageWarning,
-                user_password: "Please enter a value",
+                user_password: "ادخل كلمة مرور",
             });
         } else if (!patternPassword.test(password)) {
-            setInputTheme({ ...inputTheme, user_password: themeValue.error });
             setMassageWarning({
                 ...massageWarning,
-                user_password: `Please enter a password that is at least 8 characters long and includes at least one uppercase letter, one lowercase letter, one number, and one special character `,
+                // user_password: `Password must contain 8 charachter, inclueds upperCase, lowerCase, number, special symbol `,
+                user_password: `يجب أن تحتوي كلمة المرور على 8 أحرف، بما في ذلك حرف كبير وحرف صغير ورقم ورمز خاص`,
+
             });
         } else {
             setMassageWarning({ ...massageWarning, user_password: "" });
-            setInputTheme({ ...inputTheme, user_password: themeValue.success });
             setUser({ ...user, user_password: password });
-            setCheckInput({ ...checkInput, user_password: true });
         }
     }
 
-    function handleConfirmPassword(event) {
-        const password = event.target.value;
+    const handleConfirmPassword = (event) => {
+        const confirmPassword = event.target.value;
+        const password = user.user_password;
 
-        setCheckInput({ ...checkInput, confirmPassword: false });
+        setCheckInput({ ...checkInput, confirmPassword: confirmPassword === password });
 
-        if (password === "") {
-            setInputTheme({ ...inputTheme, confirmPassword: themeValue.normal });
+        if (!confirmPassword) {
             setMassageWarning({
                 ...massageWarning,
-                confirmPassword: "Please enter a value",
+                confirmPassword: "قم بتأكيد كلمة المرور",
             });
-        } else if (password !== user.user_password) {
-            setInputTheme({ ...inputTheme, confirmPassword: themeValue.error });
+        } else if (confirmPassword !== password) {
             setMassageWarning({
                 ...massageWarning,
-                confirmPassword: "The password confirmation does not match",
+                confirmPassword: "كلمة المرور غير متطابقة",
             });
         } else {
             setMassageWarning({ ...massageWarning, confirmPassword: "" });
-            setInputTheme({ ...inputTheme, confirmPassword: themeValue.success });
-            setCheckInput({ ...checkInput, confirmPassword: true });
         }
     }
 
-    const handleSubmit0 = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (
+        const isValid =
             checkInput.user_name &&
             checkInput.user_email &&
             checkInput.phone_number &&
             checkInput.user_password &&
-            checkInput.confirmPassword
-        ) {
+            checkInput.confirmPassword;
 
-
+        if (isValid) {
             try {
                 const res = await axios.post("http://localhost:5151/Register/register", user);
                 localStorage.setItem("username", user.user_name);
@@ -227,34 +178,17 @@ const RegisterForm = () => {
                 });
                 console.error(err);
             }
-
-
-
-
-
-
-            // sendDataToServer(user);
-            // return false
         } else {
             setMassageWarning({
                 ...massageWarning,
                 submit: "Please enter all required fields.",
             });
-            return false
         }
     }
 
-    async function sendDataToServer(user) {
-        console.log("----------------------------------")
-        console.log("----------------------------------")
-
-        return false
-    }
-
-
     return (
 
-        <div className='mt-20'>
+        <div>
             {/* component */}
             <div className="bg-white relative lg:py-20">
                 <div
@@ -277,7 +211,7 @@ const RegisterForm = () => {
                                 <p className="w-full text-4xl font-medium text-center leading-snug font-serif">
                                     التسجيل
                                 </p>
-                                <form onSubmit={handleSubmit0} className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
+                                <form onSubmit={(e) => handleSubmit(e, console.log("clicked"))} className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-2">
                                     {/* <p class="text-sm font-normal flex justify-center text-gray-600 mb-7">التسجيل عن طريق :  </p> */}
                                     <div className='flex justify-center gap-7 mb-3'>
                                         <button className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
@@ -299,107 +233,93 @@ const RegisterForm = () => {
                                             <span className='text-xs'>Login with Facebook</span>
                                         </button>
                                     </div>
-                                    <div className="flex justify-center">
-                                        <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-32 sm:ml-8 md:ml-32 lg:ml-60 font-medium text-gray-600 absolute">
-                                            اسم المستخدم
-                                        </p>
+                                    <div className="flex justify-center box-border">
+                                        <div className='flex flex-col w-80'>
+                                            <input
+                                                placeholder="اسم المستخدم"
+                                                type="text"
+                                                className="border placeholder-gray-400 focus:outline-none
+            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+            border-gray-300 rounded-md"
+                                                id='username'
+                                                name="user_name"
 
-                                        <input
-                                            placeholder="اسم المستخدم"
-                                            type="text"
-                                            className="border placeholder-gray-400 focus:outline-none
-        focus:border-black w-80 justify-center p-2 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-        border-gray-300 rounded-md"
-                                            id='username'
-                                            name="user_name"
-                                            onChange={(event) => handleName(event)}
-                                        />
-                                        <span class="text-md">
-                                            {massageWarning.name}
-                                        </span>
+                                                onChange={(event) => handleName(event)}
+                                            />
+                                            <p className="text-md text-red-500">
+                                                {massageWarning.user_name}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-center box-border">
+                                        <div className='flex flex-col w-80'>
+                                            <input
+                                                placeholder="email@ex.com"
+                                                type="email"
+                                                className="border placeholder-gray-400 focus:outline-none
+                                                focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+                                                border-gray-300 rounded-md"
+                                                name="user_email"
+                                                id='user_email'
+                                                onChange={(event) => handleEmail(event)}
+                                            />
+                                            <p className="text-md text-red-500">
+                                                {massageWarning.user_email}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-center box-border">
+                                        <div className='flex flex-col w-80'>
+                                            <input
+                                                placeholder=" 0000000 07$"
+                                                type="phone_number"
+                                                className="border placeholder-gray-400 focus:outline-none
+            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+            border-gray-300 rounded-md"
+                                                name="phone_number"
+
+                                                onChange={(e) => handlePhoneNumber(e)}
+                                            />
+                                            <p className="text-md text-red-500">
+                                                {massageWarning.phone_number}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-center box-border">
+                                        <div className='flex flex-col w-80'>
+                                            <input
+                                                placeholder="*******"
+                                                type="password"
+                                                className="border placeholder-gray-400 focus:outline-none
+            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+            border-gray-300 rounded-md"
+                                                name="user_password"
+
+                                                onChange={(event) => handlePassword(event)}
+                                            />
+                                            <p className="text-sm text-red-500">
+                                                {massageWarning.user_password}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-center box-border">
+                                        <div className='flex flex-col w-80'>
+                                            <input
+                                                placeholder="*******"
+                                                type="password"
+                                                className="border placeholder-gray-400 focus:outline-none
+            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+            border-gray-300 rounded-md"
+                                                name="password-confirm"
+
+                                                onChange={(event) => handleConfirmPassword(event)}
+                                            />
+                                            <p className="text-md text-red-500">
+                                                {massageWarning.confirmPassword}
+                                            </p>
+                                        </div>
                                     </div>
                                     <div className="flex justify-center">
-                                        <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-32 sm:ml-8 md:ml-32 lg:ml-60 font-medium text-gray-600 absolute">
-                                            الايميل
-                                        </p>
-
-                                        <input
-                                            placeholder="123@ex.com"
-                                            type="email"
-                                            className="border placeholder-gray-400 focus:outline-none
-        focus:border-black w-80 justify-center p-2 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-        border-gray-300 rounded-md"
-                                            name="user_email"
-                                            onChange={(event) => handleEmail(event)}
-                                        />
-                                        <span class="font-medium text-danger">
-                                            {massageWarning.user_email}
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-center">
-                                        <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-32 sm:ml-8 md:ml-32 lg:ml-60 font-medium text-gray-600 absolute">
-                                            رقم الهاتف
-                                        </p>
-
-                                        <input
-                                            name="phone_number"
-                                            // value={user.phone_number}
-                                            onChange={(e) => handlePhoneNumber(e)}
-                                            className="border placeholder-gray-400 focus:outline-none
-        focus:border-black w-80 justify-center p-2 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-        border-gray-300 rounded-md"
-
-                                        />
-                                        <span className='text-xs text-red-500'>
-                                            {massageWarning.phone_number}
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-center">
-                                        <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-32 sm:ml-8 md:ml-32 lg:ml-60 font-medium text-gray-600 absolute">
-                                            كلمة المرور
-                                        </p>
-
-                                        <input
-                                            placeholder="*******"
-                                            className="border placeholder-gray-400 focus:outline-none
-        focus:border-black w-80 justify-center p-2 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-        border-gray-300 rounded-md"
-                                            name="user_password"
-                                            onChange={(event) => handlePassword(event)}
-                                            type={showPassword ? 'text' : 'user_password'}
-                                        />
-                                        <span class="font-medium text-danger">
-                                            {massageWarning.user_password}
-                                        </span>
-                                        {/* <img
-                                            src={showPassword ? '/Images/eye.png' : '/Images/eyebrow.png'}
-                                            alt="Show Password"
-                                            onClick={togglePasswordVisibility}
-                                            className="eye-icon"
-                                        /> */}
-                                    </div>
-                                    <div className="flex justify-center">
-                                        <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-28 sm:ml-8 md:ml-32 lg:ml-56 font-medium text-gray-600 absolute">
-
-                                            تأكيد  كلمة المرور
-                                        </p>
-                                        <input
-                                            placeholder="Password"
-                                            type="password"
-                                            className="border placeholder-gray-400 focus:outline-none
-        focus:border-black w-80 p-2 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
-        border-gray-300 rounded-md"
-
-                                            onChange={(event) => handleConfirmPassword(event)}
-                                            name="password-confirm"
-                                        />
-                                        <span class="font-medium text-danger">
-                                            {massageWarning.confirmPassword}
-                                        </span>
-
-                                    </div>
-                                    <div className="flex justify-center">
-
                                         <button
                                             className="w-80 inline-block pt-2 pr-5 pb-2
                                              pl-5 text-xl font-medium text-center text-white bg-red-500
@@ -408,7 +328,6 @@ const RegisterForm = () => {
                                         >
                                             تسجيل
                                         </button>
-
                                     </div>
                                     <div className='flex flex-col sm:flex-row justify-around mx-4 sm:mx-4 md:mx-32 lg:mx-32'>
                                         <span className="text-sm mt-2 sm:mt-0 sm:ml-2 hover:text-red-500 cursor-pointer">
@@ -420,8 +339,6 @@ const RegisterForm = () => {
                                             </span>
                                         </a>
                                     </div>
-
-
                                 </form>
                             </div>
                             <svg
