@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import LoginFunctions from './LoginFunctions'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Typed from 'react-typed';
+
 
 const LoginForm = () => {
 
@@ -16,91 +18,26 @@ const LoginForm = () => {
     const [user, setUser] = useState({});
     const [path, setPath] = useState("/Landing");
 
-    const [passwordMode, setPasswordMode] = useState(true);
-
-    function handlePasswordMode() {
-        setPasswordMode(!passwordMode);
-    }
-
-    const themeValue = {
-        success: "green",
-        error: "red",
-        warning: "red",
-        normal: "teal",
-    };
-
     const [checkInput, setCheckInput] = useState({
         email: false,
         password: false,
-        type: false,
-    });
-
-    const [inputTheme, setInputTheme] = useState({
-        email: themeValue.normal,
-        password: themeValue.normal,
     });
 
     const [massageWarning, setMassageWarning] = useState({
         email: "",
         password: "",
+        submit: "",
     });
-
-    function handleEmail(event) {
-        const patternEmail = /^[A-z0-9\.]+@[A-z0-9]+\.[A-z]{3,5}$/;
-        const email = event.target.value;
-        setCheckInput({ ...checkInput, email: false });
-        if (email === "") {
-            setInputTheme({ ...inputTheme, email: themeValue.normal });
-            setMassageWarning({ ...massageWarning, email: "Please enter a value" });
-        } else if (!patternEmail.test(email)) {
-            setInputTheme({ ...inputTheme, email: themeValue.error });
-            setMassageWarning({
-                ...massageWarning,
-                email: "Please enter a valid email.",
-            });
-        } else {
-            setMassageWarning({ ...massageWarning, email: "" });
-            setInputTheme({ ...inputTheme, email: themeValue.success });
-            setUser({ ...user, email: email });
-            setCheckInput({ ...checkInput, email: true });
-        }
-    }
-
-    function handlePassword(event) {
-        const patternPassword =
-            /^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,.?]).{8,}$/;
-        const password = event.target.value;
-        setCheckInput({ ...checkInput, password: false });
-        if (password === "") {
-            setInputTheme({ ...inputTheme, password: themeValue.normal });
-            setMassageWarning({
-                ...massageWarning,
-                password: "Please enter a value",
-            });
-        } else if (!patternPassword.test(password)) {
-            setInputTheme({ ...inputTheme, password: themeValue.error });
-            setMassageWarning({
-                ...massageWarning,
-                password: `Please enter a password that is at least 8 characters long and includes at least one uppercase letter, one lowercase letter, one number, and one special character `,
-            });
-        } else {
-            setMassageWarning({ ...massageWarning, password: "" });
-            setInputTheme({ ...inputTheme, password: themeValue.success });
-            setUser({ ...user, password: password });
-            setCheckInput({ ...checkInput, password: true });
-        }
-    }
 
     async function handleSubmit(event) {
         event.preventDefault();
-
         const email = event.target.email.value;
         const password = event.target.password.value;
 
         if (!checkInput.email && !checkInput.password) {
             setMassageWarning({
                 ...massageWarning,
-                submit: "Please enter an email",
+                submit: "Please enter an email and password.",
             });
             return;
         }
@@ -124,16 +61,55 @@ const LoginForm = () => {
             } else {
                 setMassageWarning({
                     ...massageWarning,
-                    submit: "The email or password is invalid.",
+                    submit: "الايميل او كلمة المرور غير صحيح .",
                 });
             }
             console.error(err);
         }
     }
 
+    function handleEmail(event) {
+        const patternEmail = /^[A-z0-9\.]+@[A-z0-9]+\.[A-z]{3,5}$/;
+        const email = event.target.value;
+
+        if (email === "") {
+            setMassageWarning({ ...massageWarning, email: "Please enter a value" });
+            setCheckInput({ ...checkInput, email: false });
+        } else if (!patternEmail.test(email)) {
+            setMassageWarning({ ...massageWarning, email: "Please enter a valid email." });
+            setCheckInput({ ...checkInput, email: false });
+        } else {
+            setMassageWarning({ ...massageWarning, email: "" });
+            setUser({ ...user, email: email });
+            setCheckInput({ ...checkInput, email: true });
+        }
+    }
+
+    function handlePassword(event) {
+        const patternPassword =
+            /^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,.?]).{8,}$/;
+        const password = event.target.value;
+
+        if (password === "") {
+            setMassageWarning({ ...massageWarning, password: "Please enter a value" });
+            setCheckInput({ ...checkInput, password: false });
+        } else if (!patternPassword.test(password)) {
+            setMassageWarning({
+                ...massageWarning,
+                password: "Password must be at least 8 letters and contain special characters.",
+            });
+            setCheckInput({ ...checkInput, password: false });
+        } else {
+            setMassageWarning({ ...massageWarning, password: "" });
+            setUser({ ...user, password: password });
+            setCheckInput({ ...checkInput, password: true });
+        }
+    }
+
+
     return (
         <div>
-            <div className='mt-20'>
+            <div >
                 {/* component */}
                 <div className="bg-white relative lg:py-20">
                     <div
@@ -178,47 +154,53 @@ const LoginForm = () => {
                                                 <span className='text-xs'>Login with Facebook</span>
                                             </button>
                                         </div>
-                                        <div className="relative">
-                                        </div>
-                                        <div className="flex justify-center">
+
+                                        <div className="flex justify-center box-border">
                                             <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-32 sm:ml-8 md:ml-32 lg:ml-60 font-medium text-gray-600 absolute">
                                                 الايميل
                                             </p>
-
-                                            <input
-                                                placeholder="123@ex.com"
-                                                type="text"
-                                                className="border placeholder-gray-400 focus:outline-none
-            focus:border-black w-80 justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+                                            <div className='flex flex-col w-80'>
+                                                <input
+                                                    placeholder="123@ex.com"
+                                                    type="text"
+                                                    className="border placeholder-gray-400 focus:outline-none
+            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
             border-gray-300 rounded-md"
-                                                name="email"
-                                                // value={credentials.user_email}
-                                                onChange={(e) => handleEmail(e)}
-                                            />
-                                            <span className="text-danger">
-                                                {massageWarning.email}
-                                            </span>
+                                                    name="email"
+                                                    onChange={(e) => handleEmail(e)}
+                                                />
+                                                {/* <p className="text-red-500">
+                                                    {massageWarning.email}
+                                                </p> */}
+                                            </div>
+
                                         </div>
                                         {/* {error && <span className="text-red-500">{error}</span>} */}
-                                        <div className="flex justify-center">
-                                            <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-28 sm:ml-8 md:ml-32 lg:ml-56 font-medium text-gray-600 absolute">
-
+                                        <div className="flex justify-center box-border">
+                                            <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-32 sm:ml-8 md:ml-32 lg:ml-60 font-medium text-gray-600 absolute">
                                                 كلمة المرور
                                             </p>
-                                            <input
-                                                placeholder="Password"
-                                                type="password"
-                                                className="border placeholder-gray-400 focus:outline-none
-            focus:border-black w-80 p-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
+                                            <div className='flex flex-col w-80'>
+                                                <input
+                                                    placeholder="Password"
+                                                    type="password"
+                                                    className="border placeholder-gray-400 focus:outline-none
+            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
             border-gray-300 rounded-md"
-                                                name="password"
-                                                // value={credentials.user_password}
-                                                onChange={(e) => handlePassword(e)}
-                                            />
+                                                    name="password"
 
-                                            <span className="text-danger">
-                                                {massageWarning.password}
-                                            </span>
+                                                    onChange={(e) => handlePassword(e)}
+                                                />
+
+                                                {/* <p className="text-red-500">
+                                                    {massageWarning.password}
+                                                </p> */}
+
+
+                                                <p className="text-red-500 text-right mt-2">
+                                                    {massageWarning.submit}
+                                                </p>
+                                            </div>
                                         </div>
                                         <div className="flex justify-center">
                                             <button
@@ -229,6 +211,11 @@ const LoginForm = () => {
                                             >
                                                 تسجيل دخول
                                             </button>
+                                            {/* {massageWarning.submit && (
+                                                <p className="text-red-500 text-center mt-2">
+                                                    {massageWarning.submit}
+                                                </p>
+                                            )} */}
                                         </div>
                                         <div className='flex flex-col sm:flex-row justify-around mx-4 sm:mx-4 md:mx-32 lg:mx-32'>
                                             <span className="text-sm mt-2 sm:mt-0 sm:ml-2 hover:text-red-500 cursor-pointer">
