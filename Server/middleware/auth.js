@@ -1,7 +1,5 @@
-// auth.js
-
 const jwt = require("jsonwebtoken");
-const JWTsecretKey = process.env.SECRET_KEY
+const JWTsecretKey = process.env.SECRET_KEY;
 
 module.exports = (req, res, next) => {
     const token = req.headers.authorization;
@@ -10,7 +8,7 @@ module.exports = (req, res, next) => {
     }
     jwt.verify(token, JWTsecretKey, (err, decoded) => {
         if (err) {
-            console.log("token error:", err); // Log the error object for debugging
+            console.log("token error:", err);
             return res.status(403).json({ message: 'Failed to authenticate token.' });
         }
         console.log("token Authenticated");

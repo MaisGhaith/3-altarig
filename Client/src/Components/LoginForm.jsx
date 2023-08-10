@@ -169,9 +169,9 @@ const LoginForm = () => {
                                                     name="email"
                                                     onChange={(e) => handleEmail(e)}
                                                 />
-                                                {/* <p className="text-red-500">
+                                                <p className="text-red-500">
                                                     {massageWarning.email}
-                                                </p> */}
+                                                </p>
                                             </div>
 
                                         </div>
@@ -192,9 +192,9 @@ const LoginForm = () => {
                                                     onChange={(e) => handlePassword(e)}
                                                 />
 
-                                                {/* <p className="text-red-500">
+                                                <p className="text-red-500">
                                                     {massageWarning.password}
-                                                </p> */}
+                                                </p>
 
 
                                                 <p className="text-red-500 text-right mt-2">
