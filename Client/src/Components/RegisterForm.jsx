@@ -124,7 +124,6 @@ const RegisterForm = () => {
         } else if (!patternPassword.test(password)) {
             setMassageWarning({
                 ...massageWarning,
-                // user_password: `Password must contain 8 charachter, inclueds upperCase, lowerCase, number, special symbol `,
                 user_password: `يجب أن تحتوي كلمة المرور على 8 أحرف، بما في ذلك حرف كبير وحرف صغير ورقم ورمز خاص`,
 
             });
@@ -155,6 +154,13 @@ const RegisterForm = () => {
         }
     }
 
+
+    const [registerRes, setRegisterRes] = useState(null);
+    const [verificationCode, setVerificationCode] = useState('');
+    const [isRegistered, setIsRegistered] = useState(false);
+    const [savedVerificationCode, setSavedVerificationCode] = useState('');
+    const [userId, setUserId] = useState(null);
+    console.log(userId)
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -168,20 +174,27 @@ const RegisterForm = () => {
         if (isValid) {
             try {
                 const res = await axios.post("http://localhost:5151/Register/register", user);
-                console.log(res.data)
-                setUser({ ...user, user_id: res.data.user_id }); // Set user_id from the response
-                setIsRegistered(true); // Show verification input form
-                console.log(isRegistered)
-                // localStorage.setItem("username", user.user_name);
-                // localStorage.setItem("email", user.user_email);
-                // localStorage.setItem("token", res.data.token);
+                console.log(res.data);
+                setUser({ ...user, user_id: res.data.user_id });
+                setRegisterRes(res.data);
+                setSavedVerificationCode(res.data.verification_code);
+                setIsRegistered(true);
             } catch (err) {
-                setMassageWarning({
-                    ...massageWarning,
-                    user_email: "The email address already exists.",
-                });
-                console.error(err);
+                if (err.response && err.response.status === 409) {
+                    const user_id = err.response.data.user.user_id; // Access user_id from the response
+                    setUserId(user_id);
+                    setMassageWarning({
+                        ...massageWarning,
+                        user_email: "The email address already exists.",
+                    });
+                    setRegisterRes(null);
+                    setIsRegistered(true);
+                    console.error(err);
+                } else {
+                    console.error("An error occurred:", err);
+                }
             }
+
         } else {
             setMassageWarning({
                 ...massageWarning,
@@ -190,30 +203,20 @@ const RegisterForm = () => {
         }
     };
 
-    const [isRegistered, setIsRegistered] = useState(false);
-    const [verificationCode, setVerificationCode] = useState('');
-
-    const handleVerificationCode = (event) => {
-        const code = event.target.value.trim();
-        setVerificationCode(code);
-    };
-
-
     const handleVerificationSubmit = async (event) => {
         event.preventDefault();
-
         try {
-            console.log(user.user_id)
-            const res = await axios.put(`http://localhost:5151/Register/verify/${user.user_id}`, {
-                verification_code: verificationCode
+            if (!userId) {
+                console.error("User ID is missing.");
+                return;
+            }
+            const res = await axios.put(`http://localhost:5151/Register/verify/${userId}`, {
+                verification_code: verificationCode,
             });
-            console.log(user.user_id)
             console.log("Verification successful:", res.data);
-            setIsRegistered(true);
             localStorage.setItem("username", res.data.user_name);
             localStorage.setItem("email", res.data.user_email);
             localStorage.setItem("token", res.data.token);
-
             navigate(path);
         } catch (error) {
             console.error("Verification error:", error);
@@ -245,158 +248,165 @@ const RegisterForm = () => {
                                 <p className="w-full text-4xl font-medium text-center leading-snug font-serif">
                                     التسجيل
                                 </p>
-                                <form onSubmit={(e) => handleSubmit(e, console.log("clicked"))} className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-2">
-                                    {/* <p class="text-sm font-normal flex justify-center text-gray-600 mb-7">التسجيل عن طريق :  </p> */}
-                                    <div className='flex justify-center gap-7 mb-3'>
-                                        <button className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
-                                            <img
-                                                className="w-6 h-6"
-                                                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                                                loading="lazy"
-                                                alt="google logo"
-                                            />
-                                            <span className='text-xs'>Login with Google</span>
-                                        </button>
-                                        <button className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
-                                            <img
-                                                className="w-6 h-6"
-                                                src="/Images/facebook.png"
-                                                loading="lazy"
-                                                alt="google logo"
-                                            />
-                                            <span className='text-xs'>Login with Facebook</span>
-                                        </button>
-                                    </div>
-                                    <div className="flex justify-center box-border">
-                                        <div className='flex flex-col w-80'>
-                                            <input
-                                                placeholder="اسم المستخدم"
-                                                type="text"
-                                                className="border placeholder-gray-400 focus:outline-none
-            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-            border-gray-300 rounded-md"
-                                                id='username'
-                                                name="user_name"
-
-                                                onChange={(event) => handleName(event)}
-                                            />
-                                            <p className="text-md text-red-500">
-                                                {massageWarning.user_name}
-                                            </p>
+                                {isRegistered ? (
+                                    <form onSubmit={(event) => handleVerificationSubmit(event)} className="w-full mt-6">
+                                        <input
+                                            placeholder="Enter Verification Code"
+                                            type="text"
+                                            className="border placeholder-gray-400 focus:outline-none focus:border-black p-3 mt-2 text-base block bg-white border-gray-300 rounded-md"
+                                            value={verificationCode}
+                                            onChange={(event) => setVerificationCode(event.target.value)}
+                                        />
+                                        {/* Display any warning messages for the verification code here */}
+                                        {/* ... */}
+                                        <div className="flex justify-center">
+                                            <button
+                                                className="w-80 inline-block pt-2 pr-5 pb-2 pl-5 text-xl font-medium text-center text-white bg-red-500 rounded-lg transition duration-200 hover:bg-red-600 ease"
+                                                type="submit"
+                                            >
+                                                Verify
+                                            </button>
                                         </div>
-                                    </div>
-                                    <div className="flex justify-center box-border">
-                                        <div className='flex flex-col w-80'>
-                                            <input
-                                                placeholder="email@ex.com"
-                                                type="email"
-                                                className="border placeholder-gray-400 focus:outline-none
-                                                focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-                                                border-gray-300 rounded-md"
-                                                name="user_email"
-                                                id='user_email'
-                                                onChange={(event) => handleEmail(event)}
-                                            />
-                                            <p className="text-md text-red-500">
-                                                {massageWarning.user_email}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-center box-border">
-                                        <div className='flex flex-col w-80'>
-                                            <input
-                                                placeholder=" 0000000 07$"
-                                                type="phone_number"
-                                                className="border placeholder-gray-400 focus:outline-none
-            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-            border-gray-300 rounded-md"
-                                                name="phone_number"
-
-                                                onChange={(e) => handlePhoneNumber(e)}
-                                            />
-                                            <p className="text-md text-red-500">
-                                                {massageWarning.phone_number}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-center box-border">
-                                        <div className='flex flex-col w-80'>
-                                            <input
-                                                placeholder="*******"
-                                                type="password"
-                                                className="border placeholder-gray-400 focus:outline-none
-            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-            border-gray-300 rounded-md"
-                                                name="user_password"
-
-                                                onChange={(event) => handlePassword(event)}
-                                            />
-                                            <p className="text-sm text-red-500">
-                                                {massageWarning.user_password}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-center box-border">
-                                        <div className='flex flex-col w-80'>
-                                            <input
-                                                placeholder="*******"
-                                                type="password"
-                                                className="border placeholder-gray-400 focus:outline-none
-            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-            border-gray-300 rounded-md"
-                                                name="password-confirm"
-
-                                                onChange={(event) => handleConfirmPassword(event)}
-                                            />
-                                            <p className="text-md text-red-500">
-                                                {massageWarning.confirmPassword}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    {/* {isRegistered && (
-                                    )} */}
-
-                                    <div className="flex justify-center">
-                                        <button
-                                            className="w-80 inline-block pt-2 pr-5 pb-2
-                                             pl-5 text-xl font-medium text-center text-white bg-red-500
-                                             rounded-lg transition duration-200 hover:bg-red-600 ease"
-                                            type="submit"
-                                        >
-                                            تسجيل
-                                        </button>
-                                    </div>
-                                    <div className='flex flex-col sm:flex-row justify-around mx-4 sm:mx-4 md:mx-32 lg:mx-32'>
-                                        <span className="text-sm mt-2 sm:mt-0 sm:ml-2 hover:text-red-500 cursor-pointer">
-                                            نسيت كلمة السر ؟
-                                        </span>
                                         <a href="/RegisterForm" className="text-sm mt-2 sm:mt-0">
                                             <span className="hover:text-red-500 cursor-pointer">
-                                                إنشاء حساب{' '}
+                                                تسجيل حساب جديد{' '}
                                             </span>
                                         </a>
-                                    </div>
-                                </form>
+                                    </form>
+                                ) : (
+                                    <form onSubmit={(e) => handleSubmit(e, console.log("clicked"), userId)} className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-2">
+                                        {/* <p class="text-sm font-normal flex justify-center text-gray-600 mb-7">التسجيل عن طريق :  </p> */}
+                                        <div className='flex justify-center gap-7 mb-3'>
+                                            <button className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
+                                                <img
+                                                    className="w-6 h-6"
+                                                    src="https://www.svgrepo.com/show/475656/google-color.svg"
+                                                    loading="lazy"
+                                                    alt="google logo"
+                                                />
+                                                <span className='text-xs'>Login with Google</span>
+                                            </button>
+                                            <button className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
+                                                <img
+                                                    className="w-6 h-6"
+                                                    src="/Images/facebook.png"
+                                                    loading="lazy"
+                                                    alt="google logo"
+                                                />
+                                                <span className='text-xs'>Login with Facebook</span>
+                                            </button>
+                                        </div>
+                                        <div className="flex justify-center box-border">
+                                            <div className='flex flex-col w-80'>
+                                                <input
+                                                    placeholder="اسم المستخدم"
+                                                    type="text"
+                                                    className="border placeholder-gray-400 focus:outline-none
+            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+            border-gray-300 rounded-md"
+                                                    id='username'
+                                                    name="user_name"
 
-                                <form onSubmit={(event) => handleVerificationSubmit(event)} className="w-full mt-6">
-                                    <input
-                                        placeholder="Enter Verification Code"
-                                        type="text"
-                                        className="border placeholder-gray-400 focus:outline-none focus:border-black p-3 mt-2 text-base block bg-white border-gray-300 rounded-md"
-                                        value={verificationCode}
-                                        onChange={handleVerificationCode}
-                                    />
-                                    {/* Display any warning messages for the verification code here */}
-                                    {/* ... */}
-                                    <div className="flex justify-center">
-                                        <button
-                                            className="w-80 inline-block pt-2 pr-5 pb-2 pl-5 text-xl font-medium text-center text-white bg-red-500 rounded-lg transition duration-200 hover:bg-red-600 ease"
-                                            type="submit"
-                                        >
-                                            Verify
-                                        </button>
-                                    </div>
-                                </form>
+                                                    onChange={(event) => handleName(event)}
+                                                />
+                                                <p className="text-md text-red-500">
+                                                    {massageWarning.user_name}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center box-border">
+                                            <div className='flex flex-col w-80'>
+                                                <input
+                                                    placeholder="email@ex.com"
+                                                    type="email"
+                                                    className="border placeholder-gray-400 focus:outline-none
+                                                focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+                                                border-gray-300 rounded-md"
+                                                    name="user_email"
+                                                    id='user_email'
+                                                    onChange={(event) => handleEmail(event)}
+                                                />
+                                                <p className="text-md text-red-500">
+                                                    {massageWarning.user_email}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center box-border">
+                                            <div className='flex flex-col w-80'>
+                                                <input
+                                                    placeholder=" 0000000 07$"
+                                                    type="phone_number"
+                                                    className="border placeholder-gray-400 focus:outline-none
+            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+            border-gray-300 rounded-md"
+                                                    name="phone_number"
+
+                                                    onChange={(e) => handlePhoneNumber(e)}
+                                                />
+                                                <p className="text-md text-red-500">
+                                                    {massageWarning.phone_number}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center box-border">
+                                            <div className='flex flex-col w-80'>
+                                                <input
+                                                    placeholder="*******"
+                                                    type="password"
+                                                    className="border placeholder-gray-400 focus:outline-none
+            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+            border-gray-300 rounded-md"
+                                                    name="user_password"
+
+                                                    onChange={(event) => handlePassword(event)}
+                                                />
+                                                <p className="text-sm text-red-500">
+                                                    {massageWarning.user_password}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center box-border">
+                                            <div className='flex flex-col w-80'>
+                                                <input
+                                                    placeholder="*******"
+                                                    type="password"
+                                                    className="border placeholder-gray-400 focus:outline-none
+            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
+            border-gray-300 rounded-md"
+                                                    name="password-confirm"
+
+                                                    onChange={(event) => handleConfirmPassword(event)}
+                                                />
+                                                <p className="text-md text-red-500">
+                                                    {massageWarning.confirmPassword}
+                                                </p>
+                                            </div>
+                                        </div>
+
+
+                                        <div className="flex justify-center">
+                                            <button
+                                                className="w-80 inline-block pt-2 pr-5 pb-2
+                                             pl-5 text-xl font-medium text-center text-white bg-red-500
+                                             rounded-lg transition duration-200 hover:bg-red-600 ease"
+                                                type="submit"
+                                            >
+                                                تسجيل
+                                            </button>
+                                        </div>
+                                        <div className='flex flex-col sm:flex-row justify-around mx-4 sm:mx-4 md:mx-32 lg:mx-32'>
+                                            {/* <span className="text-sm mt-2 sm:mt-0 sm:ml-2 hover:text-red-500 cursor-pointer">
+                                            نسيت كلمة السر ؟
+                                        </span> */}
+                                            <a href="/LoginForm" className="text-sm mt-2 sm:mt-0">
+                                                <span className="hover:text-red-500 cursor-pointer">
+                                                    لديك حساب بالفعل ؟{' '}
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </form>
+
+                                )}
                             </div>
                         </div>
                     </div>

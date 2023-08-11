@@ -8,7 +8,7 @@ const app = require('../../index');
 router.post('/login', (req, res) => {
     const { user_email, user_password, role, deleted } = req.body; // Assuming the email and password are provided in the request body
 
-    const sql = 'SELECT * FROM users WHERE deleted = false AND user_email = $1';
+    const sql = 'SELECT * FROM users WHERE deleted = false AND flag = true AND user_email = $1';
 
     pool.query(
         sql, [user_email],
@@ -26,7 +26,7 @@ router.post('/login', (req, res) => {
             if (user.deleted === true) {
                 return res
 
-                    .send('Your account was deleted, please try again with another email');
+                    .send('Your account was deleted or not verified, please try again with another email');
             }
 
             const token = jwt.sign({
