@@ -11,7 +11,6 @@ const UserProvider = ({ children }) => {
     const [phone, setPhone] = useState();
     const [email, setEmail] = useState();
 
-    console.log(userName)
     useEffect(() => {
         if (localStorage.token) {
             fetchUserData();
@@ -29,7 +28,7 @@ const UserProvider = ({ children }) => {
                     },
                 });
 
-                console.log("Response data:", response.data); // Check the entire response object
+                // console.log("Response data:", response.data); // Check the entire response object
 
                 setUserId(response.data.user_id);
                 setUserName(response.data.user_name); // Property name should match 'user_name'
@@ -38,9 +37,9 @@ const UserProvider = ({ children }) => {
                 setEmail(response.data.user_email); // Property name should match 'user_email'
             }
         } catch (error) {
-            console.error(error);
+            return error;
         } finally {
-            console.log(false);
+            return false
         }
     };
 
@@ -53,11 +52,8 @@ const UserProvider = ({ children }) => {
 
     useEffect(() => {
         // This will log the userName value whenever it changes
-        console.log("userName:", userName);
+        // console.log("userName:", userName);
     }, [userName]);
-
-    console.log(userName)
-
 
     return (
         <>

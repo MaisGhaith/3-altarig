@@ -14,6 +14,7 @@ const RegisterForm = () => {
     const path = "/Landing";
 
     const [user, setUser] = useState({
+        user_id: '',
         user_name: '',
         user_email: '',
         user_password: '',
@@ -167,11 +168,13 @@ const RegisterForm = () => {
         if (isValid) {
             try {
                 const res = await axios.post("http://localhost:5151/Register/register", user);
+                console.log(res.data)
                 setUser({ ...user, user_id: res.data.user_id }); // Set user_id from the response
                 setIsRegistered(true); // Show verification input form
-                localStorage.setItem("username", user.user_name);
-                localStorage.setItem("email", user.user_email);
-                localStorage.setItem("token", res.data.token);
+                console.log(isRegistered)
+                // localStorage.setItem("username", user.user_name);
+                // localStorage.setItem("email", user.user_email);
+                // localStorage.setItem("token", res.data.token);
             } catch (err) {
                 setMassageWarning({
                     ...massageWarning,
@@ -198,13 +201,19 @@ const RegisterForm = () => {
 
     const handleVerificationSubmit = async (event) => {
         event.preventDefault();
-        // Handle verification code submission here
-        // For example, make an API call to verify the code
+
         try {
+            console.log(user.user_id)
             const res = await axios.put(`http://localhost:5151/Register/verify/${user.user_id}`, {
                 verification_code: verificationCode
             });
-            console.log("Verification successful:", res.data.message);
+            console.log(user.user_id)
+            console.log("Verification successful:", res.data);
+            setIsRegistered(true);
+            localStorage.setItem("username", res.data.user_name);
+            localStorage.setItem("email", res.data.user_email);
+            localStorage.setItem("token", res.data.token);
+
             navigate(path);
         } catch (error) {
             console.error("Verification error:", error);
@@ -344,27 +353,9 @@ const RegisterForm = () => {
                                             </p>
                                         </div>
                                     </div>
-                                    {isRegistered && (
-                                        <form onSubmit={handleVerificationSubmit} className="w-full mt-6">
-                                            <input
-                                                placeholder="Enter Verification Code"
-                                                type="text"
-                                                className="border placeholder-gray-400 focus:outline-none focus:border-black p-3 mt-2 text-base block bg-white border-gray-300 rounded-md"
-                                                value={verificationCode}
-                                                onChange={handleVerificationCode}
-                                            />
-                                            {/* Display any warning messages for the verification code here */}
-                                            {/* ... */}
-                                            <div className="flex justify-center">
-                                                <button
-                                                    className="w-80 inline-block pt-2 pr-5 pb-2 pl-5 text-xl font-medium text-center text-white bg-red-500 rounded-lg transition duration-200 hover:bg-red-600 ease"
-                                                    type="submit"
-                                                >
-                                                    Verify
-                                                </button>
-                                            </div>
-                                        </form>
-                                    )}
+                                    {/* {isRegistered && (
+                                    )} */}
+
                                     <div className="flex justify-center">
                                         <button
                                             className="w-80 inline-block pt-2 pr-5 pb-2
@@ -386,13 +377,32 @@ const RegisterForm = () => {
                                         </a>
                                     </div>
                                 </form>
+
+                                <form onSubmit={(event) => handleVerificationSubmit(event)} className="w-full mt-6">
+                                    <input
+                                        placeholder="Enter Verification Code"
+                                        type="text"
+                                        className="border placeholder-gray-400 focus:outline-none focus:border-black p-3 mt-2 text-base block bg-white border-gray-300 rounded-md"
+                                        value={verificationCode}
+                                        onChange={handleVerificationCode}
+                                    />
+                                    {/* Display any warning messages for the verification code here */}
+                                    {/* ... */}
+                                    <div className="flex justify-center">
+                                        <button
+                                            className="w-80 inline-block pt-2 pr-5 pb-2 pl-5 text-xl font-medium text-center text-white bg-red-500 rounded-lg transition duration-200 hover:bg-red-600 ease"
+                                            type="submit"
+                                        >
+                                            Verify
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     )
 }
 

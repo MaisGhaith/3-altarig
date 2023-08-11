@@ -133,7 +133,7 @@ const LoginForm = () => {
                                         تسجيل الدخول
                                     </p>
                                     <form onSubmit={handleSubmit} className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
-                                        <p class="text-sm font-normal flex justify-center text-gray-600 mb-7">التسجيل عن طريق :  </p>
+                                        <p className="text-sm font-normal flex justify-center text-gray-600 mb-7">التسجيل عن طريق :  </p>
                                         <div className='flex justify-center gap-7 mb-3'>
                                             <button className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
                                                 <img

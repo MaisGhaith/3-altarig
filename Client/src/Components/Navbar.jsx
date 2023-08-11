@@ -17,7 +17,7 @@ export default () => {
     const navigation = [
         { title: "الرئيسية", path: "/Landing" },
         // { title: "خدماتنا", path: window.location = '' },
-        { title: "معلومات", path: "javascript:void(0)" },
+        { title: "معلومات", path: "/Landing" },
         { title: "من نحن", path: "/AboutUs" },
         { title: "اتصل بنا", path: "/ContactUs" },
     ];
@@ -120,7 +120,7 @@ export default () => {
             >
                 <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8">
                     <div className="flex items-center justify-between py-2 md:block">
-                        <a href="javascript:void(0)">
+                        <a href="#">
                             <img
                                 src="https://www.floatui.com/logo.svg"
                                 width={120}

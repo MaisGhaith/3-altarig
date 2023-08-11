@@ -15,19 +15,19 @@ const transporter = nodemailer.createTransport({
 
 router.post("/register", async (req, res) => {
     try {
-        const { user_name, user_email, user_password, phone_number, role, deleted } = req.body;
+        const { user_name, user_email, user_password, phone_number, role, deleted, verification_code } = req.body;
 
         const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [user_email]);
 
         if (user.rows.length !== 0) {
-            return res.status(201).json(["user already exist", user.rows]);
+            return res.status(409).json({ message: "User already exists", user: user.rows[0] });
         } else {
-            const saltRound = 10;
-            const salt = await bcrypt.genSalt(saltRound);
+            const saltRounds = 10;
+            const salt = await bcrypt.genSalt(saltRounds);
             const bcryptPassword = await bcrypt.hash(user_password, salt);
 
-            const newUsersql = "INSERT INTO users (user_name, user_email, user_password, phone_number, deleted, role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING * ";
-            const newUserValues = [user_name, user_email, bcryptPassword, phone_number, deleted, role || 'user'];
+            const newUsersql = "INSERT INTO users (user_name, user_email, user_password, phone_number, deleted, role, verification_code) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
+            const newUserValues = [user_name, user_email, bcryptPassword, phone_number, deleted, role || 'user', verification_code];
 
             const insertResult = await pool.query(newUsersql, newUserValues);
 
@@ -50,19 +50,11 @@ router.post("/register", async (req, res) => {
 
             await pool.query("UPDATE users SET verification_code = $1 WHERE user_email = $2", [verificationCode, user_email]);
 
-            try {
-                const insertedUserId = insertResult.rows[0].user_id;
-                const token = jwt.sign({ user_id: insertedUserId, user_name, user_password, user_email, phone_number, deleted, role }, JWTsecretKey);
-                console.log(token);
+            const newUserData = await pool.query("SELECT * FROM users WHERE user_email = $1", [user_email]);
+            console.log(newUserData.rows[0])
+            // console.log(newUserData[0].user_id)
+            res.status(200).json({ user_id: newUserData.rows[0].user_id })
 
-                // Retrieve the verification code from the user's data
-                const userVerificationCode = verificationCode;
-
-                return res.status(200).json({ token, verificationCode: userVerificationCode, message: 'User registered successfully' });
-            } catch (error) {
-                console.error('JWT signing error:', error);
-                return res.status(500).json({ message: 'Error generating JWT' });
-            }
         }
     } catch (error) {
         console.log(error.message);
@@ -70,22 +62,39 @@ router.post("/register", async (req, res) => {
     }
 });
 
-
+// ...
 router.put("/verify/:user_id", async (req, res) => {
     try {
         const { user_id } = req.params;
-        // const { verification_code } = req.body;
+        const { verification_code } = req.body;
+        console.log(user_id, verification_code)
 
-        // Update the flag to true in your database
-        const updateSql = "UPDATE users SET flag = true WHERE user_id = $1 ";
-        await pool.query(updateSql, [user_id]);
+        const updateSql = "SELECT * FROM users WHERE user_id = $1 AND verification_code = $2";
+        const result = await pool.query(updateSql, [user_id, verification_code]);
 
-        res.status(200).json({ message: "User verified successfully" });
+        if (result.rowCount === 1) {
+            const updateFlag = "UPDATE users SET flag = true WHERE user_id = $1"
+            const updatedValues = await pool.query(updateFlag, [user_id])
+            try {
+                const userData = result.rows[0];
+                const token = jwt.sign({ user_id: userData.user_id, user_name: userData.user_name, user_email: userData.user_email, phone_number: userData.user_password, deleted: userData.deleted, role: userData.role }, JWTsecretKey);
+
+
+                return res.status(201).json({ token: token, user_name: userData.user_name, user_email: userData.user_email, message: 'User registered successfully' });
+            } catch (error) {
+                console.error('JWT signing error:', error);
+                return res.status(500).json({ message: 'Error generating JWT' });
+            }
+            // res.status(200).json({ message: "User verified successfully" });
+
+        } else {
+            res.status(400).json({ message: "Invalid user_id or verification code" });
+        }
     } catch (error) {
         console.error("Error verifying user:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 });
-
+// ...
 
 module.exports = router;

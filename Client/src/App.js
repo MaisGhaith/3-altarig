@@ -19,7 +19,7 @@ function App() {
   // const { role , setRole} = useContext(UserContext);
   const { userId, userName } = useContext(UserContext);
 
-  console.log(userName, userId)
+  // console.log(userName, userId)
   // const navigate = useNavigate();
 
   const [id, setId] = useState("");

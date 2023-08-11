@@ -134,16 +134,16 @@ const Services = () => {
             <div className="flex justify-center">
                 <div className='py-12 grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-3 gap-8  justify-center '>
                     {showServices.map((service, index) => (
-                        <article key={index} class="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+                        <article key={index} className="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
                             <img
                                 alt="Office"
                                 src={service.image}
-                                class="h-56 w-full object-cover"
+                                className="h-56 w-full object-cover"
                             />
 
-                            <div class="p-4 sm:p-6">
+                            <div className="p-4 sm:p-6">
                                 <div className='flex justify-between'>
-                                    <h3 class="text-lg font-medium text-gray-900">
+                                    <h3 className="text-lg font-medium text-gray-900">
                                         {service.title}
 
                                     </h3>
