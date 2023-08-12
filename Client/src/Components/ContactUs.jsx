@@ -103,7 +103,7 @@ const ContactUs = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="lg:w-1/2 px-4 lg:w-1/2 xl:w-5/12 sm:w-auto">
+                                            <div className="lg:w-1/2 px-4 xl:w-5/12 sm:w-auto">
                                                 <div className="relative rounded-lg bg-white p-8 shadow-lg sm:p-12">
                                                     <form>
                                                         <div className="mb-6">

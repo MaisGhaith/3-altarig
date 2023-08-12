@@ -20,7 +20,34 @@ router.post("/register", async (req, res) => {
         const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [user_email]);
 
         if (user.rows.length !== 0) {
+            if (!user.rows[0].flag) { // Check if the flag is false
+                const verificationCode = Math.floor(100000 + Math.random() * 900000);
+
+                const mailOptions = {
+                    from: '3.altarig@gmail.com',
+                    to: user_email,
+                    subject: 'Email Verification Code',
+                    text: `Your verification code is: ${verificationCode}`
+                };
+
+                transporter.sendMail(mailOptions, async (error, info) => {
+                    if (error) {
+                        console.log("Error sending email:", error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                        try {
+                            await pool.query("UPDATE users SET verification_code = $1 WHERE user_email = $2", [verificationCode, user_email]);
+                            console.log("Verification code updated successfully");
+                        } catch (updateError) {
+                            console.log("Error updating verification code:", updateError);
+                        }
+                    }
+                });
+            }
+
             return res.status(409).json({ message: "User already exists", user: user.rows[0] });
+
+
         } else {
             const saltRounds = 10;
             const salt = await bcrypt.genSalt(saltRounds);
@@ -62,7 +89,7 @@ router.post("/register", async (req, res) => {
     }
 });
 
-// ...
+// ! verify the verification code 
 router.put("/verify/:user_id", async (req, res) => {
     try {
         const { user_id } = req.params;
@@ -95,6 +122,50 @@ router.put("/verify/:user_id", async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
-// ...
+
+// ! re send the verification code 
+router.put('/reSendCode/:user_id', async (req, res) => {
+
+    const { user_id } = req.params;
+    // const { user_email } = req.body;
+
+    console.log("----------------------", user_id)
+    try {
+
+        const getUserEmail = 'SELECT user_email FROM users WHERE user_id = $1';
+        const emailResult = await pool.query(getUserEmail, [user_id]);
+        const user_email = emailResult.rows[0].user_email;
+        console.log(user_email)
+
+
+        const verificationCode = Math.floor(100000 + Math.random() * 900000);
+        const updateCode = 'UPDATE users SET verification_code = $1 WHERE user_id = $2';
+        const updatedValues = await pool.query(updateCode, [verificationCode, user_id])
+        console.log(verificationCode)
+
+        const mailOptions = {
+            from: '3.altarig@gmail.com',
+            to: user_email,
+            subject: 'Email Verification Code',
+            text: `Your verification code is: ${verificationCode}`
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log("122", error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+
+        res.status(201).json("Verification code updated successfully")
+        console.log(updatedValues)
+    } catch (error) {
+        res.status(500).json("Unable to update verification code");
+
+    }
+
+})
 
 module.exports = router;

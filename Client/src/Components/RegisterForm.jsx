@@ -160,7 +160,10 @@ const RegisterForm = () => {
     const [isRegistered, setIsRegistered] = useState(false);
     const [savedVerificationCode, setSavedVerificationCode] = useState('');
     const [userId, setUserId] = useState(null);
+    const [userFlag, setUserFlag] = useState(null);
+    console.log(userFlag)
     console.log(userId)
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -174,23 +177,31 @@ const RegisterForm = () => {
         if (isValid) {
             try {
                 const res = await axios.post("http://localhost:5151/Register/register", user);
-                console.log(res.data);
+                console.log(res.data.user_id);
                 setUser({ ...user, user_id: res.data.user_id });
+                const user_id = res.data.user_id; // Access user_id from the response
+                setUserId(user_id);
                 setRegisterRes(res.data);
                 setSavedVerificationCode(res.data.verification_code);
                 setIsRegistered(true);
             } catch (err) {
-                if (err.response && err.response.status === 409) {
-                    const user_id = err.response.data.user.user_id; // Access user_id from the response
-                    setUserId(user_id);
-                    setMassageWarning({
-                        ...massageWarning,
-                        user_email: "The email address already exists.",
-                    });
+                const userFlag = err.response.data.user.flag;
+                if (userFlag === false && err.response.status === 409) {
+
+                    setUserFlag(userFlag);
+                    console.log("flag false ")
                     setRegisterRes(null);
                     setIsRegistered(true);
+                } else if (err.response.status === 409) {
+
+                    setMassageWarning({
+                        ...massageWarning,
+                        user_email: "The email address already exists, try to login.",
+                    });
+                    console.log(err.response)
                     console.error(err);
-                } else {
+                }
+                else {
                     console.error("An error occurred:", err);
                 }
             }
@@ -202,7 +213,7 @@ const RegisterForm = () => {
             });
         }
     };
-
+    console.log(userId)
     const handleVerificationSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -220,6 +231,18 @@ const RegisterForm = () => {
             navigate(path);
         } catch (error) {
             console.error("Verification error:", error);
+        }
+    };
+
+
+    const [message, setMessage] = useState('');
+    const handleResendCode = async () => {
+        try {
+            const response = await axios.put(`http://localhost:5151/Register/reSendCode/${userId}`);
+            setMessage(response.data); // Assuming the response is a success message
+        } catch (error) {
+            console.error("Error resending verification code:", error);
+            setMessage("Unable to resend verification code");
         }
     };
 
@@ -243,39 +266,58 @@ const RegisterForm = () => {
                         <div className="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-2xl lg:mt-0 lg:w-5/12">
                             <div
                                 className="flex flex-col items-start justify-start pt-10 pr-5 pb-10 pl-5 bg-white shadow-2xl rounded-xl
+                                mt-16 sm:mt-16 md:mt-12 lg:mt-6
   relative z-10 "
                             >
-                                <p className="w-full text-4xl font-medium text-center leading-snug font-serif">
-                                    التسجيل
-                                </p>
+
                                 {isRegistered ? (
-                                    <form onSubmit={(event) => handleVerificationSubmit(event)} className="w-full mt-6">
-                                        <input
-                                            placeholder="Enter Verification Code"
-                                            type="text"
-                                            className="border placeholder-gray-400 focus:outline-none focus:border-black p-3 mt-2 text-base block bg-white border-gray-300 rounded-md"
-                                            value={verificationCode}
-                                            onChange={(event) => setVerificationCode(event.target.value)}
-                                        />
-                                        {/* Display any warning messages for the verification code here */}
-                                        {/* ... */}
-                                        <div className="flex justify-center">
-                                            <button
-                                                className="w-80 inline-block pt-2 pr-5 pb-2 pl-5 text-xl font-medium text-center text-white bg-red-500 rounded-lg transition duration-200 hover:bg-red-600 ease"
-                                                type="submit"
-                                            >
-                                                Verify
-                                            </button>
+                                    <form onSubmit={(event) => handleVerificationSubmit(event)}
+                                        className="w-full">
+                                        <p className="w-full text-2xl mb-5 font-medium text-center leading-snug font-serif">
+                                            التحقق
+                                        </p>
+                                        <div className="flex flex-col items-center"> {/* Add this wrapping div */}
+                                            <div className="flex justify-center mb-5">
+                                                <input
+                                                    placeholder="ادخل رمز التأكيد"
+                                                    type="text"
+                                                    className="border placeholder-gray-400 focus:outline-none focus:border-black p-2 mt-2 text-base block bg-white border-gray-300 rounded-md"
+                                                    value={verificationCode}
+                                                    onChange={(event) => setVerificationCode(event.target.value)}
+                                                />
+                                            </div>
+                                            {/* Display any warning messages for the verification code here */}
+                                            {/* ... */}
+                                            <div className="flex justify-center">
+                                                <button
+                                                    className="w-44 inline-block p-2 text-xl font-medium text-center text-white bg-[#BE123a] rounded-lg transition duration-200 hover:bg-red-600 ease"
+                                                    type="submit"
+                                                >
+                                                    تحقق
+                                                </button>
+                                            </div>
+                                            <div className="flex flex-col sm:flex-col sm:justify-center justify-center my-4 mx-4 sm:mx-4 md:mx-32 lg:mx-32">
+                                                <button
+                                                    onClick={handleResendCode}
+                                                    className="text-xs mt-2 sm:mt-0 sm:ml-2 py-3 hover:text-red-500 cursor-pointer">
+                                                    إعادة إرسال الرمز
+                                                </button>
+                                                {message}
+                                                <a href="/LoginForm" className="text-xs mt-2 sm:mt-0 sm:ml-2">
+                                                    <span className="hover:text-red-500 cursor-pointer">
+                                                        لديك حساب بالفعل؟{' '}
+                                                    </span>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <a href="/RegisterForm" className="text-sm mt-2 sm:mt-0">
-                                            <span className="hover:text-red-500 cursor-pointer">
-                                                تسجيل حساب جديد{' '}
-                                            </span>
-                                        </a>
                                     </form>
+
                                 ) : (
                                     <form onSubmit={(e) => handleSubmit(e, console.log("clicked"), userId)} className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-2">
                                         {/* <p class="text-sm font-normal flex justify-center text-gray-600 mb-7">التسجيل عن طريق :  </p> */}
+                                        <p className="w-full text-4xl font-medium text-center leading-snug font-serif">
+                                            التسجيل
+                                        </p>
                                         <div className='flex justify-center gap-7 mb-3'>
                                             <button className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
                                                 <img
@@ -386,7 +428,7 @@ const RegisterForm = () => {
 
                                         <div className="flex justify-center">
                                             <button
-                                                className="w-80 inline-block pt-2 pr-5 pb-2
+                                                className="w-80 inline-block my-5  pt-2 pr-5 pb-2
                                              pl-5 text-xl font-medium text-center text-white bg-red-500
                                              rounded-lg transition duration-200 hover:bg-red-600 ease"
                                                 type="submit"
