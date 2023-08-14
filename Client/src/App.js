@@ -15,7 +15,6 @@ import NotFound from './Components/NotFound';
 import { UserContext } from './Context/UserContext';
 import Footer from './Components/Footer';
 import ForgetPassword from './Components/ForgetPassword';
-import('preline')
 
 function App() {
   // const { role , setRole} = useContext(UserContext);

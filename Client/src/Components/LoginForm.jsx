@@ -7,6 +7,8 @@ import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ForgetPassword from './ForgetPassword';
+import Modal from 'react-modal';
+
 const LoginForm = () => {
 
     // const { isLoggedIn, credentials, handleChange, error } = LoginFunctions();
@@ -193,6 +195,16 @@ const LoginForm = () => {
 
 
 
+    const [isForgetPasswordVisible, setIsForgetPasswordVisible] = useState(false);
+
+    const handleForgetPasswordClick = () => {
+        setIsForgetPasswordVisible(true);
+    };
+
+    const handleReturnToLoginClick = () => {
+        setIsForgetPasswordVisible(false);
+    };
+
 
 
     return (
@@ -356,7 +368,9 @@ const LoginForm = () => {
                                             )} */}
                                             </div>
                                             <div className='flex flex-col sm:flex-row justify-around mx-4 sm:mx-4 md:mx-32 lg:mx-32'>
-                                                <span className="text-sm mt-2 sm:mt-0 sm:ml-2 hover:text-red-500 cursor-pointer">
+                                                <span
+                                                    onClick={() => window.my_modal_1.showModal()}
+                                                    className="text-sm mt-2 sm:mt-0 sm:ml-2 hover:text-red-500 cursor-pointer">
                                                     نسيت كلمة السر ؟
                                                 </span>
                                                 <a href="/RegisterForm" className="text-sm mt-2 sm:mt-0">
@@ -366,9 +380,23 @@ const LoginForm = () => {
                                                 </a>
                                             </div>
 
+                                            {/* Open the modal using ID.showModal() method */}
+
+                                            <dialog id="my_modal_1" className="modal">
+                                                <form method="dialog" className="modal-box">
+                                                    <h3 className="flex justify-center font-bold text-lg mt-4">تعديل كلمة السر</h3>
+                                                    {/* Here, you can include the ForgetPassword component */}
+                                                    <ForgetPassword onReturnToLogin={handleReturnToLoginClick} />
+
+                                                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+
+                                                </form>
+                                            </dialog>
 
                                         </form>
                                     )}
+                                    {/* {isForgetPasswordVisible && <ForgetPassword onReturnToLogin={handleReturnToLoginClick} />} */}
+
                                 </div>
 
                             </div>

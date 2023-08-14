@@ -362,11 +362,11 @@ const Confirm = (props) => {
                                 )}
                             </div>
 
-                            <div className="flex flex-col items-end mb-5">
-                                <label htmlFor='car-rent' className="flex mb-3 mr-5 text-base font-medium text-[#07074D]">
+                            <div className="flex flex-col mb-5">
+                                <label htmlFor='car-rent' className="flex justify-end mb-3 mr-5 text-base font-medium text-[#07074D]">
                                     هل ترغب في أن نقوم بتأمين سيارة لك ؟
                                 </label>
-                                <div className="flex flex-col items-right gap-y-3">
+                                <div className="flex flex-col items-center gap-y-3">
                                     <div className="flex items-center">
                                         <input
                                             aria-label="نعم, استئجار سيارة"
@@ -397,7 +397,7 @@ const Confirm = (props) => {
                                             aria-label="لا أريد"
                                             type="radio"
                                             name="radio-5"
-                                            className="btn radio-error"
+                                            className="btn radio-error w-32"
                                             onChange={() => setSelectedOption('لا أريد')}
                                         />
                                         {/* <label htmlFor="radioButton3" className="pl-3 text-base font-medium text-[#07074D]">

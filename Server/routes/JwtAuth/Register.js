@@ -24,7 +24,7 @@ router.post("/register", async (req, res) => {
                 const verificationCode = Math.floor(100000 + Math.random() * 900000);
 
                 const mailOptions = {
-                    from: '3.altarig@gmail.com',
+                    from: process.env.EMAIL_USER,
                     to: user_email,
                     subject: 'Email Verification Code',
                     text: `Your verification code is: ${verificationCode}`
@@ -61,7 +61,7 @@ router.post("/register", async (req, res) => {
             const verificationCode = Math.floor(100000 + Math.random() * 900000);
 
             const mailOptions = {
-                from: '3.altarig@gmail.com',
+                from: process.env.EMAIL_USER,
                 to: user_email,
                 subject: 'Email Verification Code',
                 text: `Your verification code is: ${verificationCode}`
@@ -78,13 +78,10 @@ router.post("/register", async (req, res) => {
             await pool.query("UPDATE users SET verification_code = $1 WHERE user_email = $2", [verificationCode, user_email]);
 
             const newUserData = await pool.query("SELECT * FROM users WHERE user_email = $1", [user_email]);
-            console.log(newUserData.rows[0])
-            // console.log(newUserData[0].user_id)
             res.status(200).json({ user_id: newUserData.rows[0].user_id })
 
         }
     } catch (error) {
-        console.log(error.message);
         res.status(500).send("Server error");
     }
 });
@@ -94,7 +91,6 @@ router.put("/verify/:user_id", async (req, res) => {
     try {
         const { user_id } = req.params;
         const { verification_code } = req.body;
-        console.log(user_id, verification_code)
 
         const updateSql = "SELECT * FROM users WHERE user_id = $1 AND verification_code = $2";
         const result = await pool.query(updateSql, [user_id, verification_code]);
@@ -127,24 +123,19 @@ router.put("/verify/:user_id", async (req, res) => {
 router.put('/reSendCode/:user_id', async (req, res) => {
 
     const { user_id } = req.params;
-    // const { user_email } = req.body;
-
-    console.log("----------------------", user_id)
     try {
 
         const getUserEmail = 'SELECT user_email FROM users WHERE user_id = $1';
         const emailResult = await pool.query(getUserEmail, [user_id]);
         const user_email = emailResult.rows[0].user_email;
-        console.log(user_email)
 
 
         const verificationCode = Math.floor(100000 + Math.random() * 900000);
         const updateCode = 'UPDATE users SET verification_code = $1 WHERE user_id = $2';
         const updatedValues = await pool.query(updateCode, [verificationCode, user_id])
-        console.log(verificationCode)
 
         const mailOptions = {
-            from: '3.altarig@gmail.com',
+            from: process.env.EMAIL_USER,
             to: user_email,
             subject: 'Email Verification Code',
             text: `Your verification code is: ${verificationCode}`
@@ -160,7 +151,6 @@ router.put('/reSendCode/:user_id', async (req, res) => {
 
 
         res.status(201).json("Verification code updated successfully")
-        console.log(updatedValues)
     } catch (error) {
         res.status(500).json("Unable to update verification code");
 
