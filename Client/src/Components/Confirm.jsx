@@ -181,23 +181,33 @@ const Confirm = (props) => {
         <>
             {/* Container for demo purpose */}
             <div className="container my-12 py-12 mx-auto px-4 md:px-6 lg:px-12 bg-white">
-                {/*Section: Design Block*/}
-                <section className="mb-20 text-gray-800 text-center">
-                    <h3 className="font-bold text-3xl mb-12">تأكيد الطلب </h3>
-                    <div className='flex Items-center justify-center mr-4 mb-5 text-xl'>
-                        <h1>  الخدمة المطلوبة :    </h1>
-                        <p className=' mr-3 text-lg'> {serviceTitle} {"-"} {choiceTitle} {price}</p>
+
+                <section className="mb-20 text-gray-800 space-y-3 ">
+                    <div className='w-full text-center mb-12'>
+                        <h1 className="font-bold  text-3xl ">تأكيد الطلب </h1>
                     </div>
-                    <div className="flex flex-wrap justify-center">
-                        <div className="mb-6 lg:mb-0 flex-initial shrink w-full lg:w-5/12 lg:pr-3">
-                            <div>
-                                <button onClick={handleShareLocation}>Share Location</button>
-                                {loadingLocation ? (
-                                    <div>Loading location...</div>
-                                ) : (
+                    <div className=' '>
+                        <h1 className='text-xl font-semibold'>  الخدمة المطلوبة :    </h1>
+                        <p className=' text-md mt-1'> {serviceTitle} {"-"} {choiceTitle} {price}</p>
+                    </div>
+                    <div className="w-full px-5 ">
+                        {/* <div>Selected Location: {`${selectedLocation}, ${latitude},${longitude}`}</div>
+                        <button onClick={handleShareLocation}>Share Location</button> */}
+                        <div className='relative h-[200px]'>
+
+                            <div className='absolute inset-0 rounded-md  '>
+
+                                {!latitude ?
+                                    <div onClick={handleShareLocation} className='absolute inset-0 cursor-pointer overflow-hidden'>
+
+                                        <div className='text-xl absolute inset-0 z-[9999] font-bold w-full h-full flex items-center justify-center hover:scale-110 scale-100 transform transition-all duration-200'>share your location</div>
+                                        <div className='bg-[url(https://staticmapmaker.com/img/google-placeholder.png)] blur-md  absolute inset-0 h-full w-full cursor-pointer rounded-md'>
+                                        </div>
+                                    </div>
+                                    :
                                     <GoogleMap
                                         onLoad={handleMapLoad}
-                                        mapContainerStyle={{ width: "500px", height: "400px" }}
+                                        mapContainerStyle={{ width: "100%", height: "200px" }}
                                         center={{ lat: latitude, lng: longitude }}
                                         zoom={17}
                                         onClick={handleMapClick}
@@ -206,240 +216,206 @@ const Confirm = (props) => {
                                             <Marker key={markerKey} position={markerPosition} />
                                         )}
                                     </GoogleMap>
+                                }
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                    {/* here */}
+                    <div>
+                        <div className='flex flex-wrap w-full justify-center gap-10'>
+                            <div className="form-control w-full max-w-xs">
+                                <label className="label">
+                                    <span className="label-text">Name</span>
+
+                                </label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    className="input input-error input-bordered w-full max-w-xs"
+                                />
+                            </div>
+                            <div className="form-control w-full max-w-xs">
+                                <label className="label">
+                                    <span className="label-text">Phone</span>
+
+                                </label>
+                                <input
+                                    placeholder="0778086355"
+                                    className="input input-error input-bordered w-full max-w-xs"
+                                    type="tel"
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            {/* <div className="form-control w-full max-w-xs">
+                                <label className="label">
+                                    <span className="label-text">Order number</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="order_no"
+                                    placeholder="order_no"
+                                    defaultValue={generateOrderNumber()}
+                                    value={formData.order_no}
+                                    onChange={handleChange}
+                                    className="input input-error input-bordered w-full max-w-xs"
+                                    disabled
+                                    readOnly />
+                            </div> */}
+                        </div>
+                        <div className="flex flex-wrap w-full justify-center gap-10 my-10">
+                            <div>
+                                <label htmlFor='notes' className="label">
+                                    <span className="label-text">ملاحظات</span>
+
+                                </label>
+                                <textarea id='notes' className="textarea textarea-bordered textarea-error border-red-400 h-24 w-80" placeholder="Add any notes you have..."></textarea>
+
+                            </div>
+                            <div className=''>
+                                {img ? (
+                                    <div>
+                                        <img
+                                            src={img}
+                                            alt="Selected"
+                                            className="mx-auto h-12 w-12 text-gray-400"
+                                        />
+
+                                    </div>
+                                ) : (
+                                    <div >
+                                        <label htmlFor='image' className="label">
+                                            <span className="label-text">إضافة صورة</span>
+
+                                        </label>
+                                        <input type="file"
+                                            id='image'
+                                            className="file-input h-24 file-input-bordered file-input-error w-full max-w-xs" />
+
+                                    </div>
                                 )}
-                                <div>Selected Location: {`${selectedLocation}, ${latitude},${longitude}`}</div>
-                                {/* <button onClick={handleSaveLocation}>Save Location</button> */}
                             </div>
                         </div>
 
+                        <div className="flex flex-wrap w-full justify-center gap-16" >
+                            <div className="flex flex-col items-end mb-5">
+                                <label className="flex items-center justify-start mt-5 mb-3 text-base font-medium text-[#07074D]">
+                                    تحديد وقت الخدمة المطلوبة
+                                </label>
+                                <div className="flex flex-col items-right gap-y-3">
+                                    <div className="flex items-center">
+                                        <input
+                                            // type="radio" name="radio1" className="radio radio-error" checked
+                                            type="radio"
+                                            name="radio1"
+                                            id="radioButton1"
+                                            className="radio radio-error"
+                                            checked={!isSetAppointment}
+                                            onChange={() => setIsSetAppointment(false)}
 
-
-                        <div className="flex-initial shrink w-full lg:w-7/12 lg:pl-3">
-                            <form >
-                                <br />
-                                <br />
-                                <div className="flex flex-wrap">
-                                    <div className="flex-initial shrink w-full md:w-9/12 md:pr-3">
-                                        <div className="grid md:grid-cols-2 md:gap-4 mb-6">
-                                            <div className="mb-6 md:mb-0">
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    placeholder="Name"
-                                                    value={formData.name}
-                                                    onChange={handleChange}
-                                                />
-                                            </div>
-                                            <div>
-                                                <input
-                                                    type="tel"
-                                                    name="phone"
-                                                    placeholder="Phone"
-                                                    value={formData.phone}
-                                                    onChange={handleChange}
-                                                />
-                                            </div>
-                                            <div>
-                                                <input
-                                                    type="tel"
-                                                    name="phone"
-                                                    placeholder="Phone"
-                                                    defaultValue={generateOrderNumber()}
-                                                    value={formData.order_no}
-                                                    onChange={handleChange}
-                                                    readOnly />
-                                            </div>
-                                        </div>
-
-
-                                        <div className="mb-6">
-
-                                            <textarea
-                                                className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                defaultValue={""}
-                                                name="notes"
-                                                placeholder="ملاحظات : نوع المركبة, سنة الصنع, سعة المحرك, استفسار .. "
-                                                value={formData.notes}
-                                                onChange={handleChange}
-                                            ></textarea>
-                                        </div>
-                                        <div className="mb-5">
-
-                                            <>
-                                                {/* component */}
-                                                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                                                    <div className="space-y-1 text-center">
-                                                        {img ? (
-                                                            <div>
-                                                                <img
-                                                                    src={img}
-                                                                    alt="Selected"
-                                                                    className="mx-auto h-12 w-12 text-gray-400"
-                                                                />
-                                                                <p className="text-xs text-gray-500">Selected</p>
-                                                            </div>
-                                                        ) : (
-                                                            <div>
-                                                                <p className="text-xs text-gray-500">
-                                                                    PNG, JPG, GIF up to 10MB
-                                                                </p>
-                                                            </div>
-                                                        )}
-                                                        <div className="flex text-sm text-gray-600">
-                                                            <label
-                                                                htmlFor="file-upload"
-                                                                className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                                                            >
-                                                                <span>Upload a file</span>
-                                                                <input
-                                                                    id="file-upload"
-                                                                    name="file-upload"
-                                                                    type="file"
-                                                                    className="sr-only"
-                                                                    accept="image/*"
-                                                                    onChange={onChange}
-                                                                />
-                                                            </label>
-                                                            <p className="pl-1">or drag and drop</p>
-                                                        </div>
-                                                        <p className="text-xs text-gray-500">
-                                                            PNG, JPG, GIF up to 10MB
-                                                        </p>
-                                                    </div>
-                                                    <div
-                                                        className="relative order-first md:order-last h-40 md:h-auto flex justify-center items-center border border-dashed border-gray-400 col-span-2 m-2 rounded-lg bg-no-repeat bg-center bg-origin-padding bg-cover"
-                                                        style={{ minHeight: '40px' }}
-                                                    >
-                                                        <span className="text-gray-400 opacity-75">
-                                                            <svg
-                                                                className="w-14 h-14"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                fill="none"
-                                                                viewBox="0 0 24 24"
-                                                                strokeWidth="0.7"
-                                                                stroke="currentColor"
-                                                            >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                                                                />
-                                                            </svg>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </>
-
-                                            <label className="flex items-center justify-start mt-5 mb-3 text-base font-medium text-[#07074D]">
-                                                تحديد وقت الخدمة المطلوبة
-                                            </label>
-                                            <div className="flex items-center space-x-6">
-                                                <div className="flex items-center">
-                                                    <input
-                                                        type="radio"
-                                                        name="radio1"
-                                                        id="radioButton1"
-                                                        className="h-5 w-5"
-                                                        checked={!isSetAppointment}
-                                                        onChange={() => setIsSetAppointment(false)}
-                                                    />
-                                                    <label htmlFor="radioButton1" className="pl-3 text-base font-medium text-[#07074D]">
-                                                        مستعجل، في الحال
-                                                    </label>
-                                                </div>
-                                                <div className="flex items-center">
-                                                    <input
-                                                        type="radio"
-                                                        name="radio1"
-                                                        id="radioButton2"
-                                                        className="h-5 w-5"
-                                                        checked={isSetAppointment}
-                                                        onChange={() => setIsSetAppointment(true)}
-                                                    />
-                                                    <label htmlFor="radioButton2" className="pl-3 text-base font-medium text-[#07074D]">
-                                                        تحديد موعد
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                            {isSetAppointment && (
-                                                <div className="-mx-3 flex flex-wrap">
-                                                    <div className="w-full px-3 sm:w-1/2">
-                                                        <div className="mb-5">
-                                                            <label htmlFor="date" className="flex items-center justify-start mb-3 text-base font-medium text-[#07074D]">
-                                                                تحديد التاريخ
-                                                            </label>
-                                                            <input
-                                                                type="date"
-                                                                name="date"
-                                                                id="date"
-                                                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                                                value={selectedDate}
-                                                                onChange={(e) => setSelectedDate(e.target.value)}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
-
-                                        </div>
-
-
-
-                                        <div className="mb-5">
-                                            <label className="flex items-center justify-start mb-3 text-base font-medium text-[#07074D]">
-                                                هل ترغب في أن نقوم بتأمين سيارة لك ؟
-                                            </label>
-                                            <div className="flex items-center space-x-6">
-                                                <div className="flex items-center">
-                                                    <input
-                                                        type="radio"
-                                                        name="radio-5"
-                                                        className="radio radio-success"
-                                                        onChange={() => setSelectedOption('نعم, استئجار سيارة')}
-                                                    />
-                                                    <label htmlFor="radioButton1" className="pl-3 text-base font-medium text-[#07074D]">
-                                                        نعم, استئجار سيارة
-                                                    </label>
-                                                </div>
-                                                <div className="flex items-center">
-                                                    <input
-                                                        type="radio"
-                                                        name="radio-5"
-                                                        className="radio radio-success"
-                                                        onChange={() => setSelectedOption('نعم, توصيلة فقط')}
-                                                    />
-                                                    <label htmlFor="radioButton2" className="pl-3 text-base font-medium text-[#07074D]">
-                                                        نعم, توصيلة فقط
-                                                    </label>
-                                                </div>
-                                                <div className="flex items-center">
-                                                    <input
-                                                        type="radio"
-                                                        name="radio-5"
-                                                        className="radio radio-success"
-                                                        onChange={() => setSelectedOption('لا أريد')}
-                                                    />
-                                                    <label htmlFor="radioButton3" className="pl-3 text-base font-medium text-[#07074D]">
-                                                        لا أريد
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <div className="text-center md:text-left">
-                                            <a href="#_" class="relative px-5 py-2 font-medium text-white group">
-                                                <span class="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-purple-500 group-hover:bg-purple-700 group-hover:skew-x-12"></span>
-                                                <span class="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-purple-700 group-hover:bg-purple-500 group-hover:-skew-x-12"></span>
-                                                <span class="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-purple-600 -rotate-12"></span>
-                                                <span class="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-purple-400 -rotate-12"></span>
-                                                <span class="relative" onClick={handleSubmit}>تأكيد الطلب </span>
-                                            </a>
-                                        </div>
+                                        />
+                                        <label htmlFor="radioButton1" className="pl-3 mx-2 text-base font-medium text-[#07074D]">
+                                            مستعجل، في الحال
+                                        </label>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="radio1"
+                                            id="radioButton2"
+                                            className="radio radio-error"
+                                            checked={isSetAppointment}
+                                            onChange={() => setIsSetAppointment(true)}
+                                        />
+                                        <label htmlFor="radioButton2" className="pl-3 mx-2 text-base font-medium text-[#07074D]">
+                                            تحديد موعد
+                                        </label>
                                     </div>
                                 </div>
-                            </form>
+
+                                {isSetAppointment && (
+                                    <div className="-mx-3 flex flex-wrap">
+                                        <div className="w-full px-3 sm:w-1/2">
+                                            <div className="mb-5">
+                                                <label htmlFor="date" className="flex items-center justify-start mb-3 text-base font-medium text-[#07074D]">
+                                                    تحديد التاريخ
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    name="date"
+                                                    id="date"
+                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                                    value={selectedDate}
+                                                    onChange={(e) => setSelectedDate(e.target.value)}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="flex flex-col items-end mb-5">
+                                <label htmlFor='car-rent' className="flex mb-3 mr-5 text-base font-medium text-[#07074D]">
+                                    هل ترغب في أن نقوم بتأمين سيارة لك ؟
+                                </label>
+                                <div className="flex flex-col items-right gap-y-3">
+                                    <div className="flex items-center">
+                                        <input
+                                            aria-label="نعم, استئجار سيارة"
+                                            id='car-rent'
+                                            type="radio"
+                                            name="radio-5"
+                                            className="btn radio-error"
+                                            onChange={() => setSelectedOption('نعم, استئجار سيارة')}
+                                        />
+                                        {/* <label htmlFor="radioButton1" className="pl-3 text-base font-medium text-[#07074D]">
+                                            نعم, استئجار سيارة
+                                        </label> */}
+                                    </div>
+                                    <div className="flex items-center">
+                                        <input
+                                            aria-label="نعم, توصيلة فقط"
+                                            type="radio"
+                                            name="radio-5"
+                                            className="btn radio-error"
+                                            onChange={() => setSelectedOption('نعم, توصيلة فقط')}
+                                        />
+                                        {/* <label htmlFor="radioButton2" className="pl-3 text-base font-medium text-[#07074D]">
+                                            نعم, توصيلة فقط
+                                        </label> */}
+                                    </div>
+                                    <div className="flex items-center">
+                                        <input
+                                            aria-label="لا أريد"
+                                            type="radio"
+                                            name="radio-5"
+                                            className="btn radio-error"
+                                            onChange={() => setSelectedOption('لا أريد')}
+                                        />
+                                        {/* <label htmlFor="radioButton3" className="pl-3 text-base font-medium text-[#07074D]">
+                                            لا أريد
+                                        </label> */}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="text-center md:text-left">
+                            <a href="#_" class="relative px-5 py-2 font-medium text-white group">
+                                <span class="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-purple-500 group-hover:bg-purple-700 group-hover:skew-x-12"></span>
+                                <span class="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-purple-700 group-hover:bg-purple-500 group-hover:-skew-x-12"></span>
+                                <span class="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-purple-600 -rotate-12"></span>
+                                <span class="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-purple-400 -rotate-12"></span>
+                                <span class="relative" onClick={handleSubmit}>تأكيد الطلب </span>
+                            </a>
                         </div>
                     </div>
                 </section>

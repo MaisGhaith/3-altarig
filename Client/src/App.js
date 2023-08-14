@@ -14,6 +14,8 @@ import ProfileFunctions from './Components/ProfileFunctions';
 import NotFound from './Components/NotFound';
 import { UserContext } from './Context/UserContext';
 import Footer from './Components/Footer';
+import ForgetPassword from './Components/ForgetPassword';
+import('preline')
 
 function App() {
   // const { role , setRole} = useContext(UserContext);
@@ -76,6 +78,7 @@ function App() {
             <Route path="RegisterForm" element={<RegisterForm />} />
             <Route path="Confirm" element={<Confirm />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="ForgetPassword" element={<ForgetPassword />} />
 
           </Routes>
           <Footer />

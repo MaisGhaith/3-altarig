@@ -125,4 +125,138 @@ router.put("/verify/:user_id", async (req, res) => {
 });
 
 
+router.put('/reSendCode/:user_id', async (req, res) => {
+
+    const { user_id } = req.params;
+    // const { user_email } = req.body;
+
+    console.log("----------------------", user_id)
+    try {
+
+        const getUserEmail = 'SELECT user_email FROM users WHERE user_id = $1';
+        const emailResult = await pool.query(getUserEmail, [user_id]);
+        const user_email = emailResult.rows[0].user_email;
+        console.log(user_email)
+
+
+        const verificationCode = Math.floor(100000 + Math.random() * 900000);
+        const updateCode = 'UPDATE users SET verification_code = $1 WHERE user_id = $2';
+        const updatedValues = await pool.query(updateCode, [verificationCode, user_id])
+        console.log(verificationCode)
+
+        const mailOptions = {
+            from: '3.altarig@gmail.com',
+            to: user_email,
+            subject: 'Email Verification Code',
+            text: `Your verification code is: ${verificationCode}`
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log("122", error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+
+        res.status(201).json("Verification code updated successfully")
+        console.log(updatedValues)
+    } catch (error) {
+        res.status(500).json("Unable to update verification code");
+
+    }
+
+})
+
+router.post('/sendPassCode', async (req, res) => {
+    // const { user_id } = req.params;
+    const { user_email } = req.body;
+
+    try {
+        const verificationCode = Math.floor(100000 + Math.random() * 900000);
+        const updateCode = 'UPDATE users SET reset_pin = $1 WHERE user_email = $2';
+        const updatedValues = await pool.query(updateCode, [verificationCode, user_email]);
+        console.log(verificationCode);
+
+        const mailOptions = {
+            from: '3.altarig@gmail.com',
+            to: user_email,
+            subject: 'Email Verification Code',
+            text: `Your verification code is: ${verificationCode}`
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log("Error sending email:", error);
+            } else {
+                console.log('Email sent: ' + info.response);
+                res.status(200).json("The code sent successfully");
+            }
+        });
+    } catch (error) {
+        console.error("Error sending code:", error);
+        res.status(500).json("Unable to send verification code");
+    }
+    console.log(user_email)
+});
+
+
+router.post('/updatePass', async (req, res) => {
+    try {
+        // const { user_email } = req.params;
+        const { user_email, reset_pin } = req.body;
+        console.log(user_email, reset_pin)
+        const sql = "SELECT * FROM users WHERE user_email = $1 AND reset_pin = $2"
+        const updatedValues = await pool.query(sql, [user_email, reset_pin]);
+        console.log(updatedValues.rows[0])
+
+        if (updatedValues.rows.length > 0) {
+
+            return res.json({ message: "pin code successful" })
+
+        } else {
+
+            return res.status(500).json("incorrect pin code");
+
+
+
+        }
+        // // Hash the new password before updating it in the database
+        // const hashedPassword = await bcrypt.hash(user_password, 10);
+
+        // // Update the user's password in the database based on user_email
+        // const updatePasswordQuery = 'UPDATE users SET user_password = $1 WHERE user_email = $2';
+        // await pool.query(updatePasswordQuery, [hashedPassword, user_email]);
+
+        // res.status(200).json("Password updated successfully");
+    } catch (error) {
+        console.error("Error updating password:", error);
+        res.status(500).json("Unable to update password");
+    }
+});
+
+
+
+router.put('/resetPassword', async (req, res) => {
+    const { user_password, user_email, reset_pin } = req.body;
+
+    try {
+        // Hash the new password before updating it in the database
+        const hashedPassword = await bcrypt.hash(user_password, 10);
+
+        const updatePassword = "UPDATE users SET user_password = $1 WHERE user_email = $2";
+        await pool.query(updatePassword, [hashedPassword, user_email]);
+
+        res.status(201).json({ message: "Password reset successfully" });
+    } catch (error) {
+        console.error("Error updating password:", error);
+        res.status(500).json("Unable to update password");
+    }
+});
+
+
+
+
+
 module.exports = router;

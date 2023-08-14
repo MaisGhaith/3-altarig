@@ -143,20 +143,20 @@ router.put('/reSendCode/:user_id', async (req, res) => {
         const updatedValues = await pool.query(updateCode, [verificationCode, user_id])
         console.log(verificationCode)
 
-        // const mailOptions = {
-        //     from: '3.altarig@gmail.com',
-        //     to: user_email,
-        //     subject: 'Email Verification Code',
-        //     text: `Your verification code is: ${verificationCode}`
-        // };
+        const mailOptions = {
+            from: '3.altarig@gmail.com',
+            to: user_email,
+            subject: 'Email Verification Code',
+            text: `Your verification code is: ${verificationCode}`
+        };
 
-        // transporter.sendMail(mailOptions, (error, info) => {
-        //     if (error) {
-        //         console.log("122", error);
-        //     } else {
-        //         console.log('Email sent: ' + info.response);
-        //     }
-        // });
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log("122", error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
 
 
         res.status(201).json("Verification code updated successfully")

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import LoginFunctions from './LoginFunctions'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Typed from 'react-typed';
 import registerFunctions from './RegistrationFunctions'
-import VerificationForm from './VerificationForm';
 import { ToastContainer } from 'react-toastify';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ForgetPassword from './ForgetPassword';
 const LoginForm = () => {
 
     // const { isLoggedIn, credentials, handleChange, error } = LoginFunctions();
@@ -14,8 +14,7 @@ const LoginForm = () => {
     const {
         verificationCode,
         setVerificationCode,
-        handleResendCode,
-        message,
+
     } = registerFunctions();
 
     const [isVerified, setIsVerified] = useState(null)
@@ -145,7 +144,7 @@ const LoginForm = () => {
             setCheckInput({ ...checkInput, password: true });
         }
     }
-
+    console.log(userId)
     const handleVerificationSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -166,15 +165,45 @@ const LoginForm = () => {
         }
     };
 
+    const handleResendCode = async () => {
+        try {
+            const response = await axios.put(`http://localhost:5151/Login/reSendCode/${userId}`);
+            console.log(response.data)
+            toast.success(response.data, {
+                position: "bottom-left",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+        } catch (error) {
+            console.error("Error resending verification code:", error);
+            toast.error("Unable to resend verification code", {
+                position: "bottom-left",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+
+        }
+    };
+
+
+
+
+
     return (
         <div>
             <div >
                 {/* component */}
                 <div className="bg-white relative lg:py-20">
-                    <ToastContainer />
                     <div
                         className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-full xl:px-5 lg:flex-row"
                     >
+                        <ToastContainer />
                         <div className="flex flex-col items-center w-full pt-5 pr-5 pb-20 pl-5 lg:pt-20 lg:flex-row">
                             <div className="w-full bg-cover pl-20 relative max-w-md lg:max-w-2xl lg:w-7/12">
                                 <div className="flex flex-col  items-center justify-center w-full h-full relative lg:pr-10">

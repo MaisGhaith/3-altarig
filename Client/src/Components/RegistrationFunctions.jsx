@@ -229,15 +229,12 @@ const RegistrationFunctions = () => {
         }
     };
 
-
-    // const [message, setMessage] = useState('');
     const handleResendCode = async () => {
         try {
             const response = await axios.put(`http://localhost:5151/Register/reSendCode/${userId}`);
-            // setMessage(response.data); // Assuming the response is a success message
             console.log(response.data)
             toast.success(response.data, {
-                position: "bottom-right",
+                position: "bottom-left",
                 autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -246,7 +243,6 @@ const RegistrationFunctions = () => {
             });
         } catch (error) {
             console.error("Error resending verification code:", error);
-            // setMessage("Unable to resend verification code");
             toast.error("Unable to resend verification code", {
                 position: "bottom-left",
                 autoClose: 3000,
