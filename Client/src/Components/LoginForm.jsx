@@ -135,18 +135,12 @@ const LoginForm = () => {
             setMassageWarning({ ...massageWarning, password: "Please enter a value" });
             setCheckInput({ ...checkInput, password: false });
         } else if (!patternPassword.test(password)) {
-            // setMassageWarning({
-            //     ...massageWarning,
-            //     password: "Password must be at least 8 letters and contain special characters.",
-            // });
-            // setCheckInput({ ...checkInput, password: false });
         } else {
             setMassageWarning({ ...massageWarning, password: "" });
             setUser({ ...user, password: password });
             setCheckInput({ ...checkInput, password: true });
         }
     }
-    console.log(userId)
     const handleVerificationSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -382,21 +376,20 @@ const LoginForm = () => {
 
                                             {/* Open the modal using ID.showModal() method */}
 
-                                            <dialog id="my_modal_1" className="modal">
-                                                <form method="dialog" className="modal-box">
-                                                    <h3 className="flex justify-center font-bold text-lg mt-4">تعديل كلمة السر</h3>
-                                                    {/* Here, you can include the ForgetPassword component */}
-                                                    <ForgetPassword onReturnToLogin={handleReturnToLoginClick} />
 
-                                                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-
-                                                </form>
-                                            </dialog>
 
                                         </form>
                                     )}
-                                    {/* {isForgetPasswordVisible && <ForgetPassword onReturnToLogin={handleReturnToLoginClick} />} */}
+                                    <dialog id="my_modal_1" className="modal">
+                                        <form method="dialog" className="modal-box">
+                                            <h3 className="flex justify-center font-bold text-lg mt-4">تعديل كلمة السر</h3>
+                                            {/* Here, you can include the ForgetPassword component */}
+                                            <ForgetPassword onReturnToLogin={handleReturnToLoginClick} />
 
+                                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+
+                                        </form>
+                                    </dialog>
                                 </div>
 
                             </div>

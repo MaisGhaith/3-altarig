@@ -157,8 +157,6 @@ const RegistrationFunctions = () => {
     const [savedVerificationCode, setSavedVerificationCode] = useState('');
     const [userId, setUserId] = useState(null);
     const [userFlag, setUserFlag] = useState(null);
-    console.log(userFlag)
-    console.log(userId)
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -175,7 +173,6 @@ const RegistrationFunctions = () => {
                 const res = await axios.post("http://localhost:5151/Register/register", user);
                 setUser({ ...user, user_id: res.data.user_id });
                 const user_id = res.data.user_id; // Access user_id from the response            
-                console.log(user_id)
                 setUserId(user_id);
                 setRegisterRes(res.data);
                 setSavedVerificationCode(res.data.verification_code);
@@ -208,7 +205,6 @@ const RegistrationFunctions = () => {
             });
         }
     };
-    console.log(userId)
     const handleVerificationSubmit = async (event) => {
         event.preventDefault();
         try {
