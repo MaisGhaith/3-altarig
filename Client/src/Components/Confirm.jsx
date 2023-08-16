@@ -255,7 +255,7 @@ const Confirm = (props) => {
                                     onChange={handleChange}
                                 />
                             </div>
-                            {/* <div className="form-control w-full max-w-xs">
+                            <div className="form-control w-full max-w-xs">
                                 <label className="label">
                                     <span className="label-text">Order number</span>
                                 </label>
@@ -269,7 +269,7 @@ const Confirm = (props) => {
                                     className="input input-error input-bordered w-full max-w-xs"
                                     disabled
                                     readOnly />
-                            </div> */}
+                            </div>
                         </div>
                         <div className="flex flex-wrap w-full justify-center gap-10 my-10">
                             <div>
@@ -305,7 +305,7 @@ const Confirm = (props) => {
                             </div>
                         </div>
 
-                        <div className="flex flex-wrap w-full justify-center gap-16" >
+                        <div className="flex flex-wrap w-full justify-center mx-8 gap-16" >
                             <div className="flex flex-col items-end mb-5">
                                 <label className="flex items-center justify-start mt-5 mb-3 text-base font-medium text-[#07074D]">
                                     تحديد وقت الخدمة المطلوبة
@@ -362,47 +362,47 @@ const Confirm = (props) => {
                                 )}
                             </div>
 
-                            <div className="flex flex-col mb-5">
-                                <label htmlFor='car-rent' className="flex justify-end mb-3 mr-5 text-base font-medium text-[#07074D]">
+                            <div className="flex flex-col mb-5 mx-24 my-4">
+                                <label htmlFor='car-rent' className="flex justify-end mb-3 text-base font-medium text-[#07074D]">
                                     هل ترغب في أن نقوم بتأمين سيارة لك ؟
                                 </label>
-                                <div className="flex flex-col items-center gap-y-3">
+                                <div className="flex flex-col items-start gap-y-3">
                                     <div className="flex items-center">
                                         <input
-                                            aria-label="نعم, استئجار سيارة"
+                                            // aria-label="نعم, استئجار سيارة"
                                             id='car-rent'
                                             type="radio"
                                             name="radio-5"
-                                            className="btn radio-error"
+                                            className="radio radio-error"
                                             onChange={() => setSelectedOption('نعم, استئجار سيارة')}
                                         />
-                                        {/* <label htmlFor="radioButton1" className="pl-3 text-base font-medium text-[#07074D]">
+                                        <label htmlFor="radioButton1" className="pl-3 mx-2 text-base font-medium text-[#07074D]">
                                             نعم, استئجار سيارة
-                                        </label> */}
+                                        </label>
                                     </div>
                                     <div className="flex items-center">
                                         <input
-                                            aria-label="نعم, توصيلة فقط"
+                                            // aria-label="نعم, توصيلة فقط"
                                             type="radio"
                                             name="radio-5"
-                                            className="btn radio-error"
-                                            onChange={() => setSelectedOption('نعم, توصيلة فقط')}
-                                        />
-                                        {/* <label htmlFor="radioButton2" className="pl-3 text-base font-medium text-[#07074D]">
+                                            className="radio radio-error"
+
+                                            onChange={() => setSelectedOption('نعم, توصيلة فقط')} />
+                                        <label htmlFor="radioButton2" className="pl-3 mx-2 text-base font-medium text-[#07074D]">
                                             نعم, توصيلة فقط
-                                        </label> */}
+                                        </label>
                                     </div>
                                     <div className="flex items-center">
                                         <input
                                             aria-label="لا أريد"
                                             type="radio"
                                             name="radio-5"
-                                            className="btn radio-error w-32"
+                                            className="radio radio-error"
                                             onChange={() => setSelectedOption('لا أريد')}
                                         />
-                                        {/* <label htmlFor="radioButton3" className="pl-3 text-base font-medium text-[#07074D]">
+                                        <label htmlFor="radioButton3" className="pl-3 mx-2 text-base font-medium text-[#07074D]">
                                             لا أريد
-                                        </label> */}
+                                        </label>
                                     </div>
                                 </div>
 

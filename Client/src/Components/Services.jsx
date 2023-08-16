@@ -12,6 +12,8 @@ import {
 } from "@material-tailwind/react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons'; // Replace 'faIconName' with the specific icon you want to use
 
 const Services = () => {
 
@@ -49,30 +51,6 @@ const Services = () => {
     useEffect(() => {
         getServices();
     }, []);
-
-
-
-
-
-
-    // const [rate, setRate] = useState('')
-    // const getRating = async () => {
-    //     try {
-    //         const response = await axios.get('http://localhost:5151/getRates/getRate');
-    //         const rating = response.data;
-    //         setRate(rating);
-    //         console.log(rating.rating)
-    //     } catch (error) {
-    //         console.log('Error getting rating data:', error);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     getRating();
-    // }, [])
-
-    // console.log(rate)
-
 
     const getDataModal = (serviceId, serviceTitle) => {
         setServiceId(serviceId);
@@ -112,86 +90,47 @@ const Services = () => {
         });
     }, []);
 
-
-
-
-
     return (
-        <div data-aos="fade-down"
-            data-aos-easing="linear"
-            data-aos-duration="1500" id="Services" className='mt-16'>
-            <h1 className="flex justify-center text-3xl text-black font-bold">الخدمات</h1>
-            <hr
-                style={{
-                    width: '10%',
-                    margin: '0 auto',
-                    borderWidth: '1px',
-                    color: 'black',
-                    borderColor: 'black',
-                }}
-            />
-
-            <div className="flex justify-center">
-                <div className='py-12 grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-3 gap-8  justify-center '>
+        <div className="hero min-h-screen" style={{ backgroundImage: 'url(https://img.freepik.com/free-vector/realistic-car-headlights-ad-composition-headlights-with-green-purple-illumination_1284-56577.jpg?w=1060&t=st=1692133183~exp=1692133783~hmac=08c9732a450793663a80487536b8dfe59d078a9d52efda422d260926d8fd1495)', backgroundAttachment: 'fixed' }}>
+            <div data-aos="fade-down"
+                data-aos-easing="linear"
+                data-aos-duration="1500" id="Services" className='mt-16'>
+                <h1 data-aos="zoom-in" className="flex justify-center text-3xl text-white font-bold">خدمات عَ الطريق </h1>
+                <hr
+                    style={{
+                        width: '20%',
+                        margin: '0 auto',
+                        borderWidth: '1px',
+                        color: 'black',
+                        borderColor: '#F15A59',
+                        marginTop: '20px'
+                    }}
+                />
+                <div className='flex flex-wrap gap-10 justify-center mt-10 mb-32'>
                     {showServices.map((service, index) => (
-                        <article key={index} className="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
-                            <img
-                                alt="Office"
-                                src={service.image}
-                                className="h-56 w-full object-cover"
-                            />
-
-                            <div className="p-4 sm:p-6">
+                        <div key={index} className="card w-96 glass">
+                            <figure><img src={service.image} alt="car!" /></figure>
+                            <div className="card-body">
                                 <div className='flex justify-between'>
-                                    <h3 className="text-lg font-medium text-gray-900">
-                                        {service.title}
-
-                                    </h3>
-                                    <div className="flex items-center">
-                                        <svg
-                                            className="w-4 h-4 text-yellow-300 mr-1"
-                                            aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="currentColor"
-                                            viewBox="0 0 22 20"
-                                        >
+                                    <h2 className="card-title text-white"> {service.title}</h2>
+                                    <div className='flex justify-center'>
+                                        <h2 className="card-title text-white"> {typeof service.rating === 'numeric' ? service?.rating.toFixed(2) : service.rating}</h2>
+                                        <svg className="w-6 h-7 m-1 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                                             <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                         </svg>
-
-                                        <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">
-                                            {typeof service.rating === 'numeric' ? service?.rating.toFixed(2) : service.rating}</p>
-                                        <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400" />
-                                        {/* <a
-                                            href="#"
-                                            className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
-                                        >
-                                            73 reviews
-                                        </a> */}
                                     </div>
                                 </div>
-
-
-
-                                <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-
-                                </p>
-
-                                <button
-                                    onClick={() => getDataModal(service.id, service.title)}
-                                    className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-red-600
-                                    hover:text-red-300
-                                    "
-                                >
-                                    طلب الخدمة
-
-                                    {/* <span aria-hidden="true" class="block transition-all group-hover:ms-0.5 rtl:rotate-180">
-                &rarr;
-            </span> */}
-                                </button>
+                                {/* <p>{typeof service.rating === 'numeric' ? service?.rating.toFixed(2) : service.rating}</p> */}
+                                <div className="card-actions justify-end">
+                                    <button
+                                        onClick={() => getDataModal(service.id, service.title)}
+                                        className="btn btn-outline btn-error">طلب الخدمة</button>
+                                </div>
                             </div>
-                        </article>
+                        </div>
                     ))}
                 </div>
+
                 {getModal && (
                     <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-75 ">
                         <div className="bg-white rounded-lg shadow-lg p-6">
@@ -248,9 +187,9 @@ const Services = () => {
                         </div>
                     </div>
                 )}
-            </div>
 
-            {/* {isConfirmed && <Confirm service={service} choice={choice} />} */}
+                {/* {isConfirmed && <Confirm service={service} choice={choice} />} */}
+            </div>
         </div>
         // </div >
     );

@@ -10,6 +10,7 @@ const Landing = () => {
             <Home />
             <Services />
             <Stats />
+
             <Features />
         </div>
     )

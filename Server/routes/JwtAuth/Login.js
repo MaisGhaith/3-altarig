@@ -228,7 +228,4 @@ router.put('/resetPassword', async (req, res) => {
 });
 
 
-
-
-
 module.exports = router;

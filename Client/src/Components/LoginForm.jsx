@@ -8,9 +8,50 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ForgetPassword from './ForgetPassword';
 import Modal from 'react-modal';
+import { useGoogleLogin } from "@react-oauth/google";
 
 const LoginForm = () => {
 
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => {
+            // setUserGoogle(codeResponse)
+
+            getGoogleLogin(codeResponse);
+        },
+        onError: (error) => console.log("Login Failed:", error),
+    });
+
+
+    const getGoogleLogin = async (userGoogle) => {
+        if (userGoogle.length !== 0) {
+            try {
+                const response = await axios.get(
+                    `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userGoogle.access_token}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${userGoogle.access_token}`,
+                            Accept: "application/json",
+                        },
+                    }
+                );
+
+                console.log(response.data)
+                try {
+                    const newUserResponse = await axios.post(
+                        `http://localhost:5151/Register/register-google`,
+                        response.data
+                    );
+                    localStorage.setItem("token", newUserResponse.data.token);
+                    window.location.href = `/Landing`;
+                } catch (err) {
+                    console.log(err);
+                    // setpasswordp(err.response.data.message);
+                }
+            } catch (err) {
+                console.log(err.message);
+            }
+        }
+    };
     // const { isLoggedIn, credentials, handleChange, error } = LoginFunctions();
 
     const {
@@ -150,6 +191,10 @@ const LoginForm = () => {
             }
             const res = await axios.put(`http://localhost:5151/Login/verify/${userId}`, {
                 verification_code: verificationCode,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             });
             console.log("Verification successful:", res.data);
             localStorage.setItem("username", res.data.user_name);
@@ -157,7 +202,7 @@ const LoginForm = () => {
             localStorage.setItem("token", res.data.token);
             navigate(path);
         } catch (error) {
-            console.error("Verification error:", error);
+            console.error("Verification error:", error.message);
         }
     };
 
@@ -279,7 +324,7 @@ const LoginForm = () => {
                                             </p>
                                             <p className="text-sm font-normal flex justify-center text-gray-600 mb-7">التسجيل عن طريق :  </p>
                                             <div className='flex justify-center gap-7 mb-3'>
-                                                <button className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
+                                                <button id="google-sign-in" onClick={() => login()} className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
                                                     <img
                                                         className="w-6 h-6"
                                                         src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -373,25 +418,16 @@ const LoginForm = () => {
                                                     </span>
                                                 </a>
                                             </div>
-
-                                            {/* Open the modal using ID.showModal() method */}
-
-
-
                                         </form>
                                     )}
                                     <dialog id="my_modal_1" className="modal">
                                         <form method="dialog" className="modal-box">
                                             <h3 className="flex justify-center font-bold text-lg mt-4">تعديل كلمة السر</h3>
-                                            {/* Here, you can include the ForgetPassword component */}
                                             <ForgetPassword onReturnToLogin={handleReturnToLoginClick} />
-
                                             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-
                                         </form>
                                     </dialog>
                                 </div>
-
                             </div>
                         </div>
                     </div>

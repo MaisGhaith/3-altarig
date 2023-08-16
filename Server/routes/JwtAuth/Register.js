@@ -158,4 +158,81 @@ router.put('/reSendCode/:user_id', async (req, res) => {
 
 })
 
+
+router.post('/register-google', async (req, res) => {
+
+    const { name, email, id, role } = req.body;
+    console.log(name, email, id, role)
+    const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
+
+    try {
+
+        if (user.rows.length !== 0) {
+
+            try {
+                const sql = 'SELECT * FROM users WHERE user_email = $1';
+
+                const allData = await pool.query(sql, [email]);
+                const user = allData.rows[0]
+
+                if (user && user.deleted === true) {
+                    return res.status(403).json({ user_id: user.id, message: 'your account has been deactivated by admin' })
+                    // ! 403 Forbidden : When the user is found but their account has been deleted by the administrator
+                    // ! This indicates that the user has the necessary permissions, but access is denied due to their status (account is deactivated).
+                }
+
+                else {
+                    const token = jwt.sign({
+                        user_id: user.user_id,
+                        user_name: user.user_name,
+                        user_email: user.user_email,
+                        phone_number: user.phone_number,
+                        role: user.role,
+                        deleted: user.deleted,
+                    }, JWTsecretKey);
+                    return res.status(201).json({ token: token, message: 'User login successful', user_id: user.id });
+                }
+
+            } catch (error) {
+                return res.status(500).json("server error")
+            }
+
+        } else {
+            try {
+
+                const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
+                console.log(user)
+                const saltRounds = 10;
+                const salt = await bcrypt.genSalt(saltRounds);
+                const bcryptPassword = await bcrypt.hash(id, salt);
+
+                const newUsersql = "INSERT INTO users (user_name, user_email, user_password, role) VALUES ($1, $2, $3, $4) RETURNING *";
+                const newUserValues = [name, email, bcryptPassword, role || 'user'];
+
+                const insertResult = await pool.query(newUsersql, newUserValues);
+                console.log(insertResult)
+                const newUserData = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
+                // res.status(200).json({ user_id: newUserData.rows[0].id })
+
+                const token = jwt.sign({
+                    user_id: newUserData.user_id,
+                    user_name: newUserData.user_name,
+                    user_email: newUserData.user_email,
+                    phone_number: newUserData.phone_number,
+                    role: newUserData.role,
+                    deleted: newUserData.deleted,
+                }, JWTsecretKey);
+                return res.status(201).json({ token: token, message: 'User login successful', user_id: newUserData.id });
+
+
+            } catch (error) {
+                res.status(500).send("Server error");
+            }
+        }
+    } catch (error) {
+        res.status(500).send("Server error");
+    }
+
+})
+
 module.exports = router;
