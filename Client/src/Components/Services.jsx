@@ -91,10 +91,10 @@ const Services = () => {
     }, []);
 
     return (
-        <div className="hero min-h-screen" style={{ backgroundImage: 'url(https://img.freepik.com/free-vector/realistic-car-headlights-ad-composition-headlights-with-green-purple-illumination_1284-56577.jpg?w=1060&t=st=1692133183~exp=1692133783~hmac=08c9732a450793663a80487536b8dfe59d078a9d52efda422d260926d8fd1495)', backgroundAttachment: 'fixed' }}>
-            <div data-aos="fade-down"
-                data-aos-easing="linear"
-                data-aos-duration="1500" id="Services" className='mt-16'>
+        <div className="hero min-h-screen"
+        // style={{ backgroundImage: 'url(https://img.freepik.com/free-vector/realistic-car-headlights-ad-composition-headlights-with-green-purple-illumination_1284-56577.jpg?w=1060&t=st=1692133183~exp=1692133783~hmac=08c9732a450793663a80487536b8dfe59d078a9d52efda422d260926d8fd1495)', backgroundAttachment: 'fixed' }}
+        >
+            <div id="Services" className='mt-16'>
                 <h1 data-aos="zoom-in" className="flex justify-center text-3xl text-white font-bold">خدمات عَ الطريق </h1>
                 <hr
                     style={{
@@ -102,11 +102,14 @@ const Services = () => {
                         margin: '0 auto',
                         borderWidth: '1px',
                         color: 'black',
-                        borderColor: '#F15A59',
-                        marginTop: '20px'
+                        borderColor: '#FBBD23',
+                        marginTop: '24px',
+                        marginBottom: '72px'
                     }}
                 />
-                <div className='flex flex-wrap gap-10 justify-center mt-10 mb-32'>
+                <div data-aos="fade-down"
+                    data-aos-easing="linear"
+                    data-aos-duration="1500" className='flex flex-wrap gap-10 justify-center mt-10 mb-32 '>
                     {showServices.map((service, index) => (
                         <div key={index} className="card w-96 glass">
                             <figure><img src={service.image} alt="car!" /></figure>
@@ -124,7 +127,7 @@ const Services = () => {
                                 <div className="card-actions justify-end">
                                     <button
                                         onClick={() => getDataModal(service.id, service.title)}
-                                        className="btn btn-outline btn-error">طلب الخدمة</button>
+                                        className="btn btn-outline btn-warning">طلب الخدمة</button>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +135,7 @@ const Services = () => {
                 </div>
 
                 {getModal && (
-                    <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-75 ">
+                    <div className="fixed top-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-75 ">
                         <div className="bg-white rounded-lg shadow-lg p-6">
                             {/* Modal content goes here */}
                             <h3 className="text-xl font-semibold text-gray-900 mb-4">
@@ -187,8 +190,6 @@ const Services = () => {
                         </div>
                     </div>
                 )}
-
-                {/* {isConfirmed && <Confirm service={service} choice={choice} />} */}
             </div>
         </div>
         // </div >

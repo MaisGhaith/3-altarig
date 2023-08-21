@@ -114,7 +114,7 @@ export default () => {
 
             <nav
                 id="stickyNav"
-                className={`absolute bg-[#BE123C] top-0 z-10 left-0 right-0 md:text-sm ${state ? "shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0" : ""
+                className={`absolute bg-gradient-to-t from-black/30 to-yellow-300/90 top-0 z-10 left-0 right-0 md:text-sm ${state ? "shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0" : ""
                     }`}
             // style={{ backgroundColor: "rgba(0, 0, 0, 0.422)" }}
             >

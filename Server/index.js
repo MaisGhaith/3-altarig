@@ -40,6 +40,8 @@ app.use("/getOrderRate", require('./routes/Rating/getRating'));
 app.use("/getRatingAvg", require('./routes/ordersRoutes/getRatingAvg'));
 
 
+// ! faqs question 
+app.use('/faqs', require('./routes/Faqs/faqs'));
 
 
 

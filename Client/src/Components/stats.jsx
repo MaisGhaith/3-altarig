@@ -1,61 +1,30 @@
-import React from 'react'
+import React from "react";
 
-const stats = () => {
+export default function Home() {
     return (
-        <div>
-            <section className="bg-[E3E6E9]">
-                <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
-                    <div className="mx-auto max-w-3xl text-center">
-                        <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-                            Trusted by eCommerce Businesses
-                        </h2>
-
-                        <p className="mt-4 text-gray-500 sm:text-xl">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione dolores
-                            laborum labore provident impedit esse recusandae facere libero harum
-                            sequi.
-                        </p>
+        <>
+            <div className="bg-[rgba(121,132,136,0.47)] xl:px-20 px-6 py-20 xl:mx-auto xl:container">
+                <h1 className="xl:text-5xl md:text-4xl text-2xl font-semibold leading-tight text-center text-gray-800 sm:mb-0 mb-12">
+                    More Than 10 Years We Provide Service <br className="md:block hidden" />
+                    in Real State Industry
+                </h1>
+                <div className="md:mt-14 mt-4 relative sm:flex items-center justify-center">
+                    <img src="https://i.ibb.co/KjrPCyW/map.png" alt="world map image" className="w-full xl:h-full h-96 object-cover object-fill sm:block hidden" />
+                    <img src="https://i.ibb.co/SXKj9Mf/map-bg.png" alt="mobile-image" className="sm:hidden -mt-10 block w-full h-96 object-cover object-fill absolute z-0" />
+                    <div className="shadow-lg xl:p-6 p-4 sm:w-auto w-full bg-white sm:absolute relative z-20 sm:mt-0 mt-4 left-0 xl:ml-56 sm:ml-12 xl:-mt-40 sm:-mt-12">
+                        <p className="text-3xl font-semibold text-gray-800">20K+</p>
+                        <p className="text-base leading-4 xl:mt-4 mt-2 text-gray-600">Recently Property Listed</p>
                     </div>
-
-                    <div className="mt-8 sm:mt-12">
-                        <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                            <div
-                                className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center"
-                            >
-                                <dt className="order-last text-lg font-medium text-gray-500">
-                                    Total Sales
-                                </dt>
-
-                                <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">
-                                    $4.8m
-                                </dd>
-                            </div>
-
-                            <div
-                                className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center"
-                            >
-                                <dt className="order-last text-lg font-medium text-gray-500">
-                                    Official Addons
-                                </dt>
-
-                                <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">24</dd>
-                            </div>
-
-                            <div
-                                className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center"
-                            >
-                                <dt className="order-last text-lg font-medium text-gray-500">
-                                    Total Addons
-                                </dt>
-
-                                <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86</dd>
-                            </div>
-                        </dl>
+                    <div className="shadow-lg xl:p-6 p-4 w-48 sm:w-auto w-full bg-white sm:absolute relative z-20 sm:mt-0 mt-4 xl:mt-80 sm:mt-56 xl:-ml-0 sm:-ml-12">
+                        <p className="text-3xl font-semibold text-gray-800">8K+</p>
+                        <p className="text-base leading-4 xl:mt-4 mt-2 text-gray-600">Active Listening</p>
+                    </div>
+                    <div className="shadow-lg xl:p-6 p-4 sm:w-auto w-full bg-white sm:absolute relative z-20 md:mt-0 sm:-mt-5 mt-4 right-0 xl:mr-56 sm:mr-24">
+                        <p className="text-3xl font-semibold text-gray-800">15K+</p>
+                        <p className="text-base leading-4 xl:mt-4 mt-2 text-gray-600">Recently Sold Lands</p>
                     </div>
                 </div>
-            </section>
-        </div>
-    )
+            </div>
+        </>
+    );
 }
-
-export default stats

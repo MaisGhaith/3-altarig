@@ -47,18 +47,18 @@ const Home = () => {
         // </section>
 
         <div>
-            <div className="hero min-h-screen" style={{ backgroundImage: 'url(Images/maain.jpg)', backgroundAttachment: 'fixed' }}>
+            <div className="hero min-h-screen " style={{ backgroundImage: 'url(Images/maain.jpg)', backgroundAttachment: 'fixed' }}>
                 <div className="hero-overlay bg-opacity-70"></div>
-                <div className="flex justify-end text-neutral-content">
-                    <div className="max-w-md">
-                        <h1 className="mb-5 text-5xl font-bold text-black">منصة ع الطريق</h1>
-                        <p className="mb-5 text-3xl font-bold text-[#F15A59]">
+                <div className="flex justify-start text-neutral-content w-full px-10 md:px-24">
+                    <div className="max-w-lg">
+                        <h1 className="mb-5 text-5xl font-bold text-[#252525]">منصة ع الطريق</h1>
+                        <p className="mb-5 text-3xl font-bold text-yellow-400">
                             المكان الأمثل لخدمة سيارتك
                         </p>
                         <p className="mb-5 text-xl">
                             منصة مختصة بتقديم خدمات صيانة السيارات وموجهة للموظفات و الموظفين بشكل خاص، حيث نتعهد بصيانة السيارة بشكل سريع ومتقن.
                         </p>
-                        <button className="btn btn-outline btn-error">مقطوع عَ الطريق ؟</button>
+                        <button className="btn btn-outline btn-warning">مقطوع عَ الطريق ؟</button>
                     </div>
                 </div>
             </div>
