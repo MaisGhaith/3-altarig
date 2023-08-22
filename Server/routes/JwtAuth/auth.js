@@ -7,6 +7,5 @@ router.get('/auth', auth, async (req, res) => {
     console.log(res.json)
 })
 
-
 module.exports = router;
 

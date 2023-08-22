@@ -136,7 +136,7 @@ const Services = () => {
 
                 {getModal && (
                     <div className="fixed top-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-75 ">
-                        <div className="bg-white rounded-lg shadow-lg p-6">
+                        <div className="bg-white rounded-lg shadow-lg p-6 max-h-[80vh] overflow-y-scroll">
                             {/* Modal content goes here */}
                             <h3 className="text-xl font-semibold text-gray-900 mb-4">
                                 خيارات {" "}

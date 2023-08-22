@@ -180,7 +180,9 @@ const Confirm = (props) => {
     return (
         <>
             {/* Container for demo purpose */}
-            <div className="container my-12 py-12 mx-auto px-4 md:px-6 lg:px-12 bg-white">
+            <div className="container my-12 py-12 mx-auto px-4 md:px-6 lg:px-12" style={{
+                background: "radial-gradient(circle, rgba(62,76,90,0.8044467787114846) 18%, rgba(40,50,61,1) 85%)"
+            }}>
 
                 <section className="mb-20 text-gray-800 space-y-3 ">
                     <div className='w-full text-center mb-12'>
@@ -238,7 +240,7 @@ const Confirm = (props) => {
                                     placeholder="Name"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className="input input-error input-bordered w-full max-w-xs"
+                                    className="input input-warning input-bordered w-full max-w-xs"
                                 />
                             </div>
                             <div className="form-control w-full max-w-xs">
@@ -248,7 +250,7 @@ const Confirm = (props) => {
                                 </label>
                                 <input
                                     placeholder="0778086355"
-                                    className="input input-error input-bordered w-full max-w-xs"
+                                    className="input input-warning input-bordered w-full max-w-xs"
                                     type="tel"
                                     name="phone"
                                     value={formData.phone}
@@ -266,7 +268,7 @@ const Confirm = (props) => {
                                     defaultValue={generateOrderNumber()}
                                     value={formData.order_no}
                                     onChange={handleChange}
-                                    className="input input-error input-bordered w-full max-w-xs"
+                                    className="input input-warning input-bordered w-full max-w-xs"
                                     disabled
                                     readOnly />
                             </div>
@@ -277,7 +279,7 @@ const Confirm = (props) => {
                                     <span className="label-text">ملاحظات</span>
 
                                 </label>
-                                <textarea id='notes' className="textarea textarea-bordered textarea-error border-red-400 h-24 w-80" placeholder="Add any notes you have..."></textarea>
+                                <textarea id='notes' className="textarea textarea-bordered textarea-warning h-24 w-80" placeholder="Add any notes you have..."></textarea>
 
                             </div>
                             <div className=''>
@@ -298,7 +300,7 @@ const Confirm = (props) => {
                                         </label>
                                         <input type="file"
                                             id='image'
-                                            className="file-input h-24 file-input-bordered file-input-error w-full max-w-xs" />
+                                            className="file-input h-24 file-input-bordered file-input-warning w-full max-w-xs" />
 
                                     </div>
                                 )}
@@ -313,11 +315,10 @@ const Confirm = (props) => {
                                 <div className="flex flex-col items-right gap-y-3">
                                     <div className="flex items-center">
                                         <input
-                                            // type="radio" name="radio1" className="radio radio-error" checked
                                             type="radio"
                                             name="radio1"
                                             id="radioButton1"
-                                            className="radio radio-error"
+                                            className="radio radio-warning"
                                             checked={!isSetAppointment}
                                             onChange={() => setIsSetAppointment(false)}
 
@@ -331,7 +332,7 @@ const Confirm = (props) => {
                                             type="radio"
                                             name="radio1"
                                             id="radioButton2"
-                                            className="radio radio-error"
+                                            className="radio radio-warning"
                                             checked={isSetAppointment}
                                             onChange={() => setIsSetAppointment(true)}
                                         />
@@ -352,7 +353,7 @@ const Confirm = (props) => {
                                                     type="date"
                                                     name="date"
                                                     id="date"
-                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                                    className="w-72 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                                     value={selectedDate}
                                                     onChange={(e) => setSelectedDate(e.target.value)}
                                                 />
@@ -373,7 +374,7 @@ const Confirm = (props) => {
                                             id='car-rent'
                                             type="radio"
                                             name="radio-5"
-                                            className="radio radio-error"
+                                            className="radio radio-warning"
                                             onChange={() => setSelectedOption('نعم, استئجار سيارة')}
                                         />
                                         <label htmlFor="radioButton1" className="pl-3 mx-2 text-base font-medium text-[#07074D]">
@@ -385,7 +386,7 @@ const Confirm = (props) => {
                                             // aria-label="نعم, توصيلة فقط"
                                             type="radio"
                                             name="radio-5"
-                                            className="radio radio-error"
+                                            className="radio radio-warning"
 
                                             onChange={() => setSelectedOption('نعم, توصيلة فقط')} />
                                         <label htmlFor="radioButton2" className="pl-3 mx-2 text-base font-medium text-[#07074D]">
@@ -397,7 +398,7 @@ const Confirm = (props) => {
                                             aria-label="لا أريد"
                                             type="radio"
                                             name="radio-5"
-                                            className="radio radio-error"
+                                            className="radio radio-warning"
                                             onChange={() => setSelectedOption('لا أريد')}
                                         />
                                         <label htmlFor="radioButton3" className="pl-3 mx-2 text-base font-medium text-[#07074D]">
@@ -419,7 +420,7 @@ const Confirm = (props) => {
                         </div>
                     </div>
                 </section>
-            </div>
+            </div >
 
         </>
     );

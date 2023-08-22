@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import classNames from 'classnames';
+
 const FAQS = () => {
 
     const [question, setQuestion] = useState("");
@@ -41,6 +43,8 @@ const FAQS = () => {
         fetchFaqs();
     }, []);
 
+
+
     return (
         <section className="relative z-20 overflow-hidden  pt-10 pb-12 lg:pt-5 lg:pb-[90px]">
             <div className="">
@@ -68,16 +72,19 @@ const FAQS = () => {
                             </h2>
                             <form onSubmit={handleSubmit} className="flex flex-col items-center">
 
-                                <input value={name}
+                                <input
+                                    required
+                                    value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     type="text" placeholder="الإسم" className="input input-bordered input-warning w-full max-w-md" />
 
                                 <textarea
+                                    required
                                     value={question}
                                     onChange={(e) => setQuestion(e.target.value)}
                                     placeholder="السؤال" className="textarea textarea-warning textarea-bordered textarea-lg w-full max-w-md mt-5" ></textarea>
 
-                                <button className="btn btn-outline btn-warning mt-4 w-44">إرسال السؤال  </button>
+                                <button className="btn btn-outline border-yellow-400 border-2 text-black bg-slate-100 hover:btn-warning mt-4 w-44">إرسال السؤال  </button>
                             </form>
                             {responseMessage && <p>{responseMessage}</p>}
 
@@ -88,35 +95,6 @@ const FAQS = () => {
 
             </div>
 
-            {/* <div className="absolute bottom-0 right-0 z-[-1]">
-                <svg
-                    width="1440"
-                    height="886"
-                    viewBox="0 0 1440 886"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        opacity="0.5"
-                        d="M193.307 -273.321L1480.87 1014.24L1121.85 1373.26C1121.85 1373.26 731.745 983.231 478.513 729.927C225.976 477.317 -165.714 85.6993 -165.714 85.6993L193.307 -273.321Z"
-                        fill="url(#paint0_linear)"
-                    />
-                    <defs>
-                        <linearGradient
-                            id="paint0_linear"
-                            x1="1308.65"
-                            y1="1142.58"
-                            x2="602.827"
-                            y2="-418.681"
-                            gradientUnits="userSpaceOnUse"
-                        >
-                            <stop stopColor="#3056D3" stopOpacity="0.36" />
-                            <stop offset="1" stopColor="#F5F2FD" stopOpacity="0" />
-                            <stop offset="1" stopColor="#F5F2FD" stopOpacity="0.096144" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div> */}
         </section>
     );
 };
@@ -130,12 +108,31 @@ const AccordionItem = ({ header, text }) => {
         // event.preventDefault();
         setActive(!active);
     };
+
+    const isSmallScreen = true; // Replace this with your actual logic for determining the screen size
+
+    const containerClasses = classNames(
+        'single-faq',
+        'mb-8',
+        isSmallScreen ? 'w-full' : 'md:w-1/2 lg:w-3/4',
+        'rounded-lg',
+        'border',
+        'border-[#F3F4FE]',
+        'bg-white',
+        'p-4',
+        'sm:p-8',
+        'lg:px-6',
+        'xl:px-8'
+    );
     return (
-        <div className="single-faq mb-8 w-full rounded-lg border border-[#F3F4FE] bg-white p-4 sm:p-8 lg:px-6 xl:px-8">
+        <div className={containerClasses}>
             <button
                 className={`faq-btn flex w-full text-left`}
                 onClick={() => handleToggle()}
             >
+                <div className="w-full flex justify-between ">
+                    <h4 className="text-lg font-semibold text-black">{header}</h4>
+                </div>
                 <div className="mr-5 flex h-10 w-full max-w-[40px] items-center justify-center rounded-lg bg-yellow-300 text-primary">
                     <svg
                         className={`duration-200 ease-in-out fill-primary stroke-primary ${active ? "rotate-180" : ""
@@ -153,9 +150,7 @@ const AccordionItem = ({ header, text }) => {
                     </svg>
                 </div>
 
-                <div className="w-full">
-                    <h4 className="text-lg font-semibold text-black">{header}</h4>
-                </div>
+
             </button>
 
             <div

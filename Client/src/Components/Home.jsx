@@ -47,7 +47,7 @@ const Home = () => {
         // </section>
 
         <div>
-            <div className="hero min-h-screen " style={{ backgroundImage: 'url(Images/maain.jpg)', backgroundAttachment: 'fixed' }}>
+            <div className="hero min-h-screen" style={{ backgroundImage: 'url(Images/maain.jpg)', backgroundAttachment: 'fixed' }}>
                 <div className="hero-overlay bg-opacity-70"></div>
                 <div className="flex justify-start text-neutral-content w-full px-10 md:px-24">
                     <div className="max-w-lg">

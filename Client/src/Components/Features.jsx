@@ -3,7 +3,7 @@ import React from 'react'
 const Features = () => {
     return (
         <div>
-            <section className="py-10 bg-[#f2f2f2] sm:py-16 lg:py-24">
+            <section className="py-10  sm:py-16 lg:py-24">
                 <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="flex justify-center text-3xl mb-16">
                         <p>المميزات</p>
