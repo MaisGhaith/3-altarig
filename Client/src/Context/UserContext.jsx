@@ -10,7 +10,7 @@ const UserProvider = ({ children }) => {
     const [role, setRole] = useState();
     const [phone, setPhone] = useState();
     const [email, setEmail] = useState();
-
+    const [token, setToken] = useState()
     useEffect(() => {
         if (localStorage.token) {
             fetchUserData();
@@ -27,9 +27,8 @@ const UserProvider = ({ children }) => {
                         Authorization: token,
                     },
                 });
-
-                // console.log("Response data:", response.data); // Check the entire response object
-
+                setToken(response.data.token);
+                console.log(response.data.token)
                 setUserId(response.data.user_id);
                 setUserName(response.data.user_name); // Property name should match 'user_name'
                 setRole(response.data.role); // Property name should match 'role'
@@ -51,10 +50,10 @@ const UserProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
-        // This will log the userName value whenever it changes
-        // console.log("userName:", userName);
     }, [userName]);
 
+    console.log(token)
+    console.log(role)
     return (
         <>
             <UserContext.Provider
@@ -65,7 +64,8 @@ const UserProvider = ({ children }) => {
                     role,
                     setRole,
                     phone,
-                    email
+                    email,
+                    token
                 }}
             >
                 {children}

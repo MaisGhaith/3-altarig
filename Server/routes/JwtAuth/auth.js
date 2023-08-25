@@ -8,4 +8,3 @@ router.get('/auth', auth, async (req, res) => {
 })
 
 module.exports = router;
-
