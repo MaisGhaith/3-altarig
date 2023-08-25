@@ -4,9 +4,9 @@ const app = express();
 const cors = require("cors");
 const router = express.Router();
 const pool = require('./db');
+require('dotenv').config();
 const PORT = process.env.PORT || 5151;
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
 //* middleware //
 app.use(express.json()); // access data from client side   // req.body

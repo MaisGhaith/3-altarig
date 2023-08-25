@@ -10,7 +10,6 @@ const UserProvider = ({ children }) => {
     const [role, setRole] = useState();
     const [phone, setPhone] = useState();
     const [email, setEmail] = useState();
-    const [token, setToken] = useState()
     useEffect(() => {
         if (localStorage.token) {
             fetchUserData();
@@ -27,8 +26,6 @@ const UserProvider = ({ children }) => {
                         Authorization: token,
                     },
                 });
-                setToken(response.data.token);
-                console.log(response.data.token)
                 setUserId(response.data.user_id);
                 setUserName(response.data.user_name); // Property name should match 'user_name'
                 setRole(response.data.role); // Property name should match 'role'
@@ -52,7 +49,6 @@ const UserProvider = ({ children }) => {
     useEffect(() => {
     }, [userName]);
 
-    console.log(token)
     console.log(role)
     return (
         <>
@@ -65,7 +61,6 @@ const UserProvider = ({ children }) => {
                     setRole,
                     phone,
                     email,
-                    token
                 }}
             >
                 {children}

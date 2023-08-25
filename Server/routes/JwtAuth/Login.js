@@ -2,7 +2,7 @@ const router = require("express").Router();
 const pool = require('../../db');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const SECRETKEY = process.env.SECRET_KEY;
+const SECRETKEY = process.env.SECRET;
 const app = require('../../index');
 const nodemailer = require('nodemailer');
 
