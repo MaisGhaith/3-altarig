@@ -42,7 +42,7 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Routes>
-            <Route path="Landing" element={<Landing />} />
+            <Route path="/Landing" element={<Landing />} />
             <Route path="AboutUs" element={<AboutUs />} />
             <Route path="ContactUs" element={<ContactUs />} />
             <Route path="LoginForm" element={<LoginForm />} />

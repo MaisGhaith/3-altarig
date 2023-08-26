@@ -1,7 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
 import '../../src/App.css'
-// import { useNavigate, Link, useHistory } from 'react-router-dom'
-import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from '../Context/UserContext';
@@ -53,26 +51,15 @@ export default () => {
     const whatever = (path) => {
         navigate(`/${path}`)
     }
-
-
-    // useEffect(() => {
-    //     const getUserNameFromToken = async () => {
-    //         const token = localStorage.getItem("token");
-    //         if (token) {
-    //             try {
-    //                 await axios.get(`http://localhost:5151/getUser/${userId}`);
-    //             } catch (error) {
-    //                 console.error("Error fetching user data:", error);
-    //             }
-    //         }
-    //     };
-
-    //     getUserNameFromToken();
-    // }, []);
-
-
     const isLoggedIn = !!userName;
 
+    useEffect(() => {
+        if (isLoggedIn) {
+            // Execute code when user is logged in
+            // For example, fetch user data and set userName
+            // ...
+        }
+    }, [isLoggedIn]);
 
 
     const [isLoggedOut, setIsLoggedOut] = useState(false);
@@ -84,13 +71,13 @@ export default () => {
     }, [isLoggedOut]);
 
     const handleLogIn = async () => {
-        // Perform login logic
 
-        // Fetch user data and set userName
         try {
             const token = localStorage.getItem("token");
             if (token) {
-                await axios.get(`http://localhost:5151/getUser/${userId}`);
+                const response = await axios.get(`http://localhost:5151/getUser/${userId}`);
+                const userData = response.data
+                setUserName(userData.user_name)
             }
         } catch (error) {
             console.error("Error fetching user data:", error);
