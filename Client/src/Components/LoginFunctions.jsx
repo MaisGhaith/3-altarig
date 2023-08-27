@@ -118,7 +118,8 @@ const LoginFunctions = () => {
 
             localStorage.setItem("email", user.email);
             localStorage.setItem("token", res.data.token);
-            navigate(path);
+            // navigate(path);
+            window.location.href = '/Landing'
         } catch (err) {
             setUserId(err.response.data.user_id)
             if (err.response) {
@@ -203,7 +204,7 @@ const LoginFunctions = () => {
             localStorage.setItem("username", res.data.user_name);
             localStorage.setItem("email", res.data.user_email);
             localStorage.setItem("token", res.data.token);
-            navigate(path);
+            window.location.href = '/Landing'
         } catch (error) {
             console.error("Verification error:", error.message);
         }

@@ -3,11 +3,10 @@ import '../../src/App.css'
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from '../Context/UserContext';
-
+import LoginFunctions from './LoginFunctions';
 export default () => {
+
     const { userId, userName, setUserName } = useContext(UserContext);
-
-
 
     const [state, setState] = useState(false)
 
@@ -136,15 +135,14 @@ export default () => {
                     <div className={`flex-1 items-center mt-8 md:mt-0 md:flex ${state ? 'block' : 'hidden'} `}>
                         <ul className="justify-center items-center space-y-6 md:flex md:space-x-6 md:space-x-reverse md:space-y-0">
                             {
-                                navigation.map((item, idx) => {
-                                    return (
-                                        <li onClick={() => whatever(item.path)} key={idx} className="text-white hover:scale-105">
-                                            <a href={item.path} className="block">
-                                                {item.title}
-                                            </a>
-                                        </li>
-                                    )
-                                })
+                                navigation.map((item, idx) => (
+                                    <li key={idx} className="text-white hover:scale-105">
+                                        <Link to={item.path} className="block">
+                                            {item.title}
+                                        </Link>
+                                    </li>
+                                ))
+
                             }
                         </ul>
                         <div className="flex-1 gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">
@@ -168,9 +166,9 @@ export default () => {
                                     </button>
                                 </>
                             ) : (
-                                <a
+                                <Link
                                     onClick={handleLogIn}
-                                    href="/LoginForm"
+                                    to="/LoginForm"
                                     className="flex items-center justify-center gap-x-1 py-2 px-4 text-white font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full md:inline-flex"
                                 >
                                     التسجيل
@@ -186,7 +184,7 @@ export default () => {
                                             clipRule="evenodd"
                                         />
                                     </svg>
-                                </a>
+                                </Link>
                             )}
                         </div>
                     </div>

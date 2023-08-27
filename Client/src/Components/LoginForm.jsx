@@ -1,13 +1,10 @@
 import LoginFunctions from './LoginFunctions'
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ForgetPassword from './ForgetPassword';
 
 
 const LoginForm = () => {
-
 
     const { isLoggedIn,
         isVerified,

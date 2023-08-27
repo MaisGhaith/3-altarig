@@ -99,7 +99,7 @@ const ProfileFunctions = () => {
                 console.log("order deleted successfully");
                 await getUserOrder();
             } catch (error) {
-                console.error('Error when trying to delete the choice:', error);
+                console.error('Error when trying to delete the Order:', error);
 
             }
         }
