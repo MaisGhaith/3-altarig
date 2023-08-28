@@ -14,7 +14,7 @@ import NotFound from './Components/NotFound';
 import { UserContext } from './Context/UserContext';
 import Footer from './Components/Footer';
 import ForgetPassword from './Components/ForgetPassword';
-
+import DetailsChoices from './Components/DetailsChoices';
 function App() {
   const { role } = useContext(UserContext);
 
@@ -32,6 +32,7 @@ function App() {
             <Route path="RegisterForm" element={<RegisterForm />} />
             <Route path="Confirm" element={<Confirm />} />
             <Route path="Profile" element={<Profile />} />
+            <Route path="DetailsChoices" element={<DetailsChoices />} />
             <Route path="ProfileFunctions" element={<ProfileFunctions />} />
           </Routes>
           <Footer />

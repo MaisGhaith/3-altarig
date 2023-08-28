@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Confirm from './Confirm';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     Card,
     CardHeader,
@@ -26,7 +26,7 @@ const Services = () => {
     const [choice, setChoice] = useState('');
     const [choiceTitle, setChoiceTitle] = useState('');
     const [price, setPrice] = useState('');
-
+    console.log(choice, price)
 
     const getServices = async () => {
         try {
@@ -47,6 +47,14 @@ const Services = () => {
             console.log('Error getting choices data:', error);
         }
     };
+
+    // const [choiceId, setChoiceId] = useState(null)
+    // const saveChoiceId = (choiceId) => {
+    //     setChoiceId(choiceId);
+    //     handleDetail(); // تنفيذ الإجراء بعد تحديث القيمة
+    // };
+
+    // console.log(choiceId)
 
     useEffect(() => {
         getServices();
@@ -83,10 +91,19 @@ const Services = () => {
         navigate(`/Confirm?service=${service}&choice=${choice}&choiceTitle=${encodeURIComponent(choiceTitle)}&serviceTitle=${encodeURIComponent(serviceTitle)}&serviceId=${service_id}&price=${encodeURIComponent(price)}`);
     };
 
+    // console.log(choiceId)
+
+    // const handleDetail = (choiceId, choiceTitle, choicePrice, serviceId, serviceName) => {
+    //     navigate(`/DetailsChoices?choiceId=${choiceId}&choiceName=${choiceTitle}&choicePrice=${choicePrice}&serviceId=${serviceId}&serviceName=${serviceName}`);
+    // }
+
+
+
+
+
+
     useEffect(() => {
         AOS.init({
-            // Add any options you want to customize the animation behavior
-            // For example, you can set the duration, offset, etc.
         });
     }, []);
 
@@ -151,6 +168,7 @@ const Services = () => {
                                                 onClick={() => {
                                                     saveChoice(choice.id, choice.choice, choice.price);
                                                     saveService(service_id);
+
                                                 }}
                                             >
                                                 <a
@@ -167,8 +185,26 @@ const Services = () => {
                                                     <span className="inline-flex justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">
                                                         {choice.price} دينار
                                                     </span>
+                                                    {console.log(choice.id, choice.choice, choice.price, service_id, serviceTitle)}
+                                                    <span
+                                                        onClick={() => {
+                                                            saveChoice(choice.choice)
+                                                        }}>
+                                                        <Link
+                                                            to={`/DetailsChoices?choiceId=${choice.id}&choiceTitle=${choice.choice}&choicePrice=${choice.price}&serviceId=${service_id}&serviceTitle=${serviceTitle}`} >
+                                                            تفاصيل
+                                                        </Link>
+                                                    </span>
+
                                                 </a>
                                             </button>
+                                            {/* <button onClick={() => {
+                                                
+                                                saveChoiceId(choice.id);
+                                                handleDetail()
+                                            }}>
+                                                تفاصيل
+                                            </button> */}
                                         </ul>
                                     </div>
                                 ))}

@@ -20,11 +20,22 @@ const Confirm = (props) => {
     const serviceTitle = searchParams.get('serviceTitle');
     const choice = searchParams.get('choice');
     const choiceTitle = searchParams.get('choiceTitle');
+    const choiceId = searchParams.get('choice');
     const serviceId = searchParams.get('serviceId');
-    const price = searchParams.get('price')
+    const choicePrice = searchParams.get('price')
     const [selectedOption, setSelectedOption] = useState('');
+    console.log(choiceId, choiceTitle, choicePrice, serviceId, serviceTitle);
 
 
+    const state = location.state || {};
+    const {
+        choice_Id,
+        choice_Title,
+        choice_Price,
+        service_Id,
+        service_Title
+    } = state;
+    console.log(state)
     const generateOrderNumber = () => {
         const prefix = "3T-";
         const randomNum = Math.floor(Math.random() * 1000000);
@@ -36,15 +47,15 @@ const Confirm = (props) => {
         name: '',
         phone: '',
         notes: '',
-        service_name: serviceTitle || '',
+        service_name: serviceTitle || state.serviceTitle || '',
         service_time: isSetAppointment ? selectedDate : 'مستعجل في الحال',
         car_rent: '',
         location: '',
-        service_id: serviceId ? parseInt(serviceId) : 0,
-        choice_id: choice ? parseInt(choice) : 0,
+        service_id: serviceId || state.serviceId ? parseInt(serviceId || state.serviceId) : 0,
+        choice_id: choice || state.choiceId ? parseInt(choice || state.choiceId) : 0,
         user_id: 0,
-        choice_name: choiceTitle || '',
-        price: price ? parseInt(price) : 0,
+        choice_name: choiceTitle || state.choiceTitle || '',
+        price: choicePrice ? parseInt(choicePrice) : 0,
         order_no: generateOrderNumber(),
     });
 
@@ -189,7 +200,7 @@ const Confirm = (props) => {
 
                     <div className=' flex items-center justify-center pb-4 '>
                         <h1 className='text-xl font-semibold text-white '>  الخدمة المطلوبة :  </h1>
-                        <p className=' text-md mt-1 text-white mx-2'>  {serviceTitle} {"-"} {choiceTitle} {price}</p>
+                        <p className=' text-md mt-1 text-white mx-2'>  {serviceTitle || state.serviceTitle} {"-"} {choiceTitle || state.choiceTitle} {choicePrice || state.choicePrice}</p>
                     </div>
                     <div className="w-full px-5 ">
                         <div className='relative h-[200px]'>
