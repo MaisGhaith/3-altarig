@@ -50,24 +50,19 @@ const DetailsChoices = () => {
     const handleRowClick = (id) => {
         setSelectedId(id);
     };
-    console.log(selectedId);
-
-    // const handleConfirm = () => {
-    //     navigate(`/Confirm?choiceId=${queryParams.choiceId}&choiceName=${queryParams.choiceTitle}&choicePrice=${queryParams.choicePrice}&serviceId=${queryParams.serviceId}&serviceName=${queryParams.serviceTitle}`);
-    // };
 
 
     return (
 
         <div>
-            < section className="antialiased  bg-gradient-to-b from-[#3E4C5A] via-[#3E4C5A] to-gray-300 text-gray-600 h-screen px-4" >
+            < section className="antialiased bg-gradient-to-b from-[#3E4C5A] via-[#3E4C5A] to-gray-300 text-gray-600 h-screen px-4" >
                 <div className="flex flex-col justify-center h-full">
-                    <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+                    <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-xl border border-gray-200">
                         <header className="px-5 py-4 border-b border-gray-100">
                             <h2 className="font-semibold text-gray-800">تفاصيل  {choiceTitle}</h2>
                         </header>
-                        <div className="p-3">
-                            <div className="overflow-x-auto">
+                        <div className="p-3 rounded-xl">
+                            <div className="overflow-x-auto rounded-xl">
                                 <table className="table-auto w-full">
                                     <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                         <tr className="">
@@ -83,11 +78,11 @@ const DetailsChoices = () => {
                                         </tr>
                                     </thead>
 
-                                    <tbody className="text-sm divide-y divide-gray-100 overflow-auto">
+                                    <tbody className="text-sm divide-y divide-gray-100  overflow-auto">
                                         {getDetailsData.map((detail, index) => (
                                             <tr
                                                 key={index}
-                                                className={selectedId === detail.id ? 'bg-gray-200' : ''}
+                                                className={selectedId === detail.id ? 'bg-amber-200 ' : 'bg-gray-200'}
                                                 onClick={() => handleRowClick(detail.id)}
                                             >
                                                 <td className="p-2 whitespace-nowrap">
@@ -106,20 +101,17 @@ const DetailsChoices = () => {
                                     </tbody>
                                 </table>
                             </div>
-                            <div className='flex justify-end'>
-                                <Link
-                                    to="/Landing">
-                                    <button className="btn btn-outline btn-warning flex w-24">رجوع
-                                    </button>
-                                </Link>
+                            <div className='flex justify-end mt-5'>
                                 <button onClick={handleNext} className="btn btn-outline btn-warning flex w-24">
                                     تأكيد
                                 </button>
-
+                                <Link
+                                    to="/Landing">
+                                    <button className="btn btn-outline  mx-3 flex w-24">رجوع
+                                    </button>
+                                </Link>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </ section >

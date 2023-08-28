@@ -48,14 +48,6 @@ const Services = () => {
         }
     };
 
-    // const [choiceId, setChoiceId] = useState(null)
-    // const saveChoiceId = (choiceId) => {
-    //     setChoiceId(choiceId);
-    //     handleDetail(); // تنفيذ الإجراء بعد تحديث القيمة
-    // };
-
-    // console.log(choiceId)
-
     useEffect(() => {
         getServices();
     }, []);
@@ -91,26 +83,16 @@ const Services = () => {
         navigate(`/Confirm?service=${service}&choice=${choice}&choiceTitle=${encodeURIComponent(choiceTitle)}&serviceTitle=${encodeURIComponent(serviceTitle)}&serviceId=${service_id}&price=${encodeURIComponent(price)}`);
     };
 
-    // console.log(choiceId)
-
-    // const handleDetail = (choiceId, choiceTitle, choicePrice, serviceId, serviceName) => {
-    //     navigate(`/DetailsChoices?choiceId=${choiceId}&choiceName=${choiceTitle}&choicePrice=${choicePrice}&serviceId=${serviceId}&serviceName=${serviceName}`);
-    // }
-
-
-
-
-
-
     useEffect(() => {
         AOS.init({
         });
     }, []);
 
+    const [selectedChoice, setSelectedChoice] = useState(null);
+
+
     return (
-        <div className="hero min-h-screen"
-        // style={{ backgroundImage: 'url(https://img.freepik.com/free-vector/realistic-car-headlights-ad-composition-headlights-with-green-purple-illumination_1284-56577.jpg?w=1060&t=st=1692133183~exp=1692133783~hmac=08c9732a450793663a80487536b8dfe59d078a9d52efda422d260926d8fd1495)', backgroundAttachment: 'fixed' }}
-        >
+        <div className="hero min-h-screen">
             <div id="Services" className='mt-16'>
                 <h1 data-aos="zoom-in" className="flex justify-center text-3xl text-white font-bold">خدمات عَ الطريق </h1>
                 <hr
@@ -168,51 +150,38 @@ const Services = () => {
                                                 onClick={() => {
                                                     saveChoice(choice.id, choice.choice, choice.price);
                                                     saveService(service_id);
-
-                                                }}
-                                            >
+                                                    setSelectedChoice(choice.id);
+                                                }}>
                                                 <a
-                                                    className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
-                                                >
-                                                    <svg
-                                                        aria-hidden="true"
-                                                        className="h-4"
-                                                        viewBox="0 0 40 38"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                    ></svg>
-                                                    <span className="flex-1 ml-3  justify-start">{choice.choice}</span>
+                                                    className={`flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-200 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white ${selectedChoice === choice.id ? 'bg-amber-100' : ''}`}>
+                                                    <span className="flex-1 ml-3 w-56 justify-start">{choice.choice}</span>
                                                     <span className="inline-flex justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">
                                                         {choice.price} دينار
                                                     </span>
                                                     {console.log(choice.id, choice.choice, choice.price, service_id, serviceTitle)}
                                                     <span
                                                         onClick={() => {
-                                                            saveChoice(choice.choice)
+                                                            saveChoice(choice.choice);
                                                         }}>
                                                         <Link
-                                                            to={`/DetailsChoices?choiceId=${choice.id}&choiceTitle=${choice.choice}&choicePrice=${choice.price}&serviceId=${service_id}&serviceTitle=${serviceTitle}`} >
+                                                            to={`/DetailsChoices?choiceId=${choice.id}&choiceTitle=${choice.choice}&choicePrice=${choice.price}&serviceId=${service_id}&serviceTitle=${serviceTitle}`}>
                                                             تفاصيل
                                                         </Link>
                                                     </span>
-
                                                 </a>
                                             </button>
-                                            {/* <button onClick={() => {
-                                                
-                                                saveChoiceId(choice.id);
-                                                handleDetail()
-                                            }}>
-                                                تفاصيل
-                                            </button> */}
                                         </ul>
                                     </div>
                                 ))}
                             </div>
+
                             <div className="flex justify-end">
                                 <button
-                                    className="m-3 text-green-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-green-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900"
+                                    className={`m-3 text-green-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-green-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900
+                                     ${!selectedChoice ? 'disabled:cursor-not-allowed' : ''
+                                        }`}
                                     onClick={handleSubmit}
+                                    disabled={!selectedChoice}
                                 >
                                     تأكيد
                                 </button>
@@ -223,6 +192,7 @@ const Services = () => {
                                     إلغاء
                                 </button>
                             </div>
+
                         </div>
                     </div>
                 )}

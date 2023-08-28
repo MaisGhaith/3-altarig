@@ -1,13 +1,12 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useContext } from 'react';
-import { GoogleMap, useLoadScript, Autocomplete, Marker } from "@react-google-maps/api";
-import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
-import jwt_decode from 'jwt-decode';
-import Map from './Map';
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import axios from 'axios';
 import { UserContext } from '../Context/UserContext';
 
-const Confirm = (props) => {
+const Confirm = () => {
+    const navigate = useNavigate()
+
     // ! get the userId from userContext
     const { userId } = useContext(UserContext);
 
@@ -137,8 +136,16 @@ const Confirm = (props) => {
         });
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Check if userId is available
+        if (!userId) {
+            // If userId is not available, redirect to LoginForm
+            navigate('/LoginForm');
+            return;
+        }
 
         const formDataWithDate = {
             ...formData,
@@ -154,13 +161,14 @@ const Confirm = (props) => {
                 formDataWithDate
             );
             console.log('Order created:', response.data);
+            console.log(response);
+
             // Perform any additional actions after successful order creation
         } catch (error) {
             console.error('Error creating order:', error);
             // Handle error cases
         }
     };
-
 
 
     const onChange = (e) => {
@@ -280,6 +288,7 @@ const Confirm = (props) => {
                                     <span className="label-text text-white">ملاحظات</span>
                                 </label>
                                 <textarea id='notes' className="textarea textarea-bordered textarea-warning h-24 w-80"
+                                    onChange={(formData.notes)}
                                     placeholder="معلومات عن السيارة, النوع, المحرك, سنة الصنع, او معلومات عن العنوان"></textarea>
                             </div>
                             <br />
@@ -428,6 +437,7 @@ const Confirm = (props) => {
                         </div>
                     </div>
                 </section>
+
             </div >
 
         </>

@@ -17,7 +17,7 @@ router.post("/order/:user_id", async (req, res) => {
         ];
 
         const newOrder = await pool.query(sql, newOrderData);
-        res.json(newOrder.rows);
+        res.status(201).json(newOrder.rows);
     } catch (error) {
         console.error("Error creating a new order:", error);
         res.status(500).json({ error: "Unable to create a new order" });
