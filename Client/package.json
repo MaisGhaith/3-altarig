@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emailjs/browser": "^3.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -20,6 +21,7 @@
     "axios": "^1.4.0",
     "clipboard": "^2.0.11",
     "dotenv": "^16.3.1",
+    "emailjs": "^4.0.2",
     "flowbite-react": "^0.5.0",
     "framer-motion": "^10.15.0",
     "jwt-decode": "^3.1.2",

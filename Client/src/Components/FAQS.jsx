@@ -45,15 +45,15 @@ const FAQS = () => {
 
 
     return (
-        <section className="relative z-20 overflow-hidden  pt-10 pb-12 lg:pt-5 lg:pb-[90px]">
+        <section className="relative z-20 overflow-hidden  pt-10 lg:pt-5 lg:pb-[90px]">
             <div className="">
                 <div className="p-10 flex justify-center flex-col items-center">
                     <span className=" mb-7 block text-4xl font-semibold text-white ">
                         الأسئلة الأكثر شيوعًا
                     </span>
-                    <div className="-mx-4 flex items-center flex-wrap w-1/2">
+                    <div className="mx-4 flex flex-wrap">
                         {faqs.map((faq) => (
-                            <div className="w-full px-4 " key={faq.id}>
+                            <div className="w-full px-4 lg:w-1/2 " key={faq.id}>
                                 <AccordionItem
                                     header={faq.question}
                                     text={faq.answer}
@@ -90,11 +90,13 @@ const FAQS = () => {
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
-        </section>
+
+
+
+
+        </section >
     );
 };
 

@@ -1,9 +1,10 @@
 import React from 'react'
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 const Features = () => {
     return (
         <div>
-            <section className="py-10  sm:py-16 lg:py-24">
+            <section className="py-10 sm:py-16 lg:py-24">
                 <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="flex justify-center text-3xl mb-16">
                         <p>المميزات</p>
@@ -37,11 +38,11 @@ const Features = () => {
                                 </svg>
                             </div>
                             <h3 className="mt-8 text-lg font-semibold text-black">
-                                Light &amp; Dark Version
+                                جلب من عتبة بابك
                             </h3>
                             <p className="mt-4 text-base text-gray-600">
-                                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-                                sint. Velit officia consequat duis enim velit mollit.
+                                نقدم خدمات إصلاح السيارات مباشرة إلى الموظفين المشغولين، خاصة النساء. نقوم بجلب مركباتهم عندما يحتاجون إلى صيانة أو إصلاحات، مما يوفر لهم الوقت والجهد اللازمين لزيارة ورشة الإصلاح.
+
                             </p>
                         </div>
                         <div>
@@ -72,11 +73,13 @@ const Features = () => {
                                 </svg>
                             </div>
                             <h3 className="mt-8 text-lg font-semibold text-black">
-                                Light &amp; Dark Version
+                                الكفاءة الزمنية
+
                             </h3>
                             <p className="mt-4 text-base text-gray-600">
-                                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-                                sint. Velit officia consequat duis enim velit mollit.
+                                منصتنا توفر وقتًا ثمينًا للموظفين. بدلاً من البحث عن ورش إصلاح موثوقة أو الانتظار في الطوابير، يمكنهم التركيز على مسؤولياتهم بينما نهتم بصيانة سياراتهم.
+
+
                             </p>
                         </div>
                         <div>
@@ -107,11 +110,10 @@ const Features = () => {
                                 </svg>
                             </div>
                             <h3 className="mt-8 text-lg font-semibold text-black">
-                                Fast &amp; Easy to Load
+                                الدعم المتخصص
                             </h3>
                             <p className="mt-4 text-base text-gray-600">
-                                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-                                sint. Velit officia consequat duis enim velit mollit.
+                                ندرك أن الجميع ليسوا خبراء في السيارات. مهندسونا الماهرون يديرون جميع مهام الصيانة، مما يزيل القلق بشأن عدم الخبرة. يمكن للمستخدمين الاعتماد على محترفين للعناية بمركباتهم.
                             </p>
                         </div>
                     </div>

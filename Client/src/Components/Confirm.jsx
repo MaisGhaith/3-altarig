@@ -4,6 +4,7 @@ import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import axios from 'axios';
 import { UserContext } from '../Context/UserContext';
 
+
 const Confirm = () => {
     const navigate = useNavigate()
 
@@ -24,6 +25,19 @@ const Confirm = () => {
     const choicePrice = searchParams.get('price')
     const [selectedOption, setSelectedOption] = useState('');
     console.log(choiceId, choiceTitle, choicePrice, serviceId, serviceTitle);
+    const [toastVisible, setToastVisible] = useState(false); // حالة لعرض أو عدم عرض الـ Toast
+
+    useEffect(() => {
+        if (toastVisible) {
+            const timeout = setTimeout(() => {
+                setToastVisible(false); // إخفاء الـ Toast بعد مرور 5 ثوانٍ
+            }, 5000);
+
+            return () => clearTimeout(timeout); // تنظيف المؤقت إذا تم الانتقال قبل انتهاء الوقت
+        }
+    }, [toastVisible]);
+
+
 
 
     const state = location.state || {};
@@ -60,8 +74,6 @@ const Confirm = () => {
 
     // ! Map functionality 
     const [map, setMap] = useState(null);
-    // const [autocomplete, setAutocomplete] = useState(null);
-    const [selectedLocation, setSelectedLocation] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const [latitude, setLatitude] = useState(null);
     const [markerPosition, setMarkerPosition] = useState({ lat: null, lng: null });
@@ -163,6 +175,14 @@ const Confirm = () => {
             console.log('Order created:', response.data);
             console.log(response);
 
+            if (response.status === 201) {
+                setToastVisible(true); // إظهار الـ Toast إذا كانت الاستجابة ناجحة
+                console.log('Order created:', response.data);
+                navigate("/Landing")
+                // console.log('Order created:', response.data);
+            } else {
+                console.log('Unexpected status:', response.status);
+            }
             // Perform any additional actions after successful order creation
         } catch (error) {
             console.error('Error creating order:', error);
@@ -191,7 +211,6 @@ const Confirm = () => {
     const onLoad = (fileString) => {
         setImg(fileString);
     };
-
 
 
 
@@ -287,9 +306,17 @@ const Confirm = () => {
                                 <label htmlFor='notes' className="label">
                                     <span className="label-text text-white">ملاحظات</span>
                                 </label>
-                                <textarea id='notes' className="textarea textarea-bordered textarea-warning h-24 w-80"
-                                    onChange={(formData.notes)}
-                                    placeholder="معلومات عن السيارة, النوع, المحرك, سنة الصنع, او معلومات عن العنوان"></textarea>
+                                <textarea
+                                    id='notes'
+                                    className="textarea textarea-bordered textarea-warning  h-24 w-72 "
+                                    onChange={(event) => {
+                                        setFormData({
+                                            ...formData,
+                                            notes: event.target.value,
+                                        });
+                                    }}
+                                    placeholder="معلومات عن السيارة, النوع, المحرك, سنة الصنع, او معلومات عن العنوان"
+                                ></textarea>
                             </div>
                             <br />
                             <div className="mb-6">
@@ -299,7 +326,7 @@ const Confirm = () => {
                                 >
                                     الصورة
                                 </label>
-                                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 w-80 h-24 border-2 border-warning border-solid rounded-md">
+                                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 w-72 h-24 border-2 border-warning border-solid rounded-md">
                                     <div className=" text-center">
                                         {img ? (
                                             <div>
@@ -319,7 +346,7 @@ const Confirm = () => {
                                         <div className="flex text-sm text-gray-600">
                                             <label
                                                 htmlFor="file-upload"
-                                                className="relative cursor-pointer w-[300px] bg-white rounded-md font-medium text-gray-500 "
+                                                className="relative cursor-pointer w-[250px] bg-white rounded-md font-medium text-gray-500 "
                                             >
                                                 <span>قم بتحميل صورة</span>
                                                 <input
@@ -430,9 +457,16 @@ const Confirm = () => {
                                 </div>
 
                                 <div className='flex justify-end'>
-
                                     <button onClick={handleSubmit} className="btn btn-outline border-yellow-500 bg-yellow-200 hover:border-yellow-400 hover:bg-yellow-300 hover:text-black text-black mt-20">تأكيد الطلب </button>
+
                                 </div>
+                                {toastVisible && (
+                                    <div className="toast toast-top toast-end">
+                                        <div className="alert alert-success">
+                                            <span>تم حجز الطلب بنجاح</span>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
