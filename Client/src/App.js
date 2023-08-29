@@ -49,7 +49,6 @@ function App() {
             <Route path="LoginForm" element={<LoginForm />} />
             <Route path="RegisterForm" element={<RegisterForm />} />
             <Route path="Confirm" element={<Confirm />} />
-            <Route path="*" element={<NotFound />} />
             <Route path="ForgetPassword" element={<ForgetPassword />} />
 
           </Routes>

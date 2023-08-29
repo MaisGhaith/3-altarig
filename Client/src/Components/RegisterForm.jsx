@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import registerFunctions from './RegistrationFunctions'
 import { ToastContainer } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const RegisterForm = () => {
 
@@ -28,7 +29,7 @@ const RegisterForm = () => {
 
         <div>
             {/* component */}
-            <div className="bg-white relative lg:py-20">
+            <div className=" relative lg:py-20">
                 <div
                     className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-full xl:px-5 lg:flex-row"
                 >
@@ -37,7 +38,7 @@ const RegisterForm = () => {
                         <div className="w-full bg-cover pl-20 relative max-w-md lg:max-w-2xl lg:w-7/12">
                             <div className="flex flex-col  items-center justify-center w-full h-full relative lg:pr-10">
                                 <img
-                                    src="/Images/login.png"
+                                    src="/Images/bg.login.png"
                                     className="hidden lg:block"
                                 />
                             </div>
@@ -86,7 +87,7 @@ const RegisterForm = () => {
                                                 </button>
 
                                                 <a href="/LoginForm" className="text-xs mt-2 sm:mt-0 sm:ml-2">
-                                                    <span className="hover:text-red-500 cursor-pointer">
+                                                    <span className="hover:text-yellow-400 cursor-pointer">
                                                         لديك حساب بالفعل؟{' '}
                                                     </span>
                                                 </a>
@@ -95,7 +96,7 @@ const RegisterForm = () => {
                                     </form>
 
                                 ) : (
-                                    <form onSubmit={(e) => handleSubmit(e, console.log("clicked"), userId)} className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-2">
+                                    <form onSubmit={(e) => handleSubmit(e, userId)} className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-2">
                                         <p className="w-full text-4xl font-medium text-center leading-snug font-serif">
                                             التسجيل
                                         </p>
@@ -124,9 +125,7 @@ const RegisterForm = () => {
                                                 <input
                                                     placeholder="اسم المستخدم"
                                                     type="text"
-                                                    className="border placeholder-gray-400 focus:outline-none
-            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-            border-gray-300 rounded-md"
+                                                    className="input input-bordered input-warning w-full max-w-xs"
                                                     id='username'
                                                     name="user_name"
 
@@ -142,9 +141,7 @@ const RegisterForm = () => {
                                                 <input
                                                     placeholder="email@ex.com"
                                                     type="email"
-                                                    className="border placeholder-gray-400 focus:outline-none
-                                                focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-                                                border-gray-300 rounded-md"
+                                                    className="input input-bordered my-2 input-warning w-full max-w-xs"
                                                     name="user_email"
                                                     id='user_email'
                                                     onChange={(event) => handleEmail(event)}
@@ -159,9 +156,7 @@ const RegisterForm = () => {
                                                 <input
                                                     placeholder=" 0000000 07$"
                                                     type="phone_number"
-                                                    className="border placeholder-gray-400 focus:outline-none
-            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-            border-gray-300 rounded-md"
+                                                    className="input input-bordered input-warning w-full max-w-xs"
                                                     name="phone_number"
 
                                                     onChange={(e) => handlePhoneNumber(e)}
@@ -176,9 +171,7 @@ const RegisterForm = () => {
                                                 <input
                                                     placeholder="*******"
                                                     type="password"
-                                                    className="border placeholder-gray-400 focus:outline-none
-            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-            border-gray-300 rounded-md"
+                                                    className="input input-bordered my-2 input-warning w-full max-w-xs"
                                                     name="user_password"
 
                                                     onChange={(event) => handlePassword(event)}
@@ -193,9 +186,7 @@ const RegisterForm = () => {
                                                 <input
                                                     placeholder="*******"
                                                     type="password"
-                                                    className="border placeholder-gray-400 focus:outline-none
-            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-            border-gray-300 rounded-md"
+                                                    className="input input-bordered input-warning w-full max-w-xs"
                                                     name="password-confirm"
 
                                                     onChange={(event) => handleConfirmPassword(event)}
@@ -209,20 +200,18 @@ const RegisterForm = () => {
 
                                         <div className="flex justify-center">
                                             <button
-                                                className="w-80 inline-block my-5  pt-2 pr-5 pb-2
-                                             pl-5 text-xl font-medium text-center text-white bg-red-500
-                                             rounded-lg transition duration-200 hover:bg-red-600 ease"
+                                                className="w-80 my-2 btn btn-outline btn-warning text-xl font-medium rounded-lg"
                                                 type="submit"
                                             >
                                                 تسجيل
                                             </button>
                                         </div>
                                         <div className='flex flex-col sm:flex-row justify-around mx-4 sm:mx-4 md:mx-32 lg:mx-32'>
-                                            <a href="/LoginForm" className="text-sm mt-2 sm:mt-0">
-                                                <span className="hover:text-red-500 cursor-pointer">
+                                            <Link to="/LoginForm" className="text-sm mt-2 sm:mt-0">
+                                                <span className="hover:text-yellow-400 text-md cursor-pointer">
                                                     لديك حساب بالفعل ؟{' '}
                                                 </span>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </form>
                                 )}

@@ -47,10 +47,12 @@ const ProfileFunctions = () => {
                 setUser(response.data[0]); // Update the user data after successful edit
                 setPhone(response.data[0])
             }
+            setModal(false); // Close the modal after successful edit
         } catch (error) {
             console.error("Error updating profile:", error);
         }
     };
+
 
 
 

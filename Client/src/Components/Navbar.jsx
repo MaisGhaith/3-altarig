@@ -3,7 +3,9 @@ import '../../src/App.css'
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from '../Context/UserContext';
-import LoginFunctions from './LoginFunctions';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+
 export default () => {
 
     const { userId, userName, setUserName } = useContext(UserContext);
@@ -106,14 +108,14 @@ export default () => {
             >
                 <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8">
                     <div className="flex items-center justify-between py-2 md:block">
-                        <a href="#">
+                        <Link to="/Landing">
                             <img
-                                src="https://www.floatui.com/logo.svg"
-                                width={120}
+                                src="/Images/logoo.png"
+                                width={80}
                                 height={50}
-                                alt="Float UI logo"
+                                alt="3-altarig logo"
                             />
-                        </a>
+                        </Link>
                         <div className="md:hidden">
                             <button className="menu-btn text-white"
                                 onClick={() => setState(!state)}
@@ -156,13 +158,8 @@ export default () => {
                                         className="flex items-center justify-center gap-x-1 py-2 px-4 text-white font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full md:inline-flex"
                                     >
                                         تسجيل الخروج
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                            className="w-5 h-5"
-                                        >
-                                        </svg>
+                                        <FontAwesomeIcon className='mx-1 mt-1' icon={faArrowRight} rotation={180} style={{ color: "#ffffff", }} />
+
                                     </button>
                                 </>
                             ) : (

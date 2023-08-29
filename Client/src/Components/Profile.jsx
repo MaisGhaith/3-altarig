@@ -129,8 +129,8 @@ const Profile = () => {
                                     <div className="text-center mt-12">
 
                                         <button onClick={handleOpenModal}
-                                            className="btn flex p-2.5 bg-blue-300 rounded-lg hover:rounded-xl hover:bg-blue-400 transition-all duration-300 text-black">  تعديل
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            className="btn flex p-2.5 w-28 btn-warning btn-outline rounded-lg hover:rounded-xl">  تعديل
+                                            <svg xmlns="http://www.w3.org/2000/svg" color="black" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                             </svg>
                                         </button>
@@ -138,7 +138,7 @@ const Profile = () => {
                                         {modal && (
                                             <div className="fixed inset-0 flex items-center justify-center z-50">
                                                 <form method="dialog" className="modal-box">
-                                                    <h3 className="font-bold text-lg">Hello!</h3>
+                                                    <h3 className="font-bold text-lg">اهلا {user_name}</h3>
                                                     <div className="modal-action flex justify-center">
                                                         <div className="flex flex-col items-center gap-6">
                                                             <div className="flex flex-col gap-6">
@@ -161,15 +161,15 @@ const Profile = () => {
                                                                     placeholder="تعديل رقم الهاتف"
                                                                 />
                                                             </div>
-                                                            <div className="flex justify-start">
+                                                            <div className="flex justify-between">
                                                                 <button
                                                                     onClick={handleEditSubmit}
                                                                     type="submit"
-                                                                    className="btn glass mx-5 text-white bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                                                                    className="btn w-20 mx-2 btn-warning btn-outline "
                                                                 >
                                                                     تأكيد
                                                                 </button>
-                                                                <button onClick={handleCloseModal} type="button" className="btn bg-gray-200 hover:bg-gray-300 mx-5">
+                                                                <button onClick={handleCloseModal} type="button" className="btn btn-outline w-20">
                                                                     إلغاء
                                                                 </button>
                                                             </div>
@@ -230,7 +230,7 @@ const Profile = () => {
                                                                         </svg>
                                                                     </button>
                                                                     <input
-                                                                        className="border-blue-300 hover:bg-gray-100 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                                                                        className="input border-warning hover:bg-gray-100 bg-white h-10 px-5 pr-16 rounded-lg text-sm "
                                                                         type="search"
                                                                         name="search"
                                                                         placeholder="Search"
@@ -254,7 +254,7 @@ const Profile = () => {
                                                                 <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
                                                                     <table className="min-w-full leading-normal">
                                                                         <thead>
-                                                                            <tr className="bg-[#B2DEEC]">
+                                                                            <tr className="bg-amber-200">
                                                                                 <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider ">
                                                                                     الخدمة
                                                                                 </th>
@@ -366,7 +366,7 @@ const Profile = () => {
                                                             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
                                                                 <table className="min-w-full leading-normal">
                                                                     <thead>
-                                                                        <tr className="bg-[#B2DEEC]">
+                                                                        <tr className="bg-amber-200">
                                                                             <th className="px-5 py-3 border-b-2 border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider ">
                                                                                 الخدمة
                                                                             </th>
@@ -433,13 +433,13 @@ const Profile = () => {
                                                                                             </span>
                                                                                         </span>
                                                                                     </td>
-                                                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                                    {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                                                         <a href="">
                                                                                             <p className="text-blue-400 whitespace-no-wrap">
                                                                                                 عرض الفاتورة
                                                                                             </p>
                                                                                         </a>
-                                                                                    </td>
+                                                                                    </td> */}
 
                                                                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                                                         <p

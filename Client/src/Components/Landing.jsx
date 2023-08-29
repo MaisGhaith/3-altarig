@@ -8,13 +8,13 @@ const Landing = () => {
     return (
         <div>
             <Home />
-            <div className='bg-gradient-to-b from-[#3E4C5A] via-[#3E4C5A] to-white'>
+            <div className=''>
 
 
                 <Services />
                 <div className='divider '></div>
                 <FAQS />
-                <Features />
+                {/* <Features /> */}
             </div>
             {/* <Stats /> */}
         </div>

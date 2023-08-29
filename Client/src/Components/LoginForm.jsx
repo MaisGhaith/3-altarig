@@ -2,6 +2,7 @@ import LoginFunctions from './LoginFunctions'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ForgetPassword from './ForgetPassword';
+import { Link } from 'react-router-dom';
 
 
 const LoginForm = () => {
@@ -24,7 +25,7 @@ const LoginForm = () => {
         <div>
             <div >
                 {/* component */}
-                <div className="bg-white relative lg:py-20">
+                <div className=" relative lg:py-20">
                     <div
                         className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-full xl:px-5 lg:flex-row"
                     >
@@ -33,7 +34,7 @@ const LoginForm = () => {
                             <div className="w-full bg-cover pl-20 relative max-w-md lg:max-w-2xl lg:w-7/12">
                                 <div className="flex flex-col  items-center justify-center w-full h-full relative lg:pr-10">
                                     <img
-                                        src="/Images/login.png"
+                                        src="/Images/bg.login.png"
                                         className="hidden lg:block"
                                     />
                                 </div>
@@ -119,16 +120,14 @@ const LoginForm = () => {
                                             </div>
 
                                             <div className="flex justify-center box-border">
-                                                <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-32 sm:ml-8 md:ml-32 lg:ml-60 font-medium text-gray-600 absolute">
+                                                {/* <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-32 sm:ml-8 md:ml-32 lg:ml-60 font-medium text-gray-600 absolute">
                                                     الايميل
-                                                </p>
+                                                </p> */}
                                                 <div className='flex flex-col w-80'>
                                                     <input
-                                                        placeholder="123@ex.com"
+                                                        placeholder="الايميل"
                                                         type="text"
-                                                        className="border placeholder-gray-400 focus:outline-none
-            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-            border-gray-300 rounded-md"
+                                                        className="input input-bordered input-warning w-full max-w-xs"
                                                         name="email"
                                                         onChange={(e) => handleEmail(e)}
                                                     />
@@ -136,20 +135,14 @@ const LoginForm = () => {
                                                         {massageWarning.email}
                                                     </p>
                                                 </div>
-
                                             </div>
-                                            {/* {error && <span className="text-red-500">{error}</span>} */}
                                             <div className="flex justify-center box-border">
-                                                <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-32 sm:ml-8 md:ml-32 lg:ml-60 font-medium text-gray-600 absolute">
-                                                    كلمة المرور
-                                                </p>
+
                                                 <div className='flex flex-col w-80'>
                                                     <input
-                                                        placeholder="Password"
+                                                        placeholder="كلمة المرور"
                                                         type="password"
-                                                        className="border placeholder-gray-400 focus:outline-none
-            focus:border-black  justify-center p-3 mt-2 mr-0 mb-0 ml-0 text-base  block bg-white
-            border-gray-300 rounded-md"
+                                                        className="input input-bordered input-warning w-full max-w-xs"
                                                         name="password"
 
                                                         onChange={(e) => handlePassword(e)}
@@ -167,30 +160,23 @@ const LoginForm = () => {
                                             </div>
                                             <div className="flex justify-center">
                                                 <button
-                                                    className="w-80 inline-block pt-2 pr-5 pb-2
-                                                 pl-5 text-xl font-medium text-center text-white bg-red-500
-            rounded-lg transition duration-200 hover:bg-red-600 ease"
+                                                    className="w-80 btn btn-outline btn-warning text-xl font-medium rounded-lg"
                                                     type="submit"
                                                 >
                                                     تسجيل دخول
                                                 </button>
-                                                {/* {massageWarning.submit && (
-                                                <p className="text-red-500 text-center mt-2">
-                                                    {massageWarning.submit}
-                                                </p>
-                                            )} */}
                                             </div>
                                             <div className='flex flex-col sm:flex-row justify-around mx-4 sm:mx-4 md:mx-32 lg:mx-32'>
                                                 <span
                                                     onClick={() => window.my_modal_1.showModal()}
-                                                    className="text-sm mt-2 sm:mt-0 sm:ml-2 hover:text-red-500 cursor-pointer">
+                                                    className="text-sm mt-2 sm:mt-0 sm:ml-2 hover:text-yellow-400 cursor-pointer">
                                                     نسيت كلمة السر ؟
                                                 </span>
-                                                <a href="/RegisterForm" className="text-sm mt-2 sm:mt-0">
-                                                    <span className="hover:text-red-500 cursor-pointer">
+                                                <Link to="/RegisterForm" className="text-sm mt-2 sm:mt-0">
+                                                    <span className="hover:text-yellow-400 cursor-pointer">
                                                         إنشاء حساب{' '}
                                                     </span>
-                                                </a>
+                                                </Link>
                                             </div>
                                         </form>
                                     )}
