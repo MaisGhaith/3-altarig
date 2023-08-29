@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapLocation, faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import emailjs from '@emailjs/browser';
@@ -6,6 +6,21 @@ import emailjs from '@emailjs/browser';
 const ContactUs = () => {
 
     const form = useRef();
+    const [toastVisible, setToastVisible] = useState(false);
+    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        if (toastVisible) {
+            const timeout = setTimeout(() => {
+                setToastVisible(false); // إخفاء الـ Toast بعد مرور 5 ثوانٍ
+            }, 5000);
+
+            return () => clearTimeout(timeout); // تنظيف المؤقت إذا تم الانتقال قبل انتهاء الوقت
+        }
+    }, [toastVisible]);
+
 
     const sendEmail = (e) => {
         e.preventDefault();
@@ -13,7 +28,18 @@ const ContactUs = () => {
         emailjs.sendForm('service_c55wo9s', 'template_o42irtr', form.current, 'Y2ql7VUKULpZ6WPyk')
             .then((result) => {
                 console.log(result.text);
-            }, (error) => {
+
+                // تفريغ حالة النموذج بعد نجاح الإرسال
+                setUserName('');
+                setUserEmail('');
+                setMessage('');
+
+                form.current.user_name.value = '';
+                form.current.user_email.value = '';
+                form.current.message.value = '';
+                setToastVisible(true);
+            })
+            .catch((error) => {
                 console.log(error.text);
             });
     };
@@ -103,17 +129,22 @@ const ContactUs = () => {
                                                             type="text"
                                                             name="user_name"
                                                             placeholder="الاسم"
+                                                            value={userName}
+                                                            onChange={(e) => setUserName(e.target.value)}
                                                         />
                                                         <ContactInputBox
                                                             type="text"
                                                             name="user_email"
                                                             placeholder="الايميل"
+                                                            value={userEmail}
+                                                            onChange={(e) => setUserEmail(e.target.value)}
                                                         />
                                                         <ContactTextArea
                                                             row="6"
                                                             placeholder="رسالتك"
                                                             name="message"
-                                                            defaultValue=""
+                                                            value={message}
+                                                            onChange={(e) => setMessage(e.target.value)}
                                                         />
                                                         <div>
                                                             <button
@@ -125,7 +156,13 @@ const ContactUs = () => {
                                                             </button>
                                                         </div>
                                                     </form>
-
+                                                    {toastVisible && (
+                                                        <div className="toast toast-top toast-end">
+                                                            <div className="alert alert-warning">
+                                                                <span>تم إرسال الايميل بنجاح</span>
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
