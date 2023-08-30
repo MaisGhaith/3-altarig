@@ -151,20 +151,24 @@ const Services = () => {
                                                     saveChoice(choice.id, choice.choice, choice.price);
                                                     saveService(service_id);
                                                     setSelectedChoice(choice.id);
-                                                }}>
+                                                }}
+                                            >
                                                 <a
-                                                    className={`flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-200 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white ${selectedChoice === choice.id ? 'bg-amber-100' : ''}`}>
+                                                    className={`flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-200 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white ${selectedChoice === choice.id ? 'bg-yellow-200' : ''
+                                                        }`}
+                                                >
                                                     <span className="flex-1 ml-3 w-56 justify-start">{choice.choice}</span>
                                                     <span className="inline-flex justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">
                                                         {choice.price} دينار
                                                     </span>
-                                                    {console.log(choice.id, choice.choice, choice.price, service_id, serviceTitle)}
                                                     <span
                                                         onClick={() => {
                                                             saveChoice(choice.choice);
-                                                        }}>
+                                                        }}
+                                                    >
                                                         <Link
-                                                            to={`/DetailsChoices?choiceId=${choice.id}&choiceTitle=${choice.choice}&choicePrice=${choice.price}&serviceId=${service_id}&serviceTitle=${serviceTitle}`}>
+                                                            to={`/DetailsChoices?choiceId=${choice.id}&choiceTitle=${choice.choice}&choicePrice=${choice.price}&serviceId=${service_id}&serviceTitle=${serviceTitle}`}
+                                                        >
                                                             تفاصيل
                                                         </Link>
                                                     </span>
@@ -178,8 +182,7 @@ const Services = () => {
                             <div className="flex justify-end">
                                 <button
                                     className={`m-3 text-green-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-green-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900
-                                     ${!selectedChoice ? 'disabled:cursor-not-allowed' : ''
-                                        }`}
+         ${!selectedChoice ? 'cursor-not-allowed opacity-50' : ''}`}
                                     onClick={handleSubmit}
                                     disabled={!selectedChoice}
                                 >
@@ -192,6 +195,7 @@ const Services = () => {
                                     إلغاء
                                 </button>
                             </div>
+
 
                         </div>
                     </div>
