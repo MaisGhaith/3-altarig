@@ -1,15 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import Confirm from './Confirm';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    CardFooter,
-    Typography,
-    Button,
-} from "@material-tailwind/react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,7 +17,6 @@ const Services = () => {
     const [choice, setChoice] = useState('');
     const [choiceTitle, setChoiceTitle] = useState('');
     const [price, setPrice] = useState('');
-    console.log(choice, price)
 
     const getServices = async () => {
         try {

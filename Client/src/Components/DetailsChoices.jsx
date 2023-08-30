@@ -66,14 +66,14 @@ const DetailsChoices = () => {
                                 <table className="table-auto w-full">
                                     <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                         <tr className="">
-                                            <th className="p-2 whitespace-nowrap">
+                                            {/* <th className="p-2 whitespace-nowrap">
                                                 <div className="font-semibold ">الخدمة</div>
+                                            </th> */}
+                                            <th className="p-2 whitespace-nowrap">
+                                                <div className="font-semibold ">النوع</div>
                                             </th>
                                             <th className="p-2 whitespace-nowrap">
                                                 <div className="font-semibold">السعر</div>
-                                            </th>
-                                            <th className="p-2 whitespace-nowrap">
-                                                <div className="font-semibold ">النوع</div>
                                             </th>
                                         </tr>
                                     </thead>
@@ -93,9 +93,9 @@ const DetailsChoices = () => {
                                                         {detail.price}
                                                     </div>
                                                 </td>
-                                                <td className="p-2 whitespace-nowrap">
+                                                {/* <td className="p-2 whitespace-nowrap">
                                                     <div className="text-lg text-center">{detail.type}</div>
-                                                </td>
+                                                </td> */}
                                             </tr>
                                         ))}
                                     </tbody>

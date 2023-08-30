@@ -64,7 +64,7 @@ const ForgetPassword = () => {
                         user_password: password,
                     }
                 );
-                window.location.href = "http://localhost:3000/";
+                window.location.href = "http://localhost:3000/Landing";
             } catch (error) {
                 console.log(error)
                 console.error("Error resetting password:", error.message);

@@ -59,3 +59,5 @@ If you wish to contribute to the project, you can follow these steps:
 
 - [Presentation](https://docs.google.com/presentation/d/12mTwJXUKw8r4XOYaEkWeG263cCLdZNU7/edit?usp=drive_link&ouid=114899545015884630346&rtpof=true&sd=true)
 
+## Dashboard 
+- [3-altarig-Dashboard](https://github.com/MaisGhaith/master-piece-dashboard.git)

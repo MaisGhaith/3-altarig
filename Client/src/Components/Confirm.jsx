@@ -31,8 +31,8 @@ const Confirm = () => {
         if (toastVisible) {
             const timeout = setTimeout(() => {
                 setToastVisible(false); // إخفاء الـ Toast بعد مرور 5 ثوانٍ
+                navigate("/Landing")
             }, 5000);
-
             return () => clearTimeout(timeout); // تنظيف المؤقت إذا تم الانتقال قبل انتهاء الوقت
         }
     }, [toastVisible]);
@@ -178,7 +178,7 @@ const Confirm = () => {
             if (response.status === 201) {
                 setToastVisible(true); // إظهار الـ Toast إذا كانت الاستجابة ناجحة
                 console.log('Order created:', response.data);
-                navigate("/Landing")
+
                 // console.log('Order created:', response.data);
             } else {
                 console.log('Unexpected status:', response.status);
@@ -218,13 +218,10 @@ const Confirm = () => {
     return (
         <>
             <div className="container py-12 mx-auto px-4 md:px-6 lg:px-12 bg-gradient-to-b from-[#3E4C5A] via-[#3E4C5A] to-gray-300">
-
                 <section className="mb-20 text-gray-800 space-y-3 ">
                     <div className='w-full text-center mb-12'>
                         <h1 className="font-bold mt-16  text-3xl text-white">تأكيد الطلب </h1>
                     </div>
-
-
                     <div className=' flex items-center justify-center pb-4 '>
                         <h1 className='text-xl font-semibold text-white '>  الخدمة المطلوبة :  </h1>
                         <p className=' text-md mt-1 text-white mx-2'>  {serviceTitle || state.serviceTitle} {"-"} {choiceTitle || state.choiceTitle} {choicePrice || state.choicePrice}</p>
@@ -461,7 +458,7 @@ const Confirm = () => {
 
                                 </div>
                                 {toastVisible && (
-                                    <div className="toast toast-top toast-end">
+                                    <div className="toast toast-center toast-end">
                                         <div className="alert alert-success">
                                             <span>تم حجز الطلب بنجاح</span>
                                         </div>

@@ -3,8 +3,16 @@ import axios from 'axios';
 import registerFunctions from './RegistrationFunctions'
 import { ToastContainer } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import LoginFunctions from './LoginFunctions'
 
 const RegisterForm = () => {
+
+    const {
+
+        login,
+
+    } = LoginFunctions();
+
 
     const {
         isRegistered,
@@ -73,7 +81,7 @@ const RegisterForm = () => {
 
                                             <div className="flex justify-center">
                                                 <button
-                                                    className="w-44 inline-block p-2 text-xl font-medium text-center text-white bg-[#BE123a] rounded-lg transition duration-200 hover:bg-red-600 ease"
+                                                    className="w-44 inline-block p-2 text-xl font-medium text-center text-white bg-amber-300 rounded-lg transition duration-200 hover:bg-yellow-600 ease"
                                                     type="submit"
                                                 >
                                                     تحقق
@@ -82,7 +90,7 @@ const RegisterForm = () => {
                                             <div className="flex flex-col sm:flex-col sm:justify-center justify-center my-4 mx-4 sm:mx-4 md:mx-32 lg:mx-32">
                                                 <button
                                                     onClick={handleResendCode}
-                                                    className="text-xs mt-2 sm:mt-0 sm:ml-2 py-3 hover:text-red-500 cursor-pointer">
+                                                    className="text-xs mt-2 sm:mt-0 sm:ml-2 py-3 hover:text-yellow-500 cursor-pointer">
                                                     إعادة إرسال الرمز
                                                 </button>
 
@@ -101,7 +109,7 @@ const RegisterForm = () => {
                                             التسجيل
                                         </p>
                                         <div className='flex justify-center gap-7 mb-3'>
-                                            <button className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
+                                            <button id="google-sign-in" onClick={() => login()} className="px-4 py-2 w-36 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
                                                 <img
                                                     className="w-6 h-6"
                                                     src="https://www.svgrepo.com/show/475656/google-color.svg"
